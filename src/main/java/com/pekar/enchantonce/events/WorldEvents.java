@@ -302,7 +302,7 @@ public class WorldEvents implements IEventHandler
                     || resultItem == Items.IRON_AXE || resultItem == Items.IRON_SWORD
                     || resultItem == Items.IRON_HOE ||*/ resultItem == Items.SHEARS)
             {
-                int repairAmount = resultItemStack.getMaxDamage() / 5;
+                int repairAmount = resultItemStack.getMaxDamage();
                 repairItem(resultItemStack, repairAmount);
                 return;
             }
