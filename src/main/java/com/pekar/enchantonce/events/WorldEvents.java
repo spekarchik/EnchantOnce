@@ -10,12 +10,22 @@ import java.util.LinkedHashMap;
 
 public class WorldEvents implements IEventHandler
 {
-    private static final int ELYTRA_REPAIR_AMOUNT = 100;
-    private static final int SHIELD_REPAIR_AMOUNT = 100;
-    private static final int BOW_REPAIR_AMOUNT = 70;
-    private static final int FISHING_ROD_REPAIR_AMOUNT = 16;
-    private static final int FLINT_AND_STEEL_REPAIR_AMOUNT = 15;
+    private static final int ARMOR_REPAIR_PORTIONS = 5;
+    private static final int TOOL_REPAIR_PORTIONS = 5;
+    private static final int ELITRA_REPAIR_PORTIONS = 1;
+    private static final int SHIELD_REPAIR_PORTIONS = 2;
+    private static final int FLINT_AND_STEEL_REPAIR_PORTIONS = 1;
+    private static final int SHEARS_REPAIR_PORTIONS = 1;
+    private static final int ELYTRA_REPAIR_AMOUNT = Items.ELYTRA.getMaxDamage(null)  / ELITRA_REPAIR_PORTIONS;
+    private static final int SHIELD_REPAIR_AMOUNT = Items.SHIELD.getMaxDamage(null) / SHIELD_REPAIR_PORTIONS;
+    private static final int BOW_REPAIR_AMOUNT = Items.BOW.getMaxDamage(null) / TOOL_REPAIR_PORTIONS;
+    private static final int FISHING_ROD_REPAIR_AMOUNT = Items.FISHING_ROD.getMaxDamage(null) / TOOL_REPAIR_PORTIONS;
+    private static final int FLINT_AND_STEEL_REPAIR_AMOUNT = Items.FLINT_AND_STEEL.getMaxDamage(null) / FLINT_AND_STEEL_REPAIR_PORTIONS;
+    private static final int CROSSBOW_REPAIR_AMOUNT = Items.CROSSBOW.getMaxDamage(null) / TOOL_REPAIR_PORTIONS;
+    private static final int TRIDENT_REPAIR_AMOUNT = Items.TRIDENT.getMaxDamage(null) / TOOL_REPAIR_PORTIONS;
+    private static final int SHEARS_REPAIR_AMOUNT = Items.SHEARS.getMaxDamage(null) / SHEARS_REPAIR_PORTIONS;
     private static final int REPAIR_COST = 2;
+    private static final int PER_BOOK_COPY_COST = 1;
 
     @SubscribeEvent
     public void onAnvilUpdateEvent(AnvilUpdateEvent event)
@@ -24,37 +34,19 @@ public class WorldEvents implements IEventHandler
         ItemStack leftItemStack = event.getLeft();
         Item leftItem = leftItemStack.getItem();
 
-        if (rightItem == Items.DIAMOND)
+        if (leftItem instanceof TieredItem)
         {
-            if (leftItem instanceof TieredItem)
-            {
-                setTool(event, leftItemStack, Items.DIAMOND);
-            }
-            else if (leftItem instanceof ArmorItem)
-            {
-                setArmor(event, leftItemStack, Items.DIAMOND);
-            }
+            if (setTool(event, leftItemStack, rightItem)) return;
+        }
 
-            return;
+        if (leftItem instanceof ArmorItem)
+        {
+            if (setArmor(event, leftItemStack, rightItem)) return;
         }
 
         if (rightItem == Items.IRON_INGOT)
         {
-            if (leftItem instanceof TieredItem)
-            {
-                setTool(event, leftItemStack, Items.IRON_INGOT);
-            }
-            else if (leftItem instanceof ArmorItem)
-            {
-                setArmor(event, leftItemStack, Items.IRON_INGOT);
-            }
-            else if (leftItem == Items.SHEARS /*|| leftItem == Items.IRON_BOOTS
-                    || leftItem == Items.IRON_CHESTPLATE || leftItem == Items.IRON_HELMET
-                    || leftItem == Items.IRON_SWORD || leftItem == Items.IRON_LEGGINGS
-                    || leftItem == Items.IRON_AXE || leftItem == Items.IRON_PICKAXE
-                    || leftItem == Items.IRON_HOE || leftItem == Items.IRON_SHOVEL
-                    || leftItem == Items.CHAINMAIL_LEGGINGS || leftItem == Items.CHAINMAIL_BOOTS
-                    || leftItem == Items.CHAINMAIL_CHESTPLATE || leftItem == Items.CHAINMAIL_HELMET*/)
+            if (leftItem == Items.SHEARS)
             {
                 event.setOutput(leftItemStack);
                 event.setCost(REPAIR_COST);
@@ -63,58 +55,12 @@ public class WorldEvents implements IEventHandler
             return;
         }
 
-        if (rightItem == Items.GOLD_INGOT)
+        if (rightItem == Items.PHANTOM_MEMBRANE)
         {
-            if (leftItem instanceof TieredItem)
-            {
-                setTool(event, leftItemStack, Items.GOLD_INGOT);
-            }
-            else if (leftItem instanceof ArmorItem)
-            {
-                setArmor(event, leftItemStack, Items.GOLD_INGOT);
-            }
-
-            return;
-        }
-
-        if (rightItem == Items.NETHERITE_INGOT)
-        {
-            if (leftItem instanceof TieredItem)
-            {
-                setTool(event, leftItemStack, Items.NETHERITE_INGOT);
-            }
-            else if (leftItem instanceof ArmorItem)
-            {
-                setArmor(event, leftItemStack, Items.NETHERITE_INGOT);
-            }
-
-            return;
-        }
-
-        if (rightItem == Items.LEATHER)
-        {
-            if (leftItem instanceof ArmorItem)
-            {
-                setArmor(event, leftItemStack, Items.LEATHER);
-            }
             if (leftItem == Items.ELYTRA)
             {
                 event.setOutput(leftItemStack);
                 event.setCost(REPAIR_COST);
-            }
-
-            return;
-        }
-
-        if (rightItem == Items.COBBLESTONE)
-        {
-            if (leftItem instanceof TieredItem)
-            {
-                setTool(event, leftItemStack, Items.COBBLESTONE);
-            }
-            else if (leftItem instanceof ArmorItem)
-            {
-                setArmor(event, leftItemStack, Items.COBBLESTONE);
             }
 
             return;
@@ -125,14 +71,7 @@ public class WorldEvents implements IEventHandler
                 || rightItem == Items.DARK_OAK_PLANKS || rightItem == Items.JUNGLE_PLANKS
                 || rightItem == Items.CRIMSON_PLANKS || rightItem == Items.WARPED_PLANKS)
         {
-            if (leftItem instanceof TieredItem)
-            {
-                boolean b = setTool(event, leftItemStack, Items.OAK_PLANKS) || setTool(event, leftItemStack, Items.DARK_OAK_PLANKS)
-                        || setTool(event, leftItemStack, Items.ACACIA_PLANKS) || setTool(event, leftItemStack, Items.BIRCH_PLANKS)
-                        || setTool(event, leftItemStack, Items.JUNGLE_PLANKS) || setTool(event, leftItemStack, Items.SPRUCE_PLANKS)
-                        || setTool(event, leftItemStack, Items.CRIMSON_PLANKS) || setTool(event, leftItemStack, Items.WARPED_PLANKS);
-            }
-            else if (leftItem == Items.SHIELD)
+            if (leftItem == Items.SHIELD)
             {
                 event.setOutput(leftItemStack);
                 event.setCost(REPAIR_COST);
@@ -143,7 +82,7 @@ public class WorldEvents implements IEventHandler
 
         if (rightItem == Items.STRING)
         {
-            if (leftItem == Items.BOW || leftItem == Items.FISHING_ROD)
+            if (leftItem == Items.BOW || leftItem == Items.FISHING_ROD || leftItem == Items.CROSSBOW)
             {
                 event.setOutput(leftItemStack);
                 event.setCost(REPAIR_COST);
@@ -176,6 +115,17 @@ public class WorldEvents implements IEventHandler
             return;
         }
 
+        if (rightItem == Items.PRISMARINE_SHARD)
+        {
+            if (leftItem == Items.TRIDENT)
+            {
+                event.setOutput(leftItemStack);
+                event.setCost(REPAIR_COST);
+            }
+
+            return;
+        }
+
         if (rightItem == Items.BOOK)
         {
             int bookCount = Math.min(event.getRight().getCount() + 1, 5);
@@ -185,7 +135,7 @@ public class WorldEvents implements IEventHandler
                 ItemStack output = leftItemStack.copy();
                 output.setCount(bookCount);
                 event.setOutput(output);
-                event.setCost(bookCount);
+                event.setCost((bookCount - 1) * PER_BOOK_COPY_COST);
             }
 
             return;
@@ -198,102 +148,32 @@ public class WorldEvents implements IEventHandler
         ItemStack resultItemStack = event.getItemResult();
         Item resultItem = resultItemStack.getItem();
         Item rightSlotItem = event.getIngredientInput().getItem();
-        ItemStack leftItemStack = event.getItemInput();
 
-        if (rightSlotItem == Items.DIAMOND)
+        if (resultItem instanceof ArmorItem)
         {
-            if (resultItem instanceof ArmorItem)
-            {
-                repairVanillaArmor(resultItemStack, Items.DIAMOND);
-                return;
-            }
+            if (repairVanillaArmor(resultItemStack, rightSlotItem)) return;
+        }
 
-            if (resultItem instanceof TieredItem)
-            {
-                repairVanillaTool(resultItemStack, Items.DIAMOND);
-                return;
-            }
-
-            return;
+        if (resultItem instanceof TieredItem)
+        {
+            if (repairVanillaTool(resultItemStack, rightSlotItem)) return;
         }
 
         if (rightSlotItem == Items.IRON_INGOT)
         {
-            if (resultItem instanceof ArmorItem)
-            {
-                repairVanillaArmor(resultItemStack, Items.IRON_INGOT);
-                return;
-            }
-//            if (resultItem == Items.IRON_LEGGINGS || resultItem == Items.IRON_BOOTS
-//                    || resultItem == Items.IRON_CHESTPLATE || resultItem == Items.IRON_HELMET
-//                    || resultItem == Items.CHAINMAIL_LEGGINGS || resultItem == Items.CHAINMAIL_BOOTS
-//                    || resultItem == Items.CHAINMAIL_CHESTPLATE || resultItem == Items.CHAINMAIL_HELMET)
-//            {
-//                repairVanillaArmor(resultItemStack, resultItem);
-//                return;
-//            }
-
-            if (resultItem instanceof TieredItem)
-            {
-                repairVanillaTool(resultItemStack, Items.IRON_INGOT);
-                return;
-            }
-
             if (resultItem == Items.SHEARS)
             {
-                int repairAmount = resultItemStack.getMaxDamage();
-                repairItem(resultItemStack, repairAmount);
-                return;
+                repairItem(resultItemStack, SHEARS_REPAIR_AMOUNT);
             }
 
             return;
         }
 
-        if (rightSlotItem == Items.COBBLESTONE)
+        if (rightSlotItem == Items.PHANTOM_MEMBRANE)
         {
-            if (resultItem instanceof TieredItem)
-            {
-                repairVanillaTool(resultItemStack, Items.COBBLESTONE);
-                return;
-            }
-
-            if (resultItem instanceof ArmorItem)
-            {
-                repairVanillaArmor(resultItemStack, Items.COBBLESTONE);
-                return;
-            }
-
-            return;
-        }
-
-        if (rightSlotItem == Items.GOLD_INGOT)
-        {
-            if (resultItem instanceof ArmorItem)
-            {
-                repairVanillaArmor(resultItemStack, Items.GOLD_INGOT);
-                return;
-            }
-
-            if (resultItem instanceof TieredItem)
-            {
-                repairVanillaTool(resultItemStack, Items.GOLD_INGOT);
-            }
-
-            return;
-        }
-
-        if (rightSlotItem == Items.LEATHER)
-        {
-            if (resultItem instanceof ArmorItem)
-            {
-                repairVanillaArmor(resultItemStack, Items.LEATHER);
-                return;
-            }
-
             if (resultItem == Items.ELYTRA)
             {
                 repairItem(resultItemStack, ELYTRA_REPAIR_AMOUNT);
-                return;
             }
 
             return;
@@ -304,23 +184,11 @@ public class WorldEvents implements IEventHandler
             || rightSlotItem == Items.JUNGLE_PLANKS || rightSlotItem == Items.SPRUCE_PLANKS
                 || rightSlotItem == Items.CRIMSON_PLANKS || rightSlotItem == Items.WARPED_PLANKS)
         {
-            if (resultItem instanceof TieredItem)
-            {
-                boolean b = repairVanillaTool(resultItemStack, Items.ACACIA_PLANKS)
-                        || repairVanillaTool(resultItemStack, Items.BIRCH_PLANKS)
-                        || repairVanillaTool(resultItemStack, Items.OAK_PLANKS)
-                        || repairVanillaTool(resultItemStack, Items.DARK_OAK_PLANKS)
-                        || repairVanillaTool(resultItemStack, Items.JUNGLE_PLANKS)
-                        || repairVanillaTool(resultItemStack, Items.SPRUCE_PLANKS)
-                        || repairVanillaTool(resultItemStack, Items.CRIMSON_PLANKS)
-                        || repairVanillaTool(resultItemStack, Items.WARPED_PLANKS);
-            }
-
             if (resultItem == Items.SHIELD)
             {
                 repairItem(resultItemStack, SHIELD_REPAIR_AMOUNT);
-                return;
             }
+
             return;
         }
 
@@ -331,9 +199,16 @@ public class WorldEvents implements IEventHandler
                 repairItem(resultItemStack, BOW_REPAIR_AMOUNT);
                 return;
             }
-            else if (resultItem == Items.FISHING_ROD)
+
+            if (resultItem == Items.FISHING_ROD)
             {
                 repairItem(resultItemStack, FISHING_ROD_REPAIR_AMOUNT);
+                return;
+            }
+
+            if (resultItem == Items.CROSSBOW)
+            {
+                repairItem(resultItemStack, CROSSBOW_REPAIR_AMOUNT);
                 return;
             }
 
@@ -345,7 +220,16 @@ public class WorldEvents implements IEventHandler
             if (resultItem == Items.FLINT_AND_STEEL && event.getIngredientInput().getCount() < 8)
             {
                 repairItem(resultItemStack, FLINT_AND_STEEL_REPAIR_AMOUNT);
-                return;
+            }
+
+            return;
+        }
+
+        if (rightSlotItem == Items.PRISMARINE_SHARD)
+        {
+            if (resultItem == Items.TRIDENT)
+            {
+                repairItem(resultItemStack, TRIDENT_REPAIR_AMOUNT);
             }
         }
     }
@@ -360,29 +244,31 @@ public class WorldEvents implements IEventHandler
         return true;
     }
 
-    private void setArmor(AnvilUpdateEvent event, ItemStack armorItemStack, Item repairItem)
+    private boolean setArmor(AnvilUpdateEvent event, ItemStack armorItemStack, Item repairItem)
     {
         if (!isValidArmorRepairItem(armorItemStack.getItem(), repairItem))
-            return;
+            return false;
 
         event.setOutput(armorItemStack);
         event.setCost(REPAIR_COST);
+        return true;
     }
 
-    private void repairVanillaArmor(ItemStack itemToRepare, Item repairItem)
+    private boolean repairVanillaArmor(ItemStack itemToRepare, Item repairItem)
     {
-        if (!isValidArmorRepairItem(itemToRepare.getItem(), repairItem)) return;
+        if (!isValidArmorRepairItem(itemToRepare.getItem(), repairItem)) return false;
 
         var armor = (ArmorItem) itemToRepare.getItem();
-        int repairAmount = armor.getMaterial().getDurabilityForSlot(armor.getSlot()) / 5;
+        int repairAmount = armor.getMaterial().getDurabilityForSlot(armor.getSlot()) / ARMOR_REPAIR_PORTIONS;
         repairItem(itemToRepare, repairAmount);
+        return true;
     }
 
     private boolean repairVanillaTool(ItemStack itemToRepare, Item repairItem)
     {
         if (!isValidToolRepairItem(itemToRepare.getItem(), repairItem)) return false;
 
-        int repairAmount = itemToRepare.getMaxDamage() / 5;
+        int repairAmount = itemToRepare.getMaxDamage() / TOOL_REPAIR_PORTIONS;
         repairItem(itemToRepare, repairAmount);
         return true;
     }
