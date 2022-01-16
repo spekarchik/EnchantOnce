@@ -155,13 +155,15 @@ public class WorldEvents implements IEventHandler
 
         if (rightItem == Items.ACACIA_PLANKS || rightItem == Items.BIRCH_PLANKS
                 || rightItem == Items.SPRUCE_PLANKS || rightItem == Items.OAK_PLANKS
-                || rightItem == Items.DARK_OAK_PLANKS || rightItem == Items.JUNGLE_PLANKS)
+                || rightItem == Items.DARK_OAK_PLANKS || rightItem == Items.JUNGLE_PLANKS
+                || rightItem == Items.CRIMSON_PLANKS || rightItem == Items.WARPED_PLANKS)
         {
             if (leftItem instanceof TieredItem)
             {
                 boolean b = setTool(event, leftItemStack, Items.OAK_PLANKS) || setTool(event, leftItemStack, Items.DARK_OAK_PLANKS)
                         || setTool(event, leftItemStack, Items.ACACIA_PLANKS) || setTool(event, leftItemStack, Items.BIRCH_PLANKS)
-                        || setTool(event, leftItemStack, Items.JUNGLE_PLANKS) || setTool(event, leftItemStack, Items.SPRUCE_PLANKS);
+                        || setTool(event, leftItemStack, Items.JUNGLE_PLANKS) || setTool(event, leftItemStack, Items.SPRUCE_PLANKS)
+                        || setTool(event, leftItemStack, Items.CRIMSON_PLANKS) || setTool(event, leftItemStack, Items.WARPED_PLANKS);
             }
             else if (/*leftItem == Items.WOODEN_AXE || leftItem == Items.WOODEN_PICKAXE
                     || leftItem == Items.WOODEN_HOE || leftItem == Items.WOODEN_SHOVEL
@@ -353,7 +355,8 @@ public class WorldEvents implements IEventHandler
 
         if (rightSlotItem == Items.ACACIA_PLANKS || rightSlotItem == Items.BIRCH_PLANKS
             || rightSlotItem == Items.OAK_PLANKS || rightSlotItem == Items.DARK_OAK_PLANKS
-            || rightSlotItem == Items.JUNGLE_PLANKS || rightSlotItem == Items.SPRUCE_PLANKS)
+            || rightSlotItem == Items.JUNGLE_PLANKS || rightSlotItem == Items.SPRUCE_PLANKS
+                || rightSlotItem == Items.CRIMSON_PLANKS || rightSlotItem == Items.WARPED_PLANKS)
         {
             if (resultItem instanceof TieredItem)
             {
@@ -362,7 +365,9 @@ public class WorldEvents implements IEventHandler
                         || repairVanillaTool(resultItemStack, Items.OAK_PLANKS)
                         || repairVanillaTool(resultItemStack, Items.DARK_OAK_PLANKS)
                         || repairVanillaTool(resultItemStack, Items.JUNGLE_PLANKS)
-                        || repairVanillaTool(resultItemStack, Items.SPRUCE_PLANKS);
+                        || repairVanillaTool(resultItemStack, Items.SPRUCE_PLANKS)
+                        || repairVanillaTool(resultItemStack, Items.CRIMSON_PLANKS)
+                        || repairVanillaTool(resultItemStack, Items.WARPED_PLANKS);
             }
 
             if (resultItem == Items.SHIELD)
