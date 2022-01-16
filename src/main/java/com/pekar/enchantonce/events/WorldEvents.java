@@ -1,19 +1,12 @@
 package com.pekar.enchantonce.events;
 
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.*;
-import net.minecraft.world.item.enchantment.Enchantment;
-import net.minecraft.world.item.enchantment.EnchantmentCategory;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
-import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraftforge.event.AnvilUpdateEvent;
 import net.minecraftforge.event.entity.player.AnvilRepairEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
-import java.util.HashSet;
 import java.util.LinkedHashMap;
-import java.util.Set;
 
 public class WorldEvents implements IEventHandler
 {
@@ -41,15 +34,6 @@ public class WorldEvents implements IEventHandler
             {
                 setArmor(event, leftItemStack, Items.DIAMOND);
             }
-//            else if (leftItem == Items.DIAMOND_LEGGINGS || leftItem == Items.DIAMOND_BOOTS
-//                    || leftItem == Items.DIAMOND_CHESTPLATE || leftItem == Items.DIAMOND_HELMET
-//                    || leftItem == Items.DIAMOND_SWORD || leftItem == Items.DIAMOND_PICKAXE
-//                    || leftItem == Items.DIAMOND_HOE || leftItem == Items.DIAMOND_SHOVEL
-//                    || leftItem == Items.DIAMOND_AXE)
-//            {
-//                event.setOutput(leftItemStack);
-//                event.setCost(REPAIR_COST);
-//            }
 
             return;
         }
@@ -89,15 +73,6 @@ public class WorldEvents implements IEventHandler
             {
                 setArmor(event, leftItemStack, Items.GOLD_INGOT);
             }
-//            else if (leftItem == Items.GOLDEN_LEGGINGS || leftItem == Items.GOLDEN_BOOTS
-//                    || leftItem == Items.GOLDEN_CHESTPLATE || leftItem == Items.GOLDEN_HELMET
-//                    || leftItem == Items.GOLDEN_SWORD || leftItem == Items.GOLDEN_PICKAXE
-//                    || leftItem == Items.GOLDEN_HOE || leftItem == Items.GOLDEN_SHOVEL
-//                    || leftItem == Items.GOLDEN_AXE)
-//            {
-//                event.setOutput(leftItemStack);
-//                event.setCost(REPAIR_COST);
-//            }
 
             return;
         }
@@ -112,15 +87,6 @@ public class WorldEvents implements IEventHandler
             {
                 setArmor(event, leftItemStack, Items.NETHERITE_INGOT);
             }
-//            else if (leftItem == Items.NETHERITE_LEGGINGS || leftItem == Items.NETHERITE_BOOTS
-//                    || leftItem == Items.NETHERITE_CHESTPLATE || leftItem == Items.NETHERITE_HELMET
-//                    || leftItem == Items.NETHERITE_SWORD || leftItem == Items.NETHERITE_PICKAXE
-//                    || leftItem == Items.NETHERITE_HOE || leftItem == Items.NETHERITE_SHOVEL
-//                    || leftItem == Items.NETHERITE_AXE)
-//            {
-//                event.setOutput(leftItemStack);
-//                event.setCost(REPAIR_COST);
-//            }
 
             return;
         }
@@ -131,9 +97,7 @@ public class WorldEvents implements IEventHandler
             {
                 setArmor(event, leftItemStack, Items.LEATHER);
             }
-            if (leftItem == Items.ELYTRA /*|| leftItem == Items.LEATHER_BOOTS
-                    || leftItem == Items.LEATHER_CHESTPLATE || leftItem == Items.LEATHER_HELMET
-                    || leftItem == Items.LEATHER_LEGGINGS*/)
+            if (leftItem == Items.ELYTRA)
             {
                 event.setOutput(leftItemStack);
                 event.setCost(REPAIR_COST);
@@ -152,13 +116,6 @@ public class WorldEvents implements IEventHandler
             {
                 setArmor(event, leftItemStack, Items.COBBLESTONE);
             }
-//            else if (leftItem == Items.STONE_AXE || leftItem == Items.STONE_PICKAXE
-//                    || leftItem == Items.STONE_HOE || leftItem == Items.STONE_SHOVEL
-//                    || leftItem == Items.STONE_SWORD)
-//            {
-//                event.setOutput(leftItemStack);
-//                event.setCost(REPAIR_COST);
-//            }
 
             return;
         }
@@ -175,9 +132,7 @@ public class WorldEvents implements IEventHandler
                         || setTool(event, leftItemStack, Items.JUNGLE_PLANKS) || setTool(event, leftItemStack, Items.SPRUCE_PLANKS)
                         || setTool(event, leftItemStack, Items.CRIMSON_PLANKS) || setTool(event, leftItemStack, Items.WARPED_PLANKS);
             }
-            else if (/*leftItem == Items.WOODEN_AXE || leftItem == Items.WOODEN_PICKAXE
-                    || leftItem == Items.WOODEN_HOE || leftItem == Items.WOODEN_SHOVEL
-                    || leftItem == Items.WOODEN_SWORD ||*/ leftItem == Items.SHIELD)
+            else if (leftItem == Items.SHIELD)
             {
                 event.setOutput(leftItemStack);
                 event.setCost(REPAIR_COST);
@@ -252,26 +207,12 @@ public class WorldEvents implements IEventHandler
                 repairVanillaArmor(resultItemStack, Items.DIAMOND);
                 return;
             }
-//            if (resultItem == Items.DIAMOND_LEGGINGS || resultItem == Items.DIAMOND_BOOTS
-//                    || resultItem == Items.DIAMOND_CHESTPLATE || resultItem == Items.DIAMOND_HELMET)
-//            {
-//                repairVanillaArmor(resultItemStack, Items.DIAMOND);
-//                return;
-//            }
 
             if (resultItem instanceof TieredItem)
             {
                 repairVanillaTool(resultItemStack, Items.DIAMOND);
                 return;
             }
-
-//            if (resultItem == Items.DIAMOND_PICKAXE || resultItem == Items.DIAMOND_SHOVEL
-//                    || resultItem == Items.DIAMOND_AXE || resultItem == Items.DIAMOND_SWORD
-//                    || resultItem == Items.DIAMOND_HOE)
-//            {
-//                repairVanillaTool(resultItemStack, Items.DIAMOND);
-//                return;
-//            }
 
             return;
         }
@@ -298,9 +239,7 @@ public class WorldEvents implements IEventHandler
                 return;
             }
 
-            if (/*resultItem == Items.IRON_PICKAXE || resultItem == Items.IRON_SHOVEL
-                    || resultItem == Items.IRON_AXE || resultItem == Items.IRON_SWORD
-                    || resultItem == Items.IRON_HOE ||*/ resultItem == Items.SHEARS)
+            if (resultItem == Items.SHEARS)
             {
                 int repairAmount = resultItemStack.getMaxDamage();
                 repairItem(resultItemStack, repairAmount);
@@ -324,15 +263,6 @@ public class WorldEvents implements IEventHandler
                 return;
             }
 
-//            if (resultItem == Items.STONE_PICKAXE || resultItem == Items.STONE_SHOVEL
-//                    || resultItem == Items.STONE_AXE || resultItem == Items.STONE_SWORD
-//                    || resultItem == Items.STONE_HOE)
-//            {
-//                int repairAmount = Item.ToolMaterial.STONE.getMaxUses() / 6;
-//                repairItem(resultItemStack, repairAmount);
-//                return;
-//            }
-
             return;
         }
 
@@ -348,14 +278,6 @@ public class WorldEvents implements IEventHandler
             {
                 repairVanillaTool(resultItemStack, Items.GOLD_INGOT);
             }
-
-//            if (resultItem == Items.GOLDEN_PICKAXE || resultItem == Items.GOLDEN_SHOVEL
-//                    || resultItem == Items.GOLDEN_AXE || resultItem == Items.GOLDEN_SWORD
-//                    || resultItem == Items.GOLDEN_HOE)
-//            {
-//                repairVanillaTool(resultItemStack);
-//                return;
-//            }
 
             return;
         }
