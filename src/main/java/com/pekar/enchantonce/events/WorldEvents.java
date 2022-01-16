@@ -1,9 +1,19 @@
 package com.pekar.enchantonce.events;
 
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.*;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.EnchantmentCategory;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraftforge.event.AnvilUpdateEvent;
 import net.minecraftforge.event.entity.player.AnvilRepairEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.Set;
 
 public class WorldEvents implements IEventHandler
 {
@@ -189,10 +199,23 @@ public class WorldEvents implements IEventHandler
 
         if (rightItem == Items.FLINT)
         {
-            if (leftItem == Items.FLINT_AND_STEEL)
+            if (event.getRight().getCount() >= 8)
             {
-                event.setOutput(leftItemStack);
-                event.setCost(REPAIR_COST);
+                if (leftItem.isEnchantable(leftItemStack))
+                {
+                    var output = leftItemStack.copy();
+                    EnchantmentHelper.setEnchantments(new LinkedHashMap<>(), output);
+                    event.setOutput(output);
+                    event.setCost(1);
+                }
+            }
+            else
+            {
+                if (leftItem == Items.FLINT_AND_STEEL)
+                {
+                    event.setOutput(leftItemStack);
+                    event.setCost(REPAIR_COST);
+                }
             }
 
             return;
@@ -220,6 +243,7 @@ public class WorldEvents implements IEventHandler
         ItemStack resultItemStack = event.getItemResult();
         Item resultItem = resultItemStack.getItem();
         Item rightSlotItem = event.getIngredientInput().getItem();
+        ItemStack leftItemStack = event.getItemInput();
 
         if (rightSlotItem == Items.DIAMOND)
         {
@@ -396,7 +420,7 @@ public class WorldEvents implements IEventHandler
 
         if (rightSlotItem == Items.FLINT)
         {
-            if (resultItem == Items.FLINT_AND_STEEL)
+            if (resultItem == Items.FLINT_AND_STEEL && event.getIngredientInput().getCount() < 8)
             {
                 repairItem(resultItemStack, FLINT_AND_STEEL_REPAIR_AMOUNT);
                 return;
