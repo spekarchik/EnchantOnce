@@ -26,22 +26,47 @@ public class WorldEvents implements IEventHandler
     private static final int SHEARS_REPAIR_AMOUNT = Items.SHEARS.getMaxDamage(null) / SHEARS_REPAIR_PORTIONS;
     private static final int REPAIR_COST = 2;
     private static final int PER_BOOK_COPY_COST = 1;
+    private static final int COPY_ENCHANTS_COST = 25;
+    private static final int COPY_ENCHANTS_TO_BOOK_COST = 1;
 
     @SubscribeEvent
     public void onAnvilUpdateEvent(AnvilUpdateEvent event)
     {
-        Item rightItem = event.getRight().getItem();
+        ItemStack rightItemStack = event.getRight();
+        Item rightItem = rightItemStack.getItem();
         ItemStack leftItemStack = event.getLeft();
         Item leftItem = leftItemStack.getItem();
 
         if (leftItem instanceof TieredItem)
         {
             if (setTool(event, leftItemStack, rightItem)) return;
+
+            if (rightItem.getRegistryName().equals(leftItem.getRegistryName()) && leftItemStack.getDamageValue() == 0)
+            {
+                if (rightItemStack.isEnchanted()) return;
+
+                var result = leftItemStack.copy();
+                result.setCount(2);
+                event.setOutput(result);
+                event.setCost(COPY_ENCHANTS_COST);
+                return;
+            }
         }
 
         if (leftItem instanceof ArmorItem)
         {
             if (setArmor(event, leftItemStack, rightItem)) return;
+
+            if (rightItem.getRegistryName().equals(leftItem.getRegistryName()) && leftItemStack.getDamageValue() == 0)
+            {
+                if (rightItemStack.isEnchanted()) return;
+
+                var result = leftItemStack.copy();
+                result.setCount(2);
+                event.setOutput(result);
+                event.setCost(COPY_ENCHANTS_COST);
+                return;
+            }
         }
 
         if (rightItem == Items.IRON_INGOT)
@@ -93,23 +118,10 @@ public class WorldEvents implements IEventHandler
 
         if (rightItem == Items.FLINT)
         {
-            if (event.getRight().getCount() >= 8)
+            if (leftItem == Items.FLINT_AND_STEEL)
             {
-                if (leftItem.isEnchantable(leftItemStack))
-                {
-                    var output = leftItemStack.copy();
-                    EnchantmentHelper.setEnchantments(new LinkedHashMap<>(), output);
-                    event.setOutput(output);
-                    event.setCost(1);
-                }
-            }
-            else
-            {
-                if (leftItem == Items.FLINT_AND_STEEL)
-                {
-                    event.setOutput(leftItemStack);
-                    event.setCost(REPAIR_COST);
-                }
+                event.setOutput(leftItemStack);
+                event.setCost(REPAIR_COST);
             }
 
             return;
@@ -136,6 +148,18 @@ public class WorldEvents implements IEventHandler
                 output.setCount(bookCount);
                 event.setOutput(output);
                 event.setCost((bookCount - 1) * PER_BOOK_COPY_COST);
+            }
+            else if ((leftItem instanceof TieredItem) || (leftItem instanceof ArmorItem))
+            {
+                if (!leftItemStack.isEnchanted() || leftItemStack.isDamaged() || rightItemStack.isEnchanted())
+                    return;
+
+                var result = new ItemStack(Items.ENCHANTED_BOOK);
+                var enchantments = EnchantmentHelper.getEnchantments(leftItemStack);
+                EnchantmentHelper.setEnchantments(enchantments, result);
+                event.setOutput(result);
+                event.setCost(COPY_ENCHANTS_TO_BOOK_COST);
+                return;
             }
 
             return;

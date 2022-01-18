@@ -38,9 +38,10 @@ description='''
 Enchant Once Mod.
 
 - Copy enchanted books.
-- Repair armor and tools with a constant cost.
-- Repair more tools: bow, elytra, flint and steel, shears, shield.
-- Disenchant armor and tools to enchant them from scratch.
+- Copy armor and tools enchantments to a book.
+- Copy armor or tool enchantments to the same armor or tool.
+- Always repair armor and tools with the same cost.
+- Repair more tools: bow, trident, flint and steel, shears, shield.
 
 '''
 # A dependency - use the . to indicate dependency for a specific modid. Dependencies are optional.
