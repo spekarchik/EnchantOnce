@@ -40,40 +40,20 @@ public class WorldEvents implements IEventHandler
         if (leftItem instanceof TieredItem)
         {
             if (setTool(event, leftItemStack, rightItem)) return;
-
-            if (rightItem.getRegistryName().equals(leftItem.getRegistryName()) && leftItemStack.getDamageValue() == 0)
-            {
-                if (rightItemStack.isEnchanted()) return;
-
-                var result = leftItemStack.copy();
-                result.setCount(2);
-                event.setOutput(result);
-                event.setCost(COPY_ENCHANTS_COST);
-                return;
-            }
         }
 
         if (leftItem instanceof ArmorItem)
         {
             if (setArmor(event, leftItemStack, rightItem)) return;
-
-            if (rightItem.getRegistryName().equals(leftItem.getRegistryName()) && leftItemStack.getDamageValue() == 0)
-            {
-                if (rightItemStack.isEnchanted()) return;
-
-                var result = leftItemStack.copy();
-                result.setCount(2);
-                event.setOutput(result);
-                event.setCost(COPY_ENCHANTS_COST);
-                return;
-            }
         }
 
         if (rightItem == Items.IRON_INGOT)
         {
             if (leftItem == Items.SHEARS)
             {
-                event.setOutput(leftItemStack);
+                var result = leftItemStack.copy();
+                repairItem(result, SHEARS_REPAIR_AMOUNT);
+                event.setOutput(result);
                 event.setCost(REPAIR_COST);
             }
 
@@ -84,7 +64,9 @@ public class WorldEvents implements IEventHandler
         {
             if (leftItem == Items.ELYTRA)
             {
-                event.setOutput(leftItemStack);
+                var result = leftItemStack.copy();
+                repairItem(result, ELYTRA_REPAIR_AMOUNT);
+                event.setOutput(result);
                 event.setCost(REPAIR_COST);
             }
 
@@ -98,7 +80,9 @@ public class WorldEvents implements IEventHandler
         {
             if (leftItem == Items.SHIELD)
             {
-                event.setOutput(leftItemStack);
+                var result = leftItemStack.copy();
+                repairItem(result, SHIELD_REPAIR_AMOUNT);
+                event.setOutput(result);
                 event.setCost(REPAIR_COST);
             }
 
@@ -107,10 +91,31 @@ public class WorldEvents implements IEventHandler
 
         if (rightItem == Items.STRING)
         {
-            if (leftItem == Items.BOW || leftItem == Items.FISHING_ROD || leftItem == Items.CROSSBOW)
+            if (leftItem == Items.BOW)
             {
-                event.setOutput(leftItemStack);
+                var result = leftItemStack.copy();
+                repairItem(result, BOW_REPAIR_AMOUNT);
+                event.setOutput(result);
                 event.setCost(REPAIR_COST);
+                return;
+            }
+
+            if (leftItem == Items.FISHING_ROD)
+            {
+                var result = leftItemStack.copy();
+                repairItem(result, FISHING_ROD_REPAIR_AMOUNT);
+                event.setOutput(result);
+                event.setCost(REPAIR_COST);
+                return;
+            }
+
+            if (leftItem == Items.CROSSBOW)
+            {
+                var result = leftItemStack.copy();
+                repairItem(result, CROSSBOW_REPAIR_AMOUNT);
+                event.setOutput(result);
+                event.setCost(REPAIR_COST);
+                return;
             }
 
             return;
@@ -120,7 +125,9 @@ public class WorldEvents implements IEventHandler
         {
             if (leftItem == Items.FLINT_AND_STEEL)
             {
-                event.setOutput(leftItemStack);
+                var result = leftItemStack.copy();
+                repairItem(result, FLINT_AND_STEEL_REPAIR_AMOUNT);
+                event.setOutput(result);
                 event.setCost(REPAIR_COST);
             }
 
@@ -131,10 +138,25 @@ public class WorldEvents implements IEventHandler
         {
             if (leftItem == Items.TRIDENT)
             {
-                event.setOutput(leftItemStack);
+                var result = leftItemStack.copy();
+                repairItem(result, TRIDENT_REPAIR_AMOUNT);
+                event.setOutput(result);
                 event.setCost(REPAIR_COST);
             }
 
+            return;
+        }
+
+        if (leftItemStack.isDamageableItem() && leftItemStack.getDamageValue() == 0 && rightItem.getRegistryName().equals(leftItem.getRegistryName()))
+        {
+            if (rightItemStack.isEnchanted()) return;
+
+            var result = rightItemStack.copy();
+            var enchantments = EnchantmentHelper.getEnchantments(leftItemStack);
+            EnchantmentHelper.setEnchantments(enchantments, result);
+            result.setCount(2);
+            event.setOutput(result);
+            event.setCost(COPY_ENCHANTS_COST);
             return;
         }
 
@@ -147,9 +169,24 @@ public class WorldEvents implements IEventHandler
                 ItemStack output = leftItemStack.copy();
                 output.setCount(bookCount);
                 event.setOutput(output);
-                event.setCost((bookCount - 1) * PER_BOOK_COPY_COST);
+
+                // see GrindstoneMenu.ctor().getExperienceFromItem()
+                var enchantments = EnchantmentHelper.getEnchantments(leftItemStack);
+                int cost = 0;
+                for (var ench : enchantments.entrySet())
+                {
+                    var key = ench.getKey();
+                    var value = ench.getValue();
+                    if (!key.isCurse())
+                    {
+                        cost += key.getMinCost(value) / 17;
+                    }
+                }
+
+                if (cost < 1) cost = 1;
+                event.setCost((bookCount - 1) * cost);
             }
-            else if ((leftItem instanceof TieredItem) || (leftItem instanceof ArmorItem))
+            else if (leftItemStack.isDamageableItem())
             {
                 if (!leftItemStack.isEnchanted() || leftItemStack.isDamaged() || rightItemStack.isEnchanted())
                     return;
@@ -166,104 +203,14 @@ public class WorldEvents implements IEventHandler
         }
     }
 
-    @SubscribeEvent
-    public void onAnvilRepairEvent(AnvilRepairEvent event)
-    {
-        ItemStack resultItemStack = event.getItemResult();
-        Item resultItem = resultItemStack.getItem();
-        Item rightSlotItem = event.getIngredientInput().getItem();
-
-        if (resultItem instanceof ArmorItem)
-        {
-            if (repairVanillaArmor(resultItemStack, rightSlotItem)) return;
-        }
-
-        if (resultItem instanceof TieredItem)
-        {
-            if (repairVanillaTool(resultItemStack, rightSlotItem)) return;
-        }
-
-        if (rightSlotItem == Items.IRON_INGOT)
-        {
-            if (resultItem == Items.SHEARS)
-            {
-                repairItem(resultItemStack, SHEARS_REPAIR_AMOUNT);
-            }
-
-            return;
-        }
-
-        if (rightSlotItem == Items.PHANTOM_MEMBRANE)
-        {
-            if (resultItem == Items.ELYTRA)
-            {
-                repairItem(resultItemStack, ELYTRA_REPAIR_AMOUNT);
-            }
-
-            return;
-        }
-
-        if (rightSlotItem == Items.ACACIA_PLANKS || rightSlotItem == Items.BIRCH_PLANKS
-            || rightSlotItem == Items.OAK_PLANKS || rightSlotItem == Items.DARK_OAK_PLANKS
-            || rightSlotItem == Items.JUNGLE_PLANKS || rightSlotItem == Items.SPRUCE_PLANKS
-                || rightSlotItem == Items.CRIMSON_PLANKS || rightSlotItem == Items.WARPED_PLANKS)
-        {
-            if (resultItem == Items.SHIELD)
-            {
-                repairItem(resultItemStack, SHIELD_REPAIR_AMOUNT);
-            }
-
-            return;
-        }
-
-        if (rightSlotItem == Items.STRING)
-        {
-            if (resultItem == Items.BOW)
-            {
-                repairItem(resultItemStack, BOW_REPAIR_AMOUNT);
-                return;
-            }
-
-            if (resultItem == Items.FISHING_ROD)
-            {
-                repairItem(resultItemStack, FISHING_ROD_REPAIR_AMOUNT);
-                return;
-            }
-
-            if (resultItem == Items.CROSSBOW)
-            {
-                repairItem(resultItemStack, CROSSBOW_REPAIR_AMOUNT);
-                return;
-            }
-
-            return;
-        }
-
-        if (rightSlotItem == Items.FLINT)
-        {
-            if (resultItem == Items.FLINT_AND_STEEL && event.getIngredientInput().getCount() < 8)
-            {
-                repairItem(resultItemStack, FLINT_AND_STEEL_REPAIR_AMOUNT);
-            }
-
-            return;
-        }
-
-        if (rightSlotItem == Items.PRISMARINE_SHARD)
-        {
-            if (resultItem == Items.TRIDENT)
-            {
-                repairItem(resultItemStack, TRIDENT_REPAIR_AMOUNT);
-            }
-        }
-    }
-
     private boolean setTool(AnvilUpdateEvent event, ItemStack toolItemStack, Item repairItem)
     {
         if (!isValidToolRepairItem(toolItemStack.getItem(), repairItem))
             return false;
 
-        event.setOutput(toolItemStack);
+        var result = toolItemStack.copy();
+        repairVanillaTool(result, repairItem);
+        event.setOutput(result);
         event.setCost(REPAIR_COST);
         return true;
     }
@@ -273,7 +220,9 @@ public class WorldEvents implements IEventHandler
         if (!isValidArmorRepairItem(armorItemStack.getItem(), repairItem))
             return false;
 
-        event.setOutput(armorItemStack);
+        var result = armorItemStack.copy();
+        repairVanillaArmor(result, repairItem);
+        event.setOutput(result);
         event.setCost(REPAIR_COST);
         return true;
     }
