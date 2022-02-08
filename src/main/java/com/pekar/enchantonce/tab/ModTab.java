@@ -17,6 +17,6 @@ public class ModTab extends CreativeModeTab
     @Override
     public ItemStack makeIcon()
     {
-        return new ItemStack(Items.STRING);
+        return new ItemStack(Items.ENCHANTED_BOOK);
     }
 }
