@@ -147,7 +147,7 @@ public class WorldEvents implements IEventHandler
             return;
         }
 
-        if (leftItemStack.isDamageableItem() && leftItemStack.getDamageValue() == 0 && rightItem.getRegistryName().equals(leftItem.getRegistryName()))
+        if (leftItemStack.isDamageableItem() && leftItemStack.getDamageValue() == 0 && rightItem.getName(rightItemStack).equals(leftItem.getName(leftItemStack)))
         {
             if (rightItemStack.isEnchanted()) return;
 

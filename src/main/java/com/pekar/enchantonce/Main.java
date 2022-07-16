@@ -2,15 +2,11 @@ package com.pekar.enchantonce;
 
 import com.pekar.enchantonce.events.EventRegistry;
 import com.pekar.enchantonce.items.ItemRegistry;
-import com.pekar.enchantonce.tab.ModTab;
-import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
@@ -18,7 +14,6 @@ import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(Main.MODID)
@@ -80,38 +75,5 @@ public class Main
     public void onServerStarting(ServerStartingEvent event) {
         // do something when the server starts
 //        LOGGER.info("HELLO from server starting");
-    }
-
-    // You can use EventBusSubscriber to automatically subscribe events on the contained class (this is subscribing to the MOD
-    // Event bus for receiving Registry Events)
-    @net.minecraftforge.fml.common.Mod.EventBusSubscriber(bus= net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus.MOD)
-    public static class RegistryEvents
-    {
-        //@SubscribeEvent
-        public static void onBlocksRegistry(final RegistryEvent.Register<Block> blockRegistryEvent)
-        {
-            // register a new block here
-//            LOGGER.info("HELLO from Register Block");
-        }
-
-        //@SubscribeEvent
-        public static void registerBlockEntities(RegistryEvent.Register<BlockEntityType<?>> event)
-        {
-        }
-
-        @SubscribeEvent
-        public static void onRegisterItems(final RegistryEvent.Register<Item> event)
-        {
-            var registry = event.getRegistry();
-            BLOCKS.getEntries().stream()
-                    .map(RegistryObject::get)
-                    .forEach(block ->
-                    {
-                        final var prop = new Item.Properties().tab(ModTab.MOD_TAB);
-                        var blockItem = new BlockItem(block, prop);
-                        blockItem.setRegistryName(block.getRegistryName());
-                        registry.register(blockItem);
-                    });
-        }
     }
 }
