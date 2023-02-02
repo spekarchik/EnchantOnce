@@ -192,7 +192,7 @@ public class WorldEvents implements IEventHandler
         }
 
         if (leftItemStack.isDamageableItem() && leftItemStack.getDamageValue() == 0 &&
-            rightItemStack.isDamageableItem() && !rightItemStack.isEnchanted())
+                rightItemStack.isEnchantable() && !rightItemStack.isEnchanted())
         {
             boolean areItemsTheSame = rightItem.getName(rightItemStack).equals(leftItem.getName(leftItemStack));
 
@@ -206,6 +206,8 @@ public class WorldEvents implements IEventHandler
                 event.setCost(COPY_ENCHANTS_COST);
                 return;
             }
+            // THIS IS CHEATY BECAUSE OF DIFFERENT ENCHANTABILITY OF DIFFERENT MATERIALS
+            /*
             else
             {
                 var resultMap = new HashMap<Enchantment, Integer>();
@@ -227,6 +229,7 @@ public class WorldEvents implements IEventHandler
                 event.setCost(MOVE_ENCHANTS_COST);
                 return;
             }
+            */
         }
     }
 
