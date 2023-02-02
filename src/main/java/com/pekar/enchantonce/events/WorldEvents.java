@@ -1,12 +1,12 @@
 package com.pekar.enchantonce.events;
 
 import net.minecraft.world.item.*;
+import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraftforge.event.AnvilUpdateEvent;
-import net.minecraftforge.event.entity.player.AnvilRepairEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
-import java.util.LinkedHashMap;
+import java.util.HashMap;
 
 public class WorldEvents implements IEventHandler
 {
@@ -27,6 +27,7 @@ public class WorldEvents implements IEventHandler
     private static final int REPAIR_COST = 2;
     private static final int PER_BOOK_COPY_COST = 1;
     private static final int COPY_ENCHANTS_COST = 25;
+    private static final int MOVE_ENCHANTS_COST = 5;
     private static final int COPY_ENCHANTS_TO_BOOK_COST = 1;
 
     @SubscribeEvent
@@ -147,19 +148,6 @@ public class WorldEvents implements IEventHandler
             return;
         }
 
-        if (leftItemStack.isDamageableItem() && leftItemStack.getDamageValue() == 0 && rightItem.getName(rightItemStack).equals(leftItem.getName(leftItemStack)))
-        {
-            if (rightItemStack.isEnchanted()) return;
-
-            var result = rightItemStack.copy();
-            var enchantments = EnchantmentHelper.getEnchantments(leftItemStack);
-            EnchantmentHelper.setEnchantments(enchantments, result);
-            result.setCount(2);
-            event.setOutput(result);
-            event.setCost(COPY_ENCHANTS_COST);
-            return;
-        }
-
         if (rightItem == Items.BOOK)
         {
             int bookCount = Math.min(event.getRight().getCount() + 1, 5);
@@ -200,6 +188,44 @@ public class WorldEvents implements IEventHandler
             }
 
             return;
+        }
+
+        if (leftItemStack.isDamageableItem() && leftItemStack.getDamageValue() == 0 &&
+            rightItemStack.isDamageableItem() && !rightItemStack.isEnchanted())
+        {
+            boolean areItemsTheSame = rightItem.getName(rightItemStack).equals(leftItem.getName(leftItemStack));
+
+            if (areItemsTheSame)
+            {
+                var result = rightItemStack.copy();
+                var enchantments = EnchantmentHelper.getEnchantments(leftItemStack);
+                EnchantmentHelper.setEnchantments(enchantments, result);
+                result.setCount(2);
+                event.setOutput(result);
+                event.setCost(COPY_ENCHANTS_COST);
+                return;
+            }
+            else
+            {
+                var resultMap = new HashMap<Enchantment, Integer>();
+
+                var enchantments = EnchantmentHelper.getEnchantments(leftItemStack);
+                for (var ench : enchantments.entrySet())
+                {
+                    if (ench.getKey().category.canEnchant(rightItem))
+                    {
+                        resultMap.put(ench.getKey(), ench.getValue());
+                    }
+                }
+
+                var result = rightItemStack.copy();
+
+                EnchantmentHelper.setEnchantments(resultMap, result);
+                result.setCount(1);
+                event.setOutput(result);
+                event.setCost(MOVE_ENCHANTS_COST);
+                return;
+            }
         }
     }
 
