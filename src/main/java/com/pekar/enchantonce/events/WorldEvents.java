@@ -77,7 +77,8 @@ public class WorldEvents implements IEventHandler
         if (rightItem == Items.ACACIA_PLANKS || rightItem == Items.BIRCH_PLANKS
                 || rightItem == Items.SPRUCE_PLANKS || rightItem == Items.OAK_PLANKS
                 || rightItem == Items.DARK_OAK_PLANKS || rightItem == Items.JUNGLE_PLANKS
-                || rightItem == Items.CRIMSON_PLANKS || rightItem == Items.WARPED_PLANKS)
+                || rightItem == Items.CRIMSON_PLANKS || rightItem == Items.WARPED_PLANKS
+                || rightItem == Items.MANGROVE_PLANKS)
         {
             if (leftItem == Items.SHIELD)
             {
