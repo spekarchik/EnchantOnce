@@ -1,22 +1,19 @@
 package com.pekar.enchantonce.events;
 
 import net.minecraft.world.item.*;
-import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraftforge.event.AnvilUpdateEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-
-import java.util.HashMap;
 
 public class WorldEvents implements IEventHandler
 {
     private static final int ARMOR_REPAIR_PORTIONS = 5;
     private static final int TOOL_REPAIR_PORTIONS = 5;
-    private static final int ELITRA_REPAIR_PORTIONS = 1;
+    private static final int ELYTRA_REPAIR_PORTIONS = 1;
     private static final int SHIELD_REPAIR_PORTIONS = 2;
     private static final int FLINT_AND_STEEL_REPAIR_PORTIONS = 1;
     private static final int SHEARS_REPAIR_PORTIONS = 1;
-    private static final int ELYTRA_REPAIR_AMOUNT = Items.ELYTRA.getMaxDamage(null)  / ELITRA_REPAIR_PORTIONS;
+    private static final int ELYTRA_REPAIR_AMOUNT = Items.ELYTRA.getMaxDamage(null)  / ELYTRA_REPAIR_PORTIONS;
     private static final int SHIELD_REPAIR_AMOUNT = Items.SHIELD.getMaxDamage(null) / SHIELD_REPAIR_PORTIONS;
     private static final int BOW_REPAIR_AMOUNT = Items.BOW.getMaxDamage(null) / TOOL_REPAIR_PORTIONS;
     private static final int FISHING_ROD_REPAIR_AMOUNT = Items.FISHING_ROD.getMaxDamage(null) / TOOL_REPAIR_PORTIONS;
@@ -262,7 +259,7 @@ public class WorldEvents implements IEventHandler
         if (!isValidArmorRepairItem(itemToRepare.getItem(), repairItem)) return false;
 
         var armor = (ArmorItem) itemToRepare.getItem();
-        int repairAmount = armor.getMaterial().getDurabilityForSlot(armor.getSlot()) / ARMOR_REPAIR_PORTIONS;
+        int repairAmount = armor.getMaterial().getDurabilityForType(armor.getType()) / ARMOR_REPAIR_PORTIONS;
         repairItem(itemToRepare, repairAmount);
         return true;
     }

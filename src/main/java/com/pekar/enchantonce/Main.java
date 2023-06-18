@@ -22,17 +22,12 @@ public class Main
     // Directly reference a log4j logger.
     public static final String MODID = "enchantonce";
 
-    public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, MODID);
-    public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, MODID);
-    public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, MODID);
+    //public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, MODID);
+    //public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, MODID);
+    //public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, MODID);
 
     public Main()
     {
-        // Register the setup method for modloading
-        //FMLJavaModLoadingContext.get().getModEventBus().addListener(this::commonSetup);
-
-        //FMLJavaModLoadingContext.get().getModEventBus().addListener(this::clientSetup);
-
         initializeRegistry();
 
         // Register ourselves for server and other game events we are interested in
@@ -40,9 +35,13 @@ public class Main
         EventRegistry.registerEvents();
 
         var bus = FMLJavaModLoadingContext.get().getModEventBus();
-        BLOCKS.register(bus);
-        ITEMS.register(bus);
-        BLOCK_ENTITIES.register(bus);
+//        BLOCKS.register(bus);
+//        ITEMS.register(bus);
+//        BLOCK_ENTITIES.register(bus);
+
+        // Register the setup method for modloading
+        //bus.addListener(this::commonSetup);
+        //bus.addListener(this::clientSetup);
     }
 
     private void initializeRegistry()
