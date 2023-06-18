@@ -13,6 +13,7 @@ public class WorldEvents implements IEventHandler
     private static final int SHIELD_REPAIR_PORTIONS = 2;
     private static final int FLINT_AND_STEEL_REPAIR_PORTIONS = 1;
     private static final int SHEARS_REPAIR_PORTIONS = 1;
+    private static final int BRUSH_REPAIR_PORTIONS = 4;
     private static final int ELYTRA_REPAIR_AMOUNT = Items.ELYTRA.getMaxDamage(null)  / ELYTRA_REPAIR_PORTIONS;
     private static final int SHIELD_REPAIR_AMOUNT = Items.SHIELD.getMaxDamage(null) / SHIELD_REPAIR_PORTIONS;
     private static final int BOW_REPAIR_AMOUNT = Items.BOW.getMaxDamage(null) / TOOL_REPAIR_PORTIONS;
@@ -21,6 +22,7 @@ public class WorldEvents implements IEventHandler
     private static final int CROSSBOW_REPAIR_AMOUNT = Items.CROSSBOW.getMaxDamage(null) / TOOL_REPAIR_PORTIONS;
     private static final int TRIDENT_REPAIR_AMOUNT = Items.TRIDENT.getMaxDamage(null) / TOOL_REPAIR_PORTIONS;
     private static final int SHEARS_REPAIR_AMOUNT = Items.SHEARS.getMaxDamage(null) / SHEARS_REPAIR_PORTIONS;
+    private static final int BRUSH_REPAIR_AMOUNT = Items.BRUSH.getMaxDamage(null) / BRUSH_REPAIR_PORTIONS;
     private static final int REPAIR_COST = 2;
     private static final int PER_BOOK_COPY_COST = 1;
     private static final int COPY_ENCHANTS_COST = 25;
@@ -75,7 +77,8 @@ public class WorldEvents implements IEventHandler
                 || rightItem == Items.SPRUCE_PLANKS || rightItem == Items.OAK_PLANKS
                 || rightItem == Items.DARK_OAK_PLANKS || rightItem == Items.JUNGLE_PLANKS
                 || rightItem == Items.CRIMSON_PLANKS || rightItem == Items.WARPED_PLANKS
-                || rightItem == Items.MANGROVE_PLANKS)
+                || rightItem == Items.MANGROVE_PLANKS || rightItem == Items.BAMBOO_PLANKS
+                || rightItem == Items.CHERRY_PLANKS)
         {
             if (leftItem == Items.SHIELD)
             {
@@ -115,6 +118,19 @@ public class WorldEvents implements IEventHandler
                 event.setOutput(result);
                 event.setCost(REPAIR_COST);
                 return;
+            }
+
+            return;
+        }
+
+        if (rightItem == Items.FEATHER)
+        {
+            if (leftItem == Items.BRUSH)
+            {
+                var result = leftItemStack.copy();
+                repairItem(result, BRUSH_REPAIR_AMOUNT);
+                event.setOutput(result);
+                event.setCost(REPAIR_COST);
             }
 
             return;
