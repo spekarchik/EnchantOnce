@@ -1,10 +1,6 @@
 package com.pekar.enchantonce;
 
 import com.pekar.enchantonce.events.EventRegistry;
-import com.pekar.enchantonce.items.ItemRegistry;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -12,8 +8,6 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(Main.MODID)
@@ -46,7 +40,7 @@ public class Main
 
     private void initializeRegistry()
     {
-        ItemRegistry.initStatic();
+        //ItemRegistry.initStatic();
     }
 
     private void setup(final FMLCommonSetupEvent event)
