@@ -2,8 +2,8 @@ package com.pekar.enchantonce.events;
 
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
-import net.minecraftforge.event.AnvilUpdateEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.neoforge.event.AnvilUpdateEvent;
 
 public class WorldEvents implements IEventHandler
 {
@@ -173,13 +173,13 @@ public class WorldEvents implements IEventHandler
                 event.setOutput(output);
 
                 // see GrindstoneMenu.ctor().getExperienceFromItem()
-                var enchantments = EnchantmentHelper.getEnchantments(leftItemStack);
+                var enchantments = EnchantmentHelper.getEnchantmentsForCrafting(leftItemStack);
                 int cost = 0;
                 for (var ench : enchantments.entrySet())
                 {
                     var key = ench.getKey();
-                    var value = ench.getValue();
-                    if (!key.isCurse())
+                    var value = ench.getIntValue();
+                    if (!key.isBound().isCurse())
                     {
                         cost += key.getMinCost(value) / 17;
                     }

@@ -6,14 +6,17 @@
 	
 	- на их основе при запуске prepareRuns и genIntellijRuns генерируют содержимое папок /.gradle и /.idea с конфигурациями запуска (типа runClient).
 	
-2. Обновить сам Gradle:
+2. Обновить gradle.properties
+
+3. Обновить сам Gradle:
 	папка /gradle
 	
-3. Обновить mod.toml (версию Forge)
+4. Обновить neoforge.mods.toml
 
-4. Перегенерировать конфигурации
-	запустить prepareRuns
-	запустить genIntellijRuns
-	Reload All Gradle Projects (кнопка окошка Gradle)
-	
-5. Можно билдить и запускать
+5. Запустить в консоли: gradlew --refresh-dependencies
+
+6. Открыть проект в IntelliJ
+
+7. Gradle -> build
+
+8. Gradle -> runClient
