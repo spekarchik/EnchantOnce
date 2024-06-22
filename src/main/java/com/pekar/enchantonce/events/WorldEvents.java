@@ -14,15 +14,27 @@ public class WorldEvents implements IEventHandler
     private static final int FLINT_AND_STEEL_REPAIR_PORTIONS = 1;
     private static final int SHEARS_REPAIR_PORTIONS = 1;
     private static final int BRUSH_REPAIR_PORTIONS = 4;
-    private static final int ELYTRA_REPAIR_AMOUNT = Items.ELYTRA.getMaxDamage(null)  / ELYTRA_REPAIR_PORTIONS;
-    private static final int SHIELD_REPAIR_AMOUNT = Items.SHIELD.getMaxDamage(null) / SHIELD_REPAIR_PORTIONS;
-    private static final int BOW_REPAIR_AMOUNT = Items.BOW.getMaxDamage(null) / TOOL_REPAIR_PORTIONS;
-    private static final int FISHING_ROD_REPAIR_AMOUNT = Items.FISHING_ROD.getMaxDamage(null) / TOOL_REPAIR_PORTIONS;
-    private static final int FLINT_AND_STEEL_REPAIR_AMOUNT = Items.FLINT_AND_STEEL.getMaxDamage(null) / FLINT_AND_STEEL_REPAIR_PORTIONS;
-    private static final int CROSSBOW_REPAIR_AMOUNT = Items.CROSSBOW.getMaxDamage(null) / TOOL_REPAIR_PORTIONS;
-    private static final int TRIDENT_REPAIR_AMOUNT = Items.TRIDENT.getMaxDamage(null) / TOOL_REPAIR_PORTIONS;
-    private static final int SHEARS_REPAIR_AMOUNT = Items.SHEARS.getMaxDamage(null) / SHEARS_REPAIR_PORTIONS;
-    private static final int BRUSH_REPAIR_AMOUNT = Items.BRUSH.getMaxDamage(null) / BRUSH_REPAIR_PORTIONS;
+
+    private static final int ELYTRA_MAX_DAMAGE = 432;
+    private static final int SHIELD_MAX_DAMAGE = 336;
+    private static final int BOW_MAX_DAMAGE = 384;
+    private static final int FISHING_ROD_MAX_DAMAGE = 64;
+    private static final int FLINT_AND_STEEL_MAX_DAMAGE = 64;
+    private static final int CROSSBOW_MAX_DAMAGE = 465;
+    private static final int TRIDENT_MAX_DAMAGE = 250;
+    private static final int SHEARS_MAX_DAMAGE = 238;
+    private static final int BRUSH_MAX_DAMAGE = 64;
+    private static final int MACE_MAX_DAMAGE = 500;
+    private static final int ELYTRA_REPAIR_AMOUNT = ELYTRA_MAX_DAMAGE  / ELYTRA_REPAIR_PORTIONS;
+    private static final int SHIELD_REPAIR_AMOUNT = SHIELD_MAX_DAMAGE / SHIELD_REPAIR_PORTIONS;
+    private static final int BOW_REPAIR_AMOUNT = BOW_MAX_DAMAGE / TOOL_REPAIR_PORTIONS;
+    private static final int FISHING_ROD_REPAIR_AMOUNT = FISHING_ROD_MAX_DAMAGE / TOOL_REPAIR_PORTIONS;
+    private static final int FLINT_AND_STEEL_REPAIR_AMOUNT = FLINT_AND_STEEL_MAX_DAMAGE / FLINT_AND_STEEL_REPAIR_PORTIONS;
+    private static final int CROSSBOW_REPAIR_AMOUNT = CROSSBOW_MAX_DAMAGE / TOOL_REPAIR_PORTIONS;
+    private static final int TRIDENT_REPAIR_AMOUNT = TRIDENT_MAX_DAMAGE / TOOL_REPAIR_PORTIONS;
+    private static final int SHEARS_REPAIR_AMOUNT = SHEARS_MAX_DAMAGE / SHEARS_REPAIR_PORTIONS;
+    private static final int BRUSH_REPAIR_AMOUNT = BRUSH_MAX_DAMAGE / BRUSH_REPAIR_PORTIONS;
+    private static final int MACE_REPAIR_AMOUNT = MACE_MAX_DAMAGE / TOOL_REPAIR_PORTIONS;
     private static final int REPAIR_COST = 2;
     private static final int PER_BOOK_COPY_COST = 1;
     private static final int COPY_ENCHANTS_COST = 25;
@@ -173,12 +185,12 @@ public class WorldEvents implements IEventHandler
                 event.setOutput(output);
 
                 // see GrindstoneMenu.ctor().getExperienceFromItem()
-                var enchantments = EnchantmentHelper.getEnchantments(leftItemStack);
+                var enchantments = EnchantmentHelper.getEnchantmentsForCrafting(leftItemStack);
                 int cost = 0;
                 for (var ench : enchantments.entrySet())
                 {
                     var key = ench.getKey();
-                    var value = ench.getValue();
+                    var value = ench.getIntValue();
                     if (!key.isCurse())
                     {
                         cost += key.getMinCost(value) / 17;
