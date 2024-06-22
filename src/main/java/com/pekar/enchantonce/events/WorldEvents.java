@@ -1,5 +1,6 @@
 package com.pekar.enchantonce.events;
 
+import net.minecraft.tags.EnchantmentTags;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraftforge.event.AnvilUpdateEvent;
@@ -191,9 +192,9 @@ public class WorldEvents implements IEventHandler
                 {
                     var key = ench.getKey();
                     var value = ench.getIntValue();
-                    if (!key.isCurse())
+                    if (!key.is(EnchantmentTags.CURSE))
                     {
-                        cost += key.getMinCost(value) / 17;
+                        cost += key.value().getMinCost(value) / 17;
                     }
                 }
 
@@ -206,8 +207,8 @@ public class WorldEvents implements IEventHandler
                     return;
 
                 var result = new ItemStack(Items.ENCHANTED_BOOK);
-                var enchantments = EnchantmentHelper.getEnchantments(leftItemStack);
-                EnchantmentHelper.setEnchantments(enchantments, result);
+                var enchantments = EnchantmentHelper.getEnchantmentsForCrafting(leftItemStack);
+                EnchantmentHelper.setEnchantments(result, enchantments);
                 event.setOutput(result);
                 event.setCost(COPY_ENCHANTS_TO_BOOK_COST);
                 return;
@@ -224,8 +225,8 @@ public class WorldEvents implements IEventHandler
             if (areItemsTheSame)
             {
                 var result = rightItemStack.copy();
-                var enchantments = EnchantmentHelper.getEnchantments(leftItemStack);
-                EnchantmentHelper.setEnchantments(enchantments, result);
+                var enchantments = EnchantmentHelper.getEnchantmentsForCrafting(leftItemStack);
+                EnchantmentHelper.setEnchantments(result, enchantments);
                 result.setCount(2);
                 event.setOutput(result);
                 event.setCost(COPY_ENCHANTS_COST);
@@ -287,7 +288,7 @@ public class WorldEvents implements IEventHandler
         if (!isValidArmorRepairItem(itemToRepare.getItem(), repairItem)) return false;
 
         var armor = (ArmorItem) itemToRepare.getItem();
-        int repairAmount = armor.getMaterial().getDurabilityForType(armor.getType()) / ARMOR_REPAIR_PORTIONS;
+        int repairAmount = armor.getMaterial().get().getDefense(armor.getType()) / ARMOR_REPAIR_PORTIONS;
         repairItem(itemToRepare, repairAmount);
         return true;
     }
