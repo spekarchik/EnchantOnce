@@ -24,6 +24,7 @@ public class WorldEvents implements IEventHandler
     private static final int TRIDENT_REPAIR_AMOUNT = Items.TRIDENT.getMaxDamage(null) / TOOL_REPAIR_PORTIONS;
     private static final int SHEARS_REPAIR_AMOUNT = Items.SHEARS.getMaxDamage(null) / SHEARS_REPAIR_PORTIONS;
     private static final int BRUSH_REPAIR_AMOUNT = Items.BRUSH.getMaxDamage(null) / BRUSH_REPAIR_PORTIONS;
+    private static final int MACE_REPAIR_AMOUNT = Items.MACE.getMaxDamage(null) / TOOL_REPAIR_PORTIONS;
     private static final int REPAIR_COST = 2;
     private static final int PER_BOOK_COPY_COST = 1;
     private static final int COPY_ENCHANTS_COST = 25;
