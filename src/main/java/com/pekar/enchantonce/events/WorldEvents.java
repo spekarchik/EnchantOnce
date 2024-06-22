@@ -8,13 +8,12 @@ import net.neoforged.neoforge.event.AnvilUpdateEvent;
 
 public class WorldEvents implements IEventHandler
 {
-    private static final int ARMOR_REPAIR_PORTIONS = 5;
-    private static final int TOOL_REPAIR_PORTIONS = 5;
+    private static final int ARMOR_REPAIR_PORTIONS = 4;
+    private static final int TOOL_REPAIR_PORTIONS = 4;
     private static final int ELYTRA_REPAIR_PORTIONS = 1;
     private static final int SHIELD_REPAIR_PORTIONS = 2;
     private static final int FLINT_AND_STEEL_REPAIR_PORTIONS = 1;
     private static final int SHEARS_REPAIR_PORTIONS = 1;
-    private static final int BRUSH_REPAIR_PORTIONS = 4;
     private static final int ELYTRA_REPAIR_AMOUNT = Items.ELYTRA.getDefaultInstance().getMaxDamage()  / ELYTRA_REPAIR_PORTIONS;
     private static final int SHIELD_REPAIR_AMOUNT = Items.SHIELD.getDefaultInstance().getMaxDamage() / SHIELD_REPAIR_PORTIONS;
     private static final int BOW_REPAIR_AMOUNT = Items.BOW.getDefaultInstance().getMaxDamage() / TOOL_REPAIR_PORTIONS;
@@ -23,7 +22,7 @@ public class WorldEvents implements IEventHandler
     private static final int CROSSBOW_REPAIR_AMOUNT = Items.CROSSBOW.getDefaultInstance().getMaxDamage() / TOOL_REPAIR_PORTIONS;
     private static final int TRIDENT_REPAIR_AMOUNT = Items.TRIDENT.getDefaultInstance().getMaxDamage() / TOOL_REPAIR_PORTIONS;
     private static final int SHEARS_REPAIR_AMOUNT = Items.SHEARS.getDefaultInstance().getMaxDamage() / SHEARS_REPAIR_PORTIONS;
-    private static final int BRUSH_REPAIR_AMOUNT = Items.BRUSH.getDefaultInstance().getMaxDamage() / BRUSH_REPAIR_PORTIONS;
+    private static final int BRUSH_REPAIR_AMOUNT = Items.BRUSH.getDefaultInstance().getMaxDamage() / TOOL_REPAIR_PORTIONS;
     private static final int MACE_REPAIR_AMOUNT = Items.MACE.getDefaultInstance().getMaxDamage() / TOOL_REPAIR_PORTIONS;
     private static final int REPAIR_COST = 2;
     private static final int PER_BOOK_COPY_COST = 1;
@@ -287,8 +286,7 @@ public class WorldEvents implements IEventHandler
     {
         if (!isValidArmorRepairItem(itemToRepare.getItem(), repairItem)) return false;
 
-        var armor = (ArmorItem) itemToRepare.getItem();
-        int repairAmount = armor.getMaterial().value().getDefense(armor.getType()) / ARMOR_REPAIR_PORTIONS;
+        int repairAmount = itemToRepare.getMaxDamage() / ARMOR_REPAIR_PORTIONS;
         repairItem(itemToRepare, repairAmount);
         return true;
     }
