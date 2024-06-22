@@ -149,6 +149,17 @@ public class WorldEvents implements IEventHandler
             return;
         }
 
+        if (rightItem == Items.BREEZE_ROD)
+        {
+            if (leftItem == Items.MACE)
+            {
+                var result = leftItemStack.copy();
+                repairItem(result, MACE_REPAIR_AMOUNT);
+                event.setOutput(result);
+                event.setCost(REPAIR_COST);
+            }
+        }
+
         if (rightItem == Items.FLINT)
         {
             if (leftItem == Items.FLINT_AND_STEEL)
