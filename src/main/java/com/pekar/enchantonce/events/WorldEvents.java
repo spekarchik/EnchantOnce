@@ -8,24 +8,13 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 public class WorldEvents implements IEventHandler
 {
-    private static final int ARMOR_REPAIR_PORTIONS = 5;
-    private static final int TOOL_REPAIR_PORTIONS = 5;
+    private static final int ARMOR_REPAIR_PORTIONS = 4;
+    private static final int TOOL_REPAIR_PORTIONS = 4;
     private static final int ELYTRA_REPAIR_PORTIONS = 1;
     private static final int SHIELD_REPAIR_PORTIONS = 2;
     private static final int FLINT_AND_STEEL_REPAIR_PORTIONS = 1;
     private static final int SHEARS_REPAIR_PORTIONS = 1;
-    private static final int BRUSH_REPAIR_PORTIONS = 4;
 
-    private static final int ELYTRA_MAX_DAMAGE = 432;
-    private static final int SHIELD_MAX_DAMAGE = 336;
-    private static final int BOW_MAX_DAMAGE = 384;
-    private static final int FISHING_ROD_MAX_DAMAGE = 64;
-    private static final int FLINT_AND_STEEL_MAX_DAMAGE = 64;
-    private static final int CROSSBOW_MAX_DAMAGE = 465;
-    private static final int TRIDENT_MAX_DAMAGE = 250;
-    private static final int SHEARS_MAX_DAMAGE = 238;
-    private static final int BRUSH_MAX_DAMAGE = 64;
-    private static final int MACE_MAX_DAMAGE = 500;
     private static final int ELYTRA_REPAIR_AMOUNT = Items.ELYTRA.getDefaultInstance().getMaxDamage()  / ELYTRA_REPAIR_PORTIONS;
     private static final int SHIELD_REPAIR_AMOUNT = Items.SHIELD.getDefaultInstance().getMaxDamage() / SHIELD_REPAIR_PORTIONS;
     private static final int BOW_REPAIR_AMOUNT = Items.BOW.getDefaultInstance().getMaxDamage() / TOOL_REPAIR_PORTIONS;
@@ -34,7 +23,7 @@ public class WorldEvents implements IEventHandler
     private static final int CROSSBOW_REPAIR_AMOUNT = Items.CROSSBOW.getDefaultInstance().getMaxDamage() / TOOL_REPAIR_PORTIONS;
     private static final int TRIDENT_REPAIR_AMOUNT = Items.TRIDENT.getDefaultInstance().getMaxDamage() / TOOL_REPAIR_PORTIONS;
     private static final int SHEARS_REPAIR_AMOUNT = Items.SHEARS.getDefaultInstance().getMaxDamage() / SHEARS_REPAIR_PORTIONS;
-    private static final int BRUSH_REPAIR_AMOUNT = Items.BRUSH.getDefaultInstance().getMaxDamage() / BRUSH_REPAIR_PORTIONS;
+    private static final int BRUSH_REPAIR_AMOUNT = Items.BRUSH.getDefaultInstance().getMaxDamage() / TOOL_REPAIR_PORTIONS;
     private static final int MACE_REPAIR_AMOUNT = Items.MACE.getDefaultInstance().getMaxDamage() / TOOL_REPAIR_PORTIONS;
     private static final int REPAIR_COST = 2;
     private static final int PER_BOOK_COPY_COST = 1;
@@ -298,8 +287,7 @@ public class WorldEvents implements IEventHandler
     {
         if (!isValidArmorRepairItem(itemToRepare.getItem(), repairItem)) return false;
 
-        var armor = (ArmorItem) itemToRepare.getItem();
-        int repairAmount = armor.getMaterial().get().getDefense(armor.getType()) / ARMOR_REPAIR_PORTIONS;
+        int repairAmount = itemToRepare.getMaxDamage() / ARMOR_REPAIR_PORTIONS;
         repairItem(itemToRepare, repairAmount);
         return true;
     }
