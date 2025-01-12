@@ -1,10 +1,12 @@
 package com.pekar.enchantonce.events;
 
+import com.mojang.logging.LogUtils;
 import net.minecraft.tags.EnchantmentTags;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.event.AnvilUpdateEvent;
+import org.slf4j.Logger;
 
 public class WorldEvents implements IEventHandler
 {
@@ -29,6 +31,8 @@ public class WorldEvents implements IEventHandler
     private static final int COPY_ENCHANTS_COST = 25;
     private static final int MOVE_ENCHANTS_COST = 5;
     private static final int COPY_ENCHANTS_TO_BOOK_COST = 1;
+
+    private static final Logger LOGGER = LogUtils.getLogger();
 
     @SubscribeEvent
     public void onAnvilUpdateEvent(AnvilUpdateEvent event)
