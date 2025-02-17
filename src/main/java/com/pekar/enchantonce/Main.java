@@ -2,7 +2,6 @@ package com.pekar.enchantonce;
 
 import com.mojang.logging.LogUtils;
 import com.pekar.enchantonce.events.EventRegistry;
-import net.minecraft.client.Minecraft;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
