@@ -2,6 +2,7 @@ package com.pekar.enchantonce.events;
 
 import com.mojang.logging.LogUtils;
 import net.minecraft.tags.EnchantmentTags;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -10,7 +11,7 @@ import org.slf4j.Logger;
 
 public class WorldEvents implements IEventHandler
 {
-    private static final int ARMOR_REPAIR_PORTIONS = 4;
+    private static final int EQUIPMENT_REPAIR_PORTIONS = 4;
     private static final int TOOL_REPAIR_PORTIONS = 4;
     private static final int ELYTRA_REPAIR_PORTIONS = 1;
     private static final int SHIELD_REPAIR_PORTIONS = 2;
@@ -42,14 +43,9 @@ public class WorldEvents implements IEventHandler
         ItemStack leftItemStack = event.getLeft();
         Item leftItem = leftItemStack.getItem();
 
-        if (leftItem instanceof TieredItem)
+        if (leftItem instanceof ArmorItem || leftItem instanceof DiggerItem || leftItem instanceof SwordItem)
         {
-            if (setTool(event, leftItemStack, rightItem)) return;
-        }
-
-        if (leftItem instanceof ArmorItem)
-        {
-            if (setArmor(event, leftItemStack, rightItem)) return;
+            if (setOutputEquipment(event, leftItemStack, rightItem)) return;
         }
 
         if (rightItem == Items.IRON_INGOT)
@@ -78,12 +74,7 @@ public class WorldEvents implements IEventHandler
             return;
         }
 
-        if (rightItem == Items.ACACIA_PLANKS || rightItem == Items.BIRCH_PLANKS
-                || rightItem == Items.SPRUCE_PLANKS || rightItem == Items.OAK_PLANKS
-                || rightItem == Items.DARK_OAK_PLANKS || rightItem == Items.JUNGLE_PLANKS
-                || rightItem == Items.CRIMSON_PLANKS || rightItem == Items.WARPED_PLANKS
-                || rightItem == Items.MANGROVE_PLANKS || rightItem == Items.BAMBOO_PLANKS
-                || rightItem == Items.CHERRY_PLANKS)
+        if (rightItemStack.is(ItemTags.PLANKS))
         {
             if (leftItem == Items.SHIELD)
             {
@@ -262,42 +253,21 @@ public class WorldEvents implements IEventHandler
         }
     }
 
-    private boolean setTool(AnvilUpdateEvent event, ItemStack toolItemStack, Item repairItem)
+    private boolean setOutputEquipment(AnvilUpdateEvent event, ItemStack itemStack, Item repairItem)
     {
-        if (!isValidToolRepairItem(toolItemStack.getItem(), repairItem))
+        if (!isValidRepairItem(itemStack, repairItem))
             return false;
 
-        var result = toolItemStack.copy();
-        repairVanillaTool(result, repairItem);
+        var result = itemStack.copy();
+        repairVanillaEquipment(result);
         event.setOutput(result);
         event.setCost(REPAIR_COST);
         return true;
     }
 
-    private boolean setArmor(AnvilUpdateEvent event, ItemStack armorItemStack, Item repairItem)
+    private boolean repairVanillaEquipment(ItemStack itemToRepare)
     {
-        if (!isValidArmorRepairItem(armorItemStack.getItem(), repairItem))
-            return false;
-
-        var result = armorItemStack.copy();
-        repairVanillaArmor(result, repairItem);
-        event.setOutput(result);
-        event.setCost(REPAIR_COST);
-        return true;
-    }
-
-    private boolean repairVanillaArmor(ItemStack itemToRepare, Item repairItem)
-    {
-        int repairAmount = itemToRepare.getMaxDamage() / ARMOR_REPAIR_PORTIONS;
-        repairItem(itemToRepare, repairAmount);
-        return true;
-    }
-
-    private boolean repairVanillaTool(ItemStack itemToRepare, Item repairItem)
-    {
-        if (!isValidToolRepairItem(itemToRepare.getItem(), repairItem)) return false;
-
-        int repairAmount = itemToRepare.getMaxDamage() / TOOL_REPAIR_PORTIONS;
+        int repairAmount = itemToRepare.getMaxDamage() / EQUIPMENT_REPAIR_PORTIONS;
         repairItem(itemToRepare, repairAmount);
         return true;
     }
@@ -305,22 +275,12 @@ public class WorldEvents implements IEventHandler
     private void repairItem(ItemStack itemStack, int damageDecrement)
     {
         int newDamage = itemStack.getDamageValue() - damageDecrement;
-        itemStack.setDamageValue(newDamage < 0 ? 0 : newDamage);
+        itemStack.setDamageValue(Math.max(newDamage, 0));
     }
 
-    private boolean isValidToolRepairItem(Item toolItem, Item repairItem)
+    private boolean isValidRepairItem(ItemStack itemToRepair, Item repairItem)
     {
-        if (!(toolItem instanceof TieredItem)) return false;
-
-        var tool = (TieredItem) toolItem;
-        return tool.getTier().getRepairIngredient().test(new ItemStack(repairItem));
-    }
-
-    private boolean isValidArmorRepairItem(Item armorItem, Item repairItem)
-    {
-        if (!(armorItem instanceof ArmorItem)) return false;
-
-        var armor = (ArmorItem) armorItem;
-        return armor.isValidRepairItem(null, new ItemStack(repairItem));
+        // found in ItemStack (1.21.4)
+        return itemToRepair.isValidRepairItem(new ItemStack(repairItem));
     }
 }
