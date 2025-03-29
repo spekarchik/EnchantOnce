@@ -288,8 +288,6 @@ public class WorldEvents implements IEventHandler
 
     private boolean repairVanillaArmor(ItemStack itemToRepare, Item repairItem)
     {
-        if (!isValidArmorRepairItem(itemToRepare.getItem(), repairItem)) return false;
-
         int repairAmount = itemToRepare.getMaxDamage() / ARMOR_REPAIR_PORTIONS;
         repairItem(itemToRepare, repairAmount);
         return true;
