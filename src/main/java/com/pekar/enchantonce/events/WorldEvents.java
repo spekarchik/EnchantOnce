@@ -3,6 +3,7 @@ package com.pekar.enchantonce.events;
 import com.mojang.logging.LogUtils;
 import net.minecraft.tags.EnchantmentTags;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -44,6 +45,8 @@ public class WorldEvents implements IEventHandler
         if (mainHandItem.isDamageableItem())
         {
             mainHandItem.setDamageValue(mainHandItem.getMaxDamage() - 4);
+            if (event.getEntity() instanceof Player player)
+                player.giveExperienceLevels(50);
         }
     }
 
