@@ -23,7 +23,6 @@ Repair tools and gear using **base materials**, instead of combining duplicate i
 | Flint & Steel          | Flint                  | Full durability          |
 | Trident                | Prismarine Shard       | ¼ durability             |
 | Brush                  | Feather                | ¼ durability             |
-| Mace (if present)      | Breeze Rod             | ¼ durability             |
 
 ➡ Only works if the item is damaged. The material is consumed.
 
