@@ -30,9 +30,7 @@ public class WorldEvents implements IEventHandler
     private static final int BRUSH_REPAIR_AMOUNT = Items.BRUSH.getDefaultInstance().getMaxDamage() / TOOL_REPAIR_PORTIONS;
     private static final int MACE_REPAIR_AMOUNT = Items.MACE.getDefaultInstance().getMaxDamage() / TOOL_REPAIR_PORTIONS;
     private static final int REPAIR_COST = 2;
-    private static final int PER_BOOK_COPY_COST = 1;
     private static final int COPY_ENCHANTS_COST = 25;
-    private static final int MOVE_ENCHANTS_COST = 5;
     private static final int COPY_ENCHANTS_TO_BOOK_COST = 1;
 
     private static final Logger LOGGER = LogUtils.getLogger();
