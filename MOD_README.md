@@ -1,4 +1,4 @@
-# 🔧 Enchanting & Repair Overhaul
+# 🔧 EnchantOnce — Enchanting & Repair Overhaul
 
 A minimalistic mod that reworks enchanting and repairing: fixed XP costs, enchant extraction, book copying, and full gear duplication — all using vanilla mechanics.
 
@@ -87,7 +87,33 @@ You earned them — keep them. This mod respects your time and your progress.
 ## Technical Details
 - **Developer:** Sergey Pekarchik
 - **Supported NeoForge versions:** 1.21.4 and 1.21.5
-- **Texture resolution:** 32×32
+
+---
+
+## 🧩 Related Mods
+
+EnchantOnce is fully compatible with the following mods by the same author:
+
+- **[🌟 CompactMod](https://modrinth.com/mod/compactmod)** — introduces compact forms of tradeable resources for easier storage and trading:  
+  • paper (stackable and block form),  
+  • ink and glow ink (bottled),  
+  • leather (bundled),  
+  • seeds (in pouches),  
+  • feathers (as compact packs).  
+  Includes the *Burnt Paper Block* — crafted by setting a Paper Block on fire. It attracts creepers and repels bees, perfect for traps and moody builds.
+
+- **[🌟 Angel Block Mod](https://modrinth.com/mod/angel-block-mod)**
+  An exploration-focused mod that rewards curiosity and reduces repetitive grind — while keeping the core survival balance intact. Perfect for players who want each discovery to matter.
+  Start with almost nothing — earn every shortcut.  
+  This mod transforms Minecraft into a world of meaningful adventure and artifact-driven progression. No grind, no farms — just clever tools, dangerous dungeons, and rewards you must conquer.
+
+  • Progression-focused gameplay: leather armor, stone weapons, and real survival.  
+  • Unique tools: magnetic rods, precision builders, instant crop planters.  
+  • Legendary gear: 6 armor sets, powerful weapons, and upgrade paths.  
+  • Angel Block & Rod: sacred artifacts that protect and purify your world.  
+  • No custom UIs — pure, immersive gameplay.
+
+  Ideal for adventurers who want to *explore*, *survive*, and *earn* their power — not dig tunnels forever.
 
 ---
 
