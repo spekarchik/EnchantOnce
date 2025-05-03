@@ -43,12 +43,13 @@ Copy enchanted books using blank books.
 
 ---
 
-### 📖 Duplicate Enchanted Books
-Copy enchanted books using blank books.
+### 📚 Extract Enchantments
+Move all enchantments from any enchanted item to a single enchanted book.
 
-- Place one **enchanted book** in the left slot and up to 4 **normal books** in the right.
-- Output: multiple copies of the enchanted book.
-- **XP cost:** 1 level per copy.
+- Place the **item** in the left anvil slot, and a **book** in the right.
+- Output is one enchanted book with all enchantments.
+- The item is **destroyed** in the process.
+- **XP cost:** 1 level.
 
 ---
 
