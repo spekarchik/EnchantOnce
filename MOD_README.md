@@ -65,7 +65,7 @@ Create a perfect duplicate of any enchanted item.
 ## ✅ Compatibility
 
 - Compatible with **vanilla items** and most **modded gear** that follows NeoForge standards.
-- Fully supports custom items from my **Angel Block** mod.
+- Fully supports custom items from my **The Block of Angel** mod.
 - No custom blocks, items, or GUIs — purely vanilla mechanics.
 
 ---
@@ -103,7 +103,7 @@ EnchantOnce is fully compatible with the following mods by the same author:
   • feathers (as compact packs).  
   Includes the *Burnt Paper Block* — crafted by setting a Paper Block on fire. It attracts creepers and repels bees, perfect for traps and moody builds.
 
-- **[🌟 Angel Block Mod](https://modrinth.com/mod/angel-block-mod)**
+- **[🌟 The Block of Angel](https://modrinth.com/mod/angel-block-mod)**
   An exploration-focused mod that rewards curiosity and reduces repetitive grind — while keeping the core survival balance intact. Perfect for players who want each discovery to matter.
   Start with almost nothing — earn every shortcut.  
   This mod transforms Minecraft into a world of meaningful adventure and artifact-driven progression. No grind, no farms — just clever tools, dangerous dungeons, and rewards you must conquer.
