@@ -2,6 +2,10 @@
 
 A minimalistic mod that reworks enchanting and repairing: fixed XP costs, enchant extraction, book copying, and full gear duplication — all using vanilla mechanics.
 
+## 🎯 Who is this mod for?
+
+**EnchantOnce** is perfect for players who enjoy using enchantments but would prefer to spend less in-game time grinding XP and repeating enchanting rituals. It’s designed for those who value efficiency, clarity, and a smoother experience when working with enchanted gear.
+
 ---
 
 ## 📌 Features
@@ -47,6 +51,7 @@ Copy enchanted books using blank books.
 Move all enchantments from any enchanted item to a single enchanted book.
 
 - Place the **item** in the left anvil slot, and a **book** in the right.
+- The item must be **completely intact** (no damage).
 - Output is one enchanted book with all enchantments.
 - The item is **destroyed** in the process.
 - **XP cost:** 1 level.
@@ -57,7 +62,8 @@ Move all enchantments from any enchanted item to a single enchanted book.
 Create a perfect duplicate of any enchanted item.
 
 - Place the **enchanted item** in the left slot and an **unenchanted item of the same type** in the right.
-- Output: a copy with the **same enchantments and durability**.
+- Both items must be **completely intact** (no damage).
+- Output: a copy with the **same enchantments**.
 - **XP cost:** 25 levels.
 
 ---
