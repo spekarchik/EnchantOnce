@@ -36,7 +36,7 @@ public class WorldEvents implements IEventHandler
     private static final Logger LOGGER = LogUtils.getLogger();
 
     // TODO: For tests - keep it commented!
-    //@SubscribeEvent
+//    @SubscribeEvent
     public void onLivingJump(LivingEvent.LivingJumpEvent event)
     {
         var mainHandItem = event.getEntity().getMainHandItem();
@@ -165,7 +165,7 @@ public class WorldEvents implements IEventHandler
                 }
 
                 if (cost < 1) cost = 1;
-                event.setCost((bookCount - 1) * cost);
+                event.setXpCost((bookCount - 1) * cost);
             }
             else if (leftItemStack.isDamageableItem())
             {
@@ -176,7 +176,7 @@ public class WorldEvents implements IEventHandler
                 var enchantments = EnchantmentHelper.getEnchantmentsForCrafting(leftItemStack);
                 EnchantmentHelper.setEnchantments(result, enchantments);
                 event.setOutput(result);
-                event.setCost(COPY_ENCHANTS_TO_BOOK_COST);
+                event.setXpCost(COPY_ENCHANTS_TO_BOOK_COST);
                 return;
             }
 
@@ -195,7 +195,7 @@ public class WorldEvents implements IEventHandler
                 EnchantmentHelper.setEnchantments(result, enchantments);
                 result.setCount(2);
                 event.setOutput(result);
-                event.setCost(COPY_ENCHANTS_COST);
+                event.setXpCost(COPY_ENCHANTS_COST);
                 return;
             }
             // THIS IS CHEATY BECAUSE OF DIFFERENT ENCHANTABILITY OF DIFFERENT MATERIALS
@@ -240,7 +240,7 @@ public class WorldEvents implements IEventHandler
         var result = leftItemStack.copy();
         repair(result, repairAmount);
         event.setOutput(result);
-        event.setCost(REPAIR_COST);
+        event.setXpCost(REPAIR_COST);
     }
 
     private void repair(ItemStack itemStack, int damageDecrement)
