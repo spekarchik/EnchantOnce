@@ -101,6 +101,9 @@ You earned them — keep them. This mod respects your time and your progress.
 
 EnchantOnce is fully compatible with the following mods by the same author:
 
+- **[🧭 Compass Cleaner](https://modrinth.com/mod/compass-cleaner)** — adds a minimalist recipe to reset a _Lodestone Compass_ to a regular _Compass_.  
+    Ideal for tidying up obsolete compasses after you lose or remove their lodestone targets.
+
 - **[🌟 Pouch & Paper](https://modrinth.com/mod/pouch-and-paper)** — introduces compact forms of tradeable resources for easier storage and trading:  
   • paper (stackable and block form),  
   • ink and glow ink (bottled),  
