@@ -27,8 +27,6 @@ public class Main
 
     public Main()
     {
-        var bus = FMLJavaModLoadingContext.get().getModEventBus();
-
         // Register the setup method for modloading
         //bus.addListener(this::commonSetup);
         //bus.addListener(this::clientSetup);
