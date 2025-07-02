@@ -198,30 +198,6 @@ public class WorldEvents implements IEventHandler
                 event.setCost(COPY_ENCHANTS_COST);
                 return;
             }
-            // THIS IS CHEATY BECAUSE OF DIFFERENT ENCHANTABILITY OF DIFFERENT MATERIALS
-            /*
-            else
-            {
-                var resultMap = new HashMap<Enchantment, Integer>();
-
-                var enchantments = EnchantmentHelper.getEnchantments(leftItemStack);
-                for (var ench : enchantments.entrySet())
-                {
-                    if (ench.getKey().category.canEnchant(rightItem))
-                    {
-                        resultMap.put(ench.getKey(), ench.getValue());
-                    }
-                }
-
-                var result = rightItemStack.copy();
-
-                EnchantmentHelper.setEnchantments(resultMap, result);
-                result.setCount(1);
-                event.setOutput(result);
-                event.setCost(MOVE_ENCHANTS_COST);
-                return;
-            }
-            */
         }
     }
 
