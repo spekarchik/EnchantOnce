@@ -36,7 +36,7 @@ public class WorldEvents implements IEventHandler
     private static final Logger LOGGER = LogUtils.getLogger();
 
     // TODO: For tests - keep it commented!
-    //@SubscribeEvent
+//    @SubscribeEvent
     public void onLivingJump(LivingEvent.LivingJumpEvent event)
     {
         var mainHandItem = event.getEntity().getMainHandItem();
@@ -251,6 +251,7 @@ public class WorldEvents implements IEventHandler
 
     private boolean isValidRepairItem(ItemStack itemToRepair, Item repairItem)
     {
-        return itemToRepair.getItem().isValidRepairItem(itemToRepair, new ItemStack(repairItem));
+        // found in ItemStack (1.21.4)
+        return itemToRepair.isValidRepairItem(new ItemStack(repairItem));
     }
 }
