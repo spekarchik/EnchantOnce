@@ -228,6 +228,6 @@ public class WorldEvents implements IEventHandler
     private boolean isValidRepairItem(ItemStack itemToRepair, Item repairItem)
     {
         // found in ItemStack (1.21.4)
-        return itemToRepair.isValidRepairItem(new ItemStack(repairItem));
+        return itemToRepair.getItem().isValidRepairItem(new ItemStack(repairItem));
     }
 }
