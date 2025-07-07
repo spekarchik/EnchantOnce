@@ -1,10 +1,11 @@
 package com.pekar.enchantonce.events;
 
 import com.mojang.logging.LogUtils;
-import net.minecraft.tags.EnchantmentTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.*;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraftforge.event.AnvilUpdateEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
@@ -158,7 +159,7 @@ public class WorldEvents implements IEventHandler
                 {
                     var key = ench.getKey().value();
                     var value = ench.getIntValue();
-                    if (!ench.getKey().is(EnchantmentTags.CURSE))
+                    if (!ench.getKey().value().isCurse())
                     {
                         cost += key.getMinCost(value) / 17;
                     }
