@@ -158,7 +158,7 @@ public class WorldEvents implements IEventHandler
                 {
                     var key = ench.getKey().value();
                     var value = ench.getIntValue();
-                    if (!ench.getKey().is(EnchantmentTags.CURSE))
+                    if (!ench.getKey().value().isCurse())
                     {
                         cost += key.getMinCost(value) / 17;
                     }
