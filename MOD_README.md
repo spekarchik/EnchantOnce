@@ -19,7 +19,6 @@ Repair tools and gear using **base materials**, instead of combining duplicate i
 
 | Item                   | Repair Material        | Amount Repaired         |
 |------------------------|------------------------|--------------------------|
-| Elytra                 | Phantom Membrane       | ¼ durability             |
 | Shield                 | Any Planks             | ½ durability             |
 | Shears                 | Iron Ingot             | Full durability          |
 | Bow, Fishing Rod       | String                 | ¼ durability             |
