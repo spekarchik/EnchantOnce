@@ -92,13 +92,14 @@ You earned them — keep them. This mod respects your time and your progress.
 
 ## Technical Details
 - **Developer:** Sergey Pekarchik
-- **Supported NeoForge and Forge versions:** 1.20.5 - 1.21.8
+- **Supported NeoForge versions:** 1.20.5 - 1.21.8
+- **Supported Forge versions:** 1.20.6 - 1.21.5 (no plans to support later versions)
 
 ---
 
 ## 🧩 Related Mods
 
-EnchantOnce is fully compatible with the following mods by the same author:
+**EnchantOnce** is fully compatible with the following mods by the same author:
 
 - **[🧭 Compass Cleaner](https://modrinth.com/mod/compass-cleaner)** — adds a minimalist recipe to reset a _Lodestone Compass_ to a regular _Compass_.  
     Ideal for tidying up obsolete compasses after you lose or remove their lodestone targets.
