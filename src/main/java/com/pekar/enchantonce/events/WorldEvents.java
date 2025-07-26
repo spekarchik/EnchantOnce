@@ -4,7 +4,9 @@ import com.mojang.logging.LogUtils;
 import net.minecraft.tags.EnchantmentTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.*;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.event.AnvilUpdateEvent;
@@ -32,6 +34,7 @@ public class WorldEvents implements IEventHandler
     private static final int REPAIR_COST = 2;
     private static final int COPY_ENCHANTS_COST = 25;
     private static final int COPY_ENCHANTS_TO_BOOK_COST = 1;
+    private static final int MAX_BOOK_COPIES = 4;
 
     private static final Logger LOGGER = LogUtils.getLogger();
 
@@ -143,13 +146,15 @@ public class WorldEvents implements IEventHandler
 
         else if (rightItem == Items.BOOK)
         {
-            int bookCount = Math.min(event.getRight().getCount() + 1, 5);
+            int rightItemStackCount = event.getRight().getCount();
+            int booksToCopyAmount = Math.min(rightItemStackCount, MAX_BOOK_COPIES);
 
             if (leftItem == Items.ENCHANTED_BOOK)
             {
                 ItemStack output = leftItemStack.copy();
-                output.setCount(bookCount);
+                output.setCount(booksToCopyAmount + 1);
                 event.setOutput(output);
+                event.setMaterialCost(booksToCopyAmount);
 
                 // see GrindstoneMenu.ctor().getExperienceFromItem()
                 var enchantments = EnchantmentHelper.getEnchantmentsForCrafting(leftItemStack);
@@ -165,7 +170,7 @@ public class WorldEvents implements IEventHandler
                 }
 
                 if (cost < 1) cost = 1;
-                event.setXpCost((bookCount - 1) * cost);
+                event.setXpCost(booksToCopyAmount * cost);
             }
             else if (leftItemStack.isDamageableItem())
             {
@@ -177,6 +182,7 @@ public class WorldEvents implements IEventHandler
                 EnchantmentHelper.setEnchantments(result, enchantments);
                 event.setOutput(result);
                 event.setXpCost(COPY_ENCHANTS_TO_BOOK_COST);
+                event.setMaterialCost(1);
                 return;
             }
 
@@ -241,6 +247,7 @@ public class WorldEvents implements IEventHandler
         repair(result, repairAmount);
         event.setOutput(result);
         event.setXpCost(REPAIR_COST);
+        event.setMaterialCost(1);
     }
 
     private void repair(ItemStack itemStack, int damageDecrement)
