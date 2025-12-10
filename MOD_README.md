@@ -85,14 +85,14 @@ You earned them — keep them. This mod respects your time and your progress.
 # 🛠️ Installation and Technical Information
 
 ## Installation
-- Make sure you have **Minecraft 1.20.5 - 1.21.9** with **NeoForge** or **Forge** installed.
+- Make sure you have **Minecraft 1.20.5 - 1.21.11** with **NeoForge** or **Forge** installed.
 - Download the mod `.jar` file.
 - Place it into your `mods` folder.
 - Launch the game and enjoy your adventure!
 
 ## Technical Details
 - **Developer:** Sergey Pekarchik
-- **Supported NeoForge versions:** 1.20.5 - 1.21.9
+- **Supported NeoForge versions:** 1.20.5 - 1.21.11
 - **Supported Forge versions:** 1.20.6 - 1.21.5 (no plans to support later versions)
 
 ---
