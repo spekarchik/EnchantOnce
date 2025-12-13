@@ -1,3 +1,12 @@
+## 📦 Version 1.0.6
+
+### 🐞 Fixed
+- Undamaged staff can no longer be "repaired" or consume resources.
+
+### 📝 Improvements
+- Added `damageMainHandGear` console command.
+
+
 ## 📦 Version 1.0.5
 
 ### 🐞 Fixed
