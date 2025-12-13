@@ -218,15 +218,15 @@ public class WorldEvents implements IEventHandler
     private void setAndRepair(ItemStack itemToRepair, int repairAmountPerRepairItem, final AnvilUpdateEvent event)
     {
         int materialAmountAvailable = event.getRight().getCount();
-        int materialAmountConsumed = calculateMaterialAmountConsumed(itemToRepair, repairAmountPerRepairItem, materialAmountAvailable);
+        int materialNumberConsumed = calculateMaterialNumberConsumed(itemToRepair, repairAmountPerRepairItem, materialAmountAvailable);
 
-        if (materialAmountConsumed <= 0) return;
+        if (materialNumberConsumed <= 0) return;
 
         var result = itemToRepair.copy();
-        repair(result, repairAmountPerRepairItem * materialAmountConsumed);
+        repair(result, repairAmountPerRepairItem * materialNumberConsumed);
         event.setOutput(result);
-        event.setCost(REPAIR_COST * materialAmountConsumed);
-        event.setMaterialCost(materialAmountConsumed);
+        event.setCost(REPAIR_COST * materialNumberConsumed);
+        event.setMaterialCost(materialNumberConsumed);
     }
 
     private void repair(ItemStack itemStack, int damageDecrement)
@@ -240,9 +240,9 @@ public class WorldEvents implements IEventHandler
         return itemToRepair.getItem().isValidRepairItem(itemToRepair, new ItemStack(repairItem));
     }
 
-    private int calculateMaterialAmountConsumed(ItemStack itemToRepair, int repairAmountPerRepairingItem, int materialAmountAvailable)
+    private int calculateMaterialNumberConsumed(ItemStack itemToRepair, int repairAmountPerRepairingItem, int materialNumberAvailable)
     {
-        if (repairAmountPerRepairingItem <= 0 || materialAmountAvailable <= 0)
+        if (repairAmountPerRepairingItem <= 0 || materialNumberAvailable <= 0)
             return 0;
 
         int currentDamage = itemToRepair.getDamageValue();
@@ -251,6 +251,6 @@ public class WorldEvents implements IEventHandler
 
         int needed = (currentDamage + repairAmountPerRepairingItem - 1) / repairAmountPerRepairingItem;
 
-        return Math.min(needed, materialAmountAvailable);
+        return Math.min(needed, materialNumberAvailable);
     }
 }
