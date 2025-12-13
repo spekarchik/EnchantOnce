@@ -202,21 +202,26 @@ public class WorldEvents implements IEventHandler
         return true;
     }
 
-    private void validateAndRepairCustom(ItemStack itemToRepair, int repairAmount, final AnvilUpdateEvent event)
+    private void validateAndRepairCustom(ItemStack itemToRepair, int repairAmountPerRepairItem, final AnvilUpdateEvent event)
     {
         if (itemToRepair.getDamageValue() == 0)
             return;
 
-        setAndRepair(itemToRepair, repairAmount, event);
+        setAndRepair(itemToRepair, repairAmountPerRepairItem, event);
     }
 
-    private void setAndRepair(ItemStack itemToRepair, int repairAmount, final AnvilUpdateEvent event)
+    private void setAndRepair(ItemStack itemToRepair, int repairAmountPerRepairItem, final AnvilUpdateEvent event)
     {
+        int materialAmountAvailable = event.getRight().getCount();
+        int materialAmountConsumed = calculateMaterialAmountConsumed(itemToRepair, repairAmountPerRepairItem, materialAmountAvailable);
+
+        if (materialAmountConsumed <= 0) return;
+
         var result = itemToRepair.copy();
-        repair(result, repairAmount);
+        repair(result, repairAmountPerRepairItem * materialAmountConsumed);
         event.setOutput(result);
-        event.setCost(REPAIR_COST);
-        event.setMaterialCost(1);
+        event.setCost(REPAIR_COST * materialAmountConsumed);
+        event.setMaterialCost(materialAmountConsumed);
     }
 
     private void repair(ItemStack itemStack, int damageDecrement)
@@ -228,5 +233,19 @@ public class WorldEvents implements IEventHandler
     private boolean isValidRepairItem(ItemStack itemToRepair, Item repairItem)
     {
         return itemToRepair.getItem().isValidRepairItem(itemToRepair, new ItemStack(repairItem));
+    }
+
+    private int calculateMaterialAmountConsumed(ItemStack itemToRepair, int repairAmountPerRepairingItem, int materialAmountAvailable)
+    {
+        if (repairAmountPerRepairingItem <= 0 || materialAmountAvailable <= 0)
+            return 0;
+
+        int currentDamage = itemToRepair.getDamageValue();
+        if (currentDamage <= 0)
+            return 0;
+
+        int needed = (currentDamage + repairAmountPerRepairingItem - 1) / repairAmountPerRepairingItem;
+
+        return Math.min(needed, materialAmountAvailable);
     }
 }
