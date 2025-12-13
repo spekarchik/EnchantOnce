@@ -1,4 +1,4 @@
-## 📦 Version 1.1.0
+## 📦 Version 1.1.1
 
 ### 📝 Improvements
 - Allow consuming the required number of repair materials in a single operation.
@@ -7,6 +7,7 @@
 ### 🐞 Fixed
 - Undamaged staff can no longer be "repaired" or consume resources.
 - Number of consumed materials is calculated correctly now. **Trident** now consumes up to **4** items to be completely repaired.
+- Mod splitted to fix incompatibility of 1.21.8 with later versions.
 
 
 ## 📦 Version 1.0.5
