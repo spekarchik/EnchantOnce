@@ -6,7 +6,6 @@ import com.mojang.logging.LogUtils;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.Component;
-import net.minecraft.server.players.NameAndId;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -33,8 +32,7 @@ public class ConsoleCommandEvents implements IEventHandler
                             // If the source is a player, allow only operators (OP)
                             var player = src.getPlayerOrException();
                             var srv = src.getServer();
-                            var na = new NameAndId(player.getGameProfile());
-                            return srv.getPlayerList().isOp(na);
+                            return srv.getPlayerList().isOp(player.getGameProfile());
                         }
                         catch (Exception ex)
                         {
