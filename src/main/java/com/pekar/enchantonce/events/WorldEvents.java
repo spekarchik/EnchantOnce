@@ -19,22 +19,27 @@ public class WorldEvents implements IEventHandler
     private static final int SHIELD_REPAIR_PORTIONS = 2;
     private static final int FLINT_AND_STEEL_REPAIR_PORTIONS = 1;
     private static final int SHEARS_REPAIR_PORTIONS = 1;
-    private static final int ELYTRA_REPAIR_AMOUNT = Items.ELYTRA.getDefaultInstance().getMaxDamage()  / ELYTRA_REPAIR_PORTIONS;
-    private static final int SHIELD_REPAIR_AMOUNT = Items.SHIELD.getDefaultInstance().getMaxDamage() / SHIELD_REPAIR_PORTIONS;
-    private static final int BOW_REPAIR_AMOUNT = Items.BOW.getDefaultInstance().getMaxDamage() / TOOL_REPAIR_PORTIONS;
-    private static final int FISHING_ROD_REPAIR_AMOUNT = Items.FISHING_ROD.getDefaultInstance().getMaxDamage() / TOOL_REPAIR_PORTIONS;
-    private static final int FLINT_AND_STEEL_REPAIR_AMOUNT = Items.FLINT_AND_STEEL.getDefaultInstance().getMaxDamage() / FLINT_AND_STEEL_REPAIR_PORTIONS;
-    private static final int CROSSBOW_REPAIR_AMOUNT = Items.CROSSBOW.getDefaultInstance().getMaxDamage() / TOOL_REPAIR_PORTIONS;
-    private static final int TRIDENT_REPAIR_AMOUNT = Items.TRIDENT.getDefaultInstance().getMaxDamage() / TOOL_REPAIR_PORTIONS;
-    private static final int SHEARS_REPAIR_AMOUNT = Items.SHEARS.getDefaultInstance().getMaxDamage() / SHEARS_REPAIR_PORTIONS;
-    private static final int BRUSH_REPAIR_AMOUNT = Items.BRUSH.getDefaultInstance().getMaxDamage() / TOOL_REPAIR_PORTIONS;
-    private static final int MACE_REPAIR_AMOUNT = Items.MACE.getDefaultInstance().getMaxDamage() / TOOL_REPAIR_PORTIONS;
+    private static final int ELYTRA_REPAIR_AMOUNT = getRepairAmount(Items.ELYTRA.getDefaultInstance().getMaxDamage(), ELYTRA_REPAIR_PORTIONS);
+    private static final int SHIELD_REPAIR_AMOUNT = getRepairAmount(Items.SHIELD.getDefaultInstance().getMaxDamage(), SHIELD_REPAIR_PORTIONS);
+    private static final int BOW_REPAIR_AMOUNT = getRepairAmount(Items.BOW.getDefaultInstance().getMaxDamage(), TOOL_REPAIR_PORTIONS);
+    private static final int FISHING_ROD_REPAIR_AMOUNT = getRepairAmount(Items.FISHING_ROD.getDefaultInstance().getMaxDamage(), TOOL_REPAIR_PORTIONS);
+    private static final int FLINT_AND_STEEL_REPAIR_AMOUNT = getRepairAmount(Items.FLINT_AND_STEEL.getDefaultInstance().getMaxDamage(), FLINT_AND_STEEL_REPAIR_PORTIONS);
+    private static final int CROSSBOW_REPAIR_AMOUNT = getRepairAmount(Items.CROSSBOW.getDefaultInstance().getMaxDamage(), TOOL_REPAIR_PORTIONS);
+    private static final int TRIDENT_REPAIR_AMOUNT = getRepairAmount(Items.TRIDENT.getDefaultInstance().getMaxDamage(), TOOL_REPAIR_PORTIONS);
+    private static final int SHEARS_REPAIR_AMOUNT = getRepairAmount(Items.SHEARS.getDefaultInstance().getMaxDamage(), SHEARS_REPAIR_PORTIONS);
+    private static final int BRUSH_REPAIR_AMOUNT = getRepairAmount(Items.BRUSH.getDefaultInstance().getMaxDamage(), TOOL_REPAIR_PORTIONS);
+    private static final int MACE_REPAIR_AMOUNT = getRepairAmount(Items.MACE.getDefaultInstance().getMaxDamage(), TOOL_REPAIR_PORTIONS);
     private static final int REPAIR_COST = 2;
     private static final int COPY_ENCHANTS_COST = 25;
     private static final int COPY_ENCHANTS_TO_BOOK_COST = 1;
     private static final int MAX_BOOK_COPIES = 4;
 
     private static final Logger LOGGER = LogUtils.getLogger();
+
+    private static int getRepairAmount(int maxDamage, int portions)
+    {
+        return (maxDamage + portions - 1) / portions;
+    }
 
     @SubscribeEvent
     public void onAnvilUpdateEvent(AnvilUpdateEvent event)
