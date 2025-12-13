@@ -61,7 +61,7 @@ public class WorldEvents implements IEventHandler
         {
             if (leftItem == Items.ELYTRA)
             {
-                setAndRepair(leftItemStack, ELYTRA_REPAIR_AMOUNT, event);
+                validateAndRepairCustom(leftItemStack, ELYTRA_REPAIR_AMOUNT, event);
                 return;
             }
         }
@@ -69,21 +69,21 @@ public class WorldEvents implements IEventHandler
         {
             if (leftItem == Items.SHIELD)
             {
-                setAndRepair(leftItemStack, SHIELD_REPAIR_AMOUNT, event);
+                validateAndRepairCustom(leftItemStack, SHIELD_REPAIR_AMOUNT, event);
                 return;
             }
         }
 
         if (leftItemStack.isDamageableItem())
         {
-            if (validateAndRepair(event, leftItemStack, rightItem)) return;
+            if (validateAndRepair(leftItemStack, rightItem, event)) return;
         }
 
         if (rightItem == Items.IRON_INGOT)
         {
             if (leftItem == Items.SHEARS)
             {
-                setAndRepair(leftItemStack, SHEARS_REPAIR_AMOUNT, event);
+                validateAndRepairCustom(leftItemStack, SHEARS_REPAIR_AMOUNT, event);
                 return;
             }
         }
@@ -91,19 +91,19 @@ public class WorldEvents implements IEventHandler
         {
             if (leftItem == Items.BOW)
             {
-                setAndRepair(leftItemStack, BOW_REPAIR_AMOUNT, event);
+                validateAndRepairCustom(leftItemStack, BOW_REPAIR_AMOUNT, event);
                 return;
             }
 
             if (leftItem == Items.FISHING_ROD)
             {
-                setAndRepair(leftItemStack, FISHING_ROD_REPAIR_AMOUNT, event);
+                validateAndRepairCustom(leftItemStack, FISHING_ROD_REPAIR_AMOUNT, event);
                 return;
             }
 
             if (leftItem == Items.CROSSBOW)
             {
-                setAndRepair(leftItemStack, CROSSBOW_REPAIR_AMOUNT, event);
+                validateAndRepairCustom(leftItemStack, CROSSBOW_REPAIR_AMOUNT, event);
                 return;
             }
         }
@@ -111,7 +111,7 @@ public class WorldEvents implements IEventHandler
         {
             if (leftItem == Items.BRUSH)
             {
-                setAndRepair(leftItemStack, BRUSH_REPAIR_AMOUNT, event);
+                validateAndRepairCustom(leftItemStack, BRUSH_REPAIR_AMOUNT, event);
                 return;
             }
         }
@@ -120,7 +120,7 @@ public class WorldEvents implements IEventHandler
 //        {
 //            if (leftItem == Items.MACE)
 //            {
-//                setAndRepair(leftItemStack, MACE_REPAIR_AMOUNT, event);
+//                validateAndRepairCustom(leftItemStack, MACE_REPAIR_AMOUNT, event);
 //            }
 //        }
 
@@ -128,7 +128,7 @@ public class WorldEvents implements IEventHandler
         {
             if (leftItem == Items.FLINT_AND_STEEL)
             {
-                setAndRepair(leftItemStack, FLINT_AND_STEEL_REPAIR_AMOUNT, event);
+                validateAndRepairCustom(leftItemStack, FLINT_AND_STEEL_REPAIR_AMOUNT, event);
                 return;
             }
         }
@@ -137,7 +137,7 @@ public class WorldEvents implements IEventHandler
         {
             if (leftItem == Items.TRIDENT)
             {
-                setAndRepair(leftItemStack, TRIDENT_REPAIR_AMOUNT, event);
+                validateAndRepairCustom(leftItemStack, TRIDENT_REPAIR_AMOUNT, event);
                 return;
             }
         }
@@ -205,19 +205,27 @@ public class WorldEvents implements IEventHandler
         }
     }
 
-    private boolean validateAndRepair(AnvilUpdateEvent event, ItemStack itemStack, Item repairItem)
+    private boolean validateAndRepair(ItemStack itemToRepair, Item repairItem, final AnvilUpdateEvent event)
     {
-        if (!isValidRepairItem(itemStack, repairItem))
+        if (!isValidRepairItem(itemToRepair, repairItem) || itemToRepair.getDamageValue() == 0)
             return false;
 
-        int repairAmount = itemStack.getMaxDamage() / EQUIPMENT_REPAIR_PORTIONS;
-        setAndRepair(itemStack, repairAmount, event);
+        int repairAmount = itemToRepair.getMaxDamage() / EQUIPMENT_REPAIR_PORTIONS;
+        setAndRepair(itemToRepair, repairAmount, event);
         return true;
     }
 
-    private void setAndRepair(ItemStack leftItemStack, int repairAmount, AnvilUpdateEvent event)
+    private void validateAndRepairCustom(ItemStack itemToRepair, int repairAmount, final AnvilUpdateEvent event)
     {
-        var result = leftItemStack.copy();
+        if (itemToRepair.getDamageValue() == 0)
+            return;
+
+        setAndRepair(itemToRepair, repairAmount, event);
+    }
+
+    private void setAndRepair(ItemStack itemToRepair, int repairAmount, final AnvilUpdateEvent event)
+    {
+        var result = itemToRepair.copy();
         repair(result, repairAmount);
         event.setOutput(result);
         event.setCost(REPAIR_COST);
