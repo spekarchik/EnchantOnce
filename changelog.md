@@ -1,3 +1,7 @@
+## 📦 Version 1.1.2
+- The command logic is simplified.
+
+
 ## 📦 Version 1.1.1
 
 ### 📝 Improvements
