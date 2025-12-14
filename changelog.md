@@ -1,5 +1,6 @@
 ## 📦 Version 1.1.2
-- The command logic is simplified.
+- Code optimizations related to `damageMainHandGear` command.
+- No impact on gameplay.
 
 
 ## 📦 Version 1.1.0
