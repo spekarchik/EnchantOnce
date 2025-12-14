@@ -1,12 +1,12 @@
 package com.pekar.enchantonce.events;
 
-import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
+import com.mojang.brigadier.context.CommandContext;
 import com.mojang.logging.LogUtils;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.Component;
-import net.minecraft.server.players.NameAndId;
+import net.minecraft.server.permissions.Permissions;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -27,21 +27,7 @@ public class ConsoleCommandEvents implements IEventHandler
             var dispatcher = commands.getDispatcher();
 
             dispatcher.register(Commands.literal("damageMainHandGear")
-                    .requires(src -> {
-                        try
-                        {
-                            // If the source is a player, allow only operators (OP)
-                            var player = src.getPlayerOrException();
-                            var srv = src.getServer();
-                            var na = new NameAndId(player.getGameProfile());
-                            return srv.getPlayerList().isOp(na);
-                        }
-                        catch (Exception ex)
-                        {
-                            // Source is not a player (console) — allow
-                            return true;
-                        }
-                    })
+                    .requires(src -> src.permissions().hasPermission(Permissions.COMMANDS_ADMIN))
                     // no-arg: default behaviour (maxDamage - 1)
                     .executes(ctx -> handleDamageGearCommand(ctx, -1))
                     // optional int argument 'damage' (>=0)
