@@ -82,6 +82,58 @@ You earned them — keep them. This mod respects your time and your progress.
 
 ---
 
+## 🧪 Testing Command (Creative / Admin)
+*(Version 1.1.0 or later)*
+
+**EnchantOnce** includes a small utility command intended for **testing, debugging, and experimentation** with enchanting and repair mechanics.
+
+### ⌨️ `/damageMainHandGear`
+
+Artificially sets the damage value of the item held in the player’s **main hand**.
+
+- **Who can use it:** server operators (permission level `2`)
+- **How it is used:** typed as a command while **playing in the world**
+- **Works** in singleplayer and when typed by a player on a server
+- **Does not work** from the dedicated server console or via automation (command blocks or functions)
+- Works **only if you are holding a damageable item** in your main hand
+
+### Syntax
+
+```
+/damageMainHandGear
+/damageMainHandGear <damage>
+```
+
+### Behavior
+
+- Without arguments, the item is damaged to **maximum possible value minus 1**  
+  (i.e. the item becomes almost broken, but not destroyed).
+- With `<damage>` argument:
+  - Sets the exact damage value.
+  - The value is automatically clamped to a valid range:
+    - Minimum: `0`
+    - Maximum: `maxDurability - 1`
+
+### Examples
+
+```
+/damageMainHandGear
+```
+
+→ Sets the held item to near-broken state.
+
+```
+/damageMainHandGear 10
+```
+
+→ Sets item damage to `10`.
+
+### Notes
+- If the player is not holding a damageable item, the command does nothing.
+- Intended strictly for **testing and development**; it has no gameplay purpose in survival progression.
+
+---
+
 # 🛠️ Installation and Technical Information
 
 ## Installation
