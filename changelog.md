@@ -7,7 +7,7 @@
 ### 🐞 Fixed
 - Undamaged staff can no longer be "repaired" or consume resources.
 - Number of consumed materials is calculated correctly now. **Trident** now consumes up to **4** items to be completely repaired.
-- Mod splitted to fix incompatibility of 1.21.8 with later versions.
+- Mod was split into two separate versions due to incompatibilities between Minecraft *1.21.5–1.21.8* and *1.21.9–1.21.11*.
 
 
 ## 📦 Version 1.0.5
