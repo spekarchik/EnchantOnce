@@ -26,20 +26,7 @@ public class ConsoleCommandEvents implements IEventHandler
             var dispatcher = commands.getDispatcher();
 
             dispatcher.register(Commands.literal("damageMainHandGear")
-                    .requires(src -> {
-                        try
-                        {
-                            // If the source is a player, allow only operators (OP)
-                            var player = src.getPlayerOrException();
-                            var srv = src.getServer();
-                            return srv.getPlayerList().isOp(player.getGameProfile());
-                        }
-                        catch (Exception ex)
-                        {
-                            // Source is not a player (console) — allow
-                            return true;
-                        }
-                    })
+                    .requires(src -> src.hasPermission(2))
                     // no-arg: default behaviour (maxDamage - 1)
                     .executes(ctx -> handleDamageGearCommand(ctx, -1))
                     // optional int argument 'damage' (>=0)
