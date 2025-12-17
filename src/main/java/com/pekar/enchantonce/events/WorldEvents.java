@@ -249,6 +249,7 @@ public class WorldEvents implements IEventHandler
             var result = leftItemStack.copy();
             EnchantmentHelper.setEnchantments(result, leftEnchMutable.toImmutable());
             event.setOutput(result);
+            event.setCost(event.getCost());
             event.setMaterialCost(1);
             return;
         }
@@ -294,50 +295,44 @@ public class WorldEvents implements IEventHandler
             */
         }
 
-//        if (leftItem != Items.ENCHANTED_BOOK && leftItemStack.isEnchanted() && (rightItemStack.isEnchanted() || rightItem == Items.ENCHANTED_BOOK))
-//        {
-//            boolean areItemsTheSame = rightItem.getName(rightItemStack).equals(leftItem.getName(leftItemStack));
-//
-//            if (areItemsTheSame || rightItem == Items.ENCHANTED_BOOK)
-//            {
-//                var leftEnchs = EnchantmentHelper.getEnchantmentsForCrafting(leftItemStack);
-//                var rightEnchs = EnchantmentHelper.getEnchantmentsForCrafting(rightItemStack);
-//
-//                var leftEnchMutable = new ItemEnchantments.Mutable(leftEnchs);
-//                boolean changed = false;
-//
-//                for (var entry : rightEnchs.entrySet())
-//                {
-//                    var key = entry.getKey();
-//                    var canEnchant = key.value().definition().supportedItems().contains(leftItemStack.getItemHolder());
-//
-//                    if (!canEnchant) continue;
-//
-//                    int rightLevel = entry.getIntValue();
-//                    int leftLevel = leftEnchMutable.getLevel(key);
-//                    int finalLevel = Math.max(leftLevel, rightLevel);
-//                    leftEnchMutable.set(key, finalLevel);
-//                    if (finalLevel != leftLevel) changed = true;
-//                }
-//
-//                var result = event.getOutput().copy();
-//
-//                boolean durabilityChanged = leftItemStack.isDamageableItem() && rightItemStack.isDamageableItem()
-//                        && (leftItemStack.getDamageValue() != result.getDamageValue() || rightItemStack.getDamageValue() != result.getDamageValue());
-//
-//                if (!changed && !durabilityChanged)
-//                {
-//                    event.setCanceled(rightItem == Items.ENCHANTED_BOOK);
-//                    return;
-//                }
-//
-//                EnchantmentHelper.setEnchantments(result, leftEnchMutable.toImmutable());
-//                event.setOutput(result);
-//                event.setMaterialCost(1);
-//                return;
-//            }
-//
-//        }
+        if (leftItem != Items.ENCHANTED_BOOK && leftItemStack.isEnchanted() && rightItem == Items.ENCHANTED_BOOK)
+        {
+            var leftEnchs = EnchantmentHelper.getEnchantmentsForCrafting(leftItemStack);
+            var rightEnchs = EnchantmentHelper.getEnchantmentsForCrafting(rightItemStack);
+
+            var leftEnchMutable = new ItemEnchantments.Mutable(leftEnchs);
+            boolean changed = false;
+
+            for (var entry : rightEnchs.entrySet())
+            {
+                var key = entry.getKey();
+                var canEnchant = key.value().definition().supportedItems().contains(leftItemStack.getItemHolder());
+
+                if (!canEnchant) continue;
+
+                int rightLevel = entry.getIntValue();
+                int leftLevel = leftEnchMutable.getLevel(key);
+                int finalLevel = Math.max(leftLevel, rightLevel);
+                leftEnchMutable.set(key, finalLevel);
+                if (finalLevel != leftLevel) changed = true;
+            }
+
+            var result = leftItemStack.copy();
+
+            boolean durabilityChanged = leftItemStack.isDamageableItem() && rightItemStack.isDamageableItem()
+                    && (leftItemStack.getDamageValue() != result.getDamageValue() || rightItemStack.getDamageValue() != result.getDamageValue());
+
+            if (!changed && !durabilityChanged)
+            {
+                event.setCanceled(true);
+                return;
+            }
+
+            EnchantmentHelper.setEnchantments(result, leftEnchMutable.toImmutable());
+            event.setOutput(result);
+            event.setMaterialCost(1);
+            return;
+        }
     }
 
     private boolean validateAndRepair(ItemStack itemToRepair, Item repairItem, final AnvilUpdateEvent event)
