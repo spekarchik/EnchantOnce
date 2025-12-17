@@ -1,3 +1,12 @@
+## 📦 Version 2.0.0
+
+### ✨ New
+- **Flint** can now downgrade *enchanted books* by decreasing the level of their enchantments by 1.
+    - Enchantments at their minimum level are removed.
+    - *Curse* enchantments are preserved.
+- A vanilla behavior has been overridden: when combining two items with the same enchantment level, the resulting enchantment level no longer increases.
+
+
 ## 📦 Version 1.1.2
 - Code optimizations related to `damageMainHandGear` command.
 - No impact on gameplay.
