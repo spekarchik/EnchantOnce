@@ -320,13 +320,17 @@ public class WorldEvents implements IEventHandler
                     if (finalLevel != leftLevel) changed = true;
                 }
 
-                if (!changed)
+                var result = event.getVanillaResult().output();
+
+                boolean durabilityChanged = leftItemStack.isDamageableItem() && rightItemStack.isDamageableItem()
+                        && (leftItemStack.getDamageValue() != result.getDamageValue() || rightItemStack.getDamageValue() != result.getDamageValue());
+
+                if (!changed && !durabilityChanged)
                 {
-                    event.setCanceled(true);
+                    event.setCanceled(rightItem == Items.ENCHANTED_BOOK);
                     return;
                 }
 
-                var result = leftItemStack.copy();
                 EnchantmentHelper.setEnchantments(result, leftEnchMutable.toImmutable());
                 event.setOutput(result);
                 event.setMaterialCost(1);
