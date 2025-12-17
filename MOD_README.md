@@ -26,6 +26,7 @@ Repair tools and gear using **base materials**, instead of combining duplicate i
 | Flint & Steel          | Flint                  | Full durability          |
 | Trident                | Prismarine Shard       | ¼ durability             |
 | Brush                  | Feather                | ¼ durability             |
+| Elytra                 | Phantom Membrane       | Full durability          |
 
 ➡ Only works if the item is damaged. The material is consumed.
 
@@ -64,6 +65,38 @@ Create a perfect duplicate of any enchanted item.
 - Both items must be **completely intact** (no damage).
 - Output: a copy with the **same enchantments**.
 - **XP cost:** 25 levels.
+
+---
+
+### ⚖️ Vanilla Enchantment Combination Change
+The vanilla enchantment level increase mechanic has been intentionally disabled.
+
+In vanilla Minecraft, combining two enchanted books or items with the same enchantment level increases the resulting enchantment level. This behavior makes sense in vanilla, because enchanted books and items are effectively **single-use** and cannot be duplicated.
+
+**EnchantOnce** introduces the ability to **duplicate enchanted books and clone enchanted items**. Without adjusting vanilla behavior, this would allow players to reach maximum enchantment levels simply by repeatedly cloning and combining items.
+
+To preserve balance and prevent enchantment scaling:
+- Combining two books with the same enchantment level **no longer increases** the resulting enchantment level.
+- The highest existing level is preserved instead.
+
+This change is intentional and required for compatibility with the mod’s duplication mechanics.
+
+---
+
+### 🔻 Downgrade Enchanted Books (Flint)
+Lower enchantment levels on enchanted books using **Flint**.
+
+- Place an **enchanted book** in the left anvil slot and **Flint** in the right.
+- All **non-curse** enchantments have their level decreased by **1**.
+- Enchantments that reach their **minimum level** are removed.
+- *Curse* enchantments are **never modified**.
+- If no enchantment can be downgraded, the operation is cancelled.
+
+**Cost:**
+- **XP:** 1 level  
+- **Material:** 1 Flint
+
+This provides a controlled way to adjust enchantment strength without relying on random rerolling or grindstone abuse.
 
 ---
 
