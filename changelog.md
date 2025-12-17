@@ -4,7 +4,7 @@
 - **Flint** can now downgrade *enchanted books* by decreasing the level of their enchantments by 1.
     - Enchantments at their minimum level are removed.
     - *Curse* enchantments are preserved.
-- A vanilla behavior has been overridden: when combining two books with the same enchantment level, the resulting enchantment level no longer increases.
+- A vanilla behavior has been overridden: when combining two items with the same enchantment level, the resulting enchantment level no longer increases. This change is intentional to preserve balance and prevent enchantment scaling (see the description for details).
 
 
 ## 📦 Version 1.1.2
