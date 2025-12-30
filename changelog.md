@@ -1,3 +1,9 @@
+## 📦 Version 2.0.1
+
+### 🐞 Fixed
+- Fixed a bug where combining two items with the same enchantment level increased the resulting enchantment level.
+
+
 ## 📦 Version 2.0.0
 
 ### ✨ New
