@@ -320,14 +320,14 @@ public class WorldEvents implements IEventHandler
                     if (finalLevel != leftLevel) changed = true;
                 }
 
-                var result = event.getVanillaResult().output();
+                var result = event.getVanillaResult().output().copy();
 
                 boolean durabilityChanged = leftItemStack.isDamageableItem() && rightItemStack.isDamageableItem()
                         && (leftItemStack.getDamageValue() != result.getDamageValue() || rightItemStack.getDamageValue() != result.getDamageValue());
 
                 if (!changed && !durabilityChanged)
                 {
-                    event.setCanceled(rightItem == Items.ENCHANTED_BOOK);
+                    event.setCanceled(true);
                     return;
                 }
 
