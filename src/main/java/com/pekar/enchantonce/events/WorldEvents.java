@@ -310,6 +310,7 @@ public class WorldEvents implements IEventHandler
                 {
                     var key = entry.getKey();
                     var canEnchant = key.value().definition().supportedItems().contains(leftItemStack.getItemHolder());
+                    canEnchant &= EnchantmentHelper.isEnchantmentCompatible(leftEnchs.keySet(), key);
 
                     if (!canEnchant) continue;
 
