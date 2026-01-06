@@ -233,6 +233,11 @@ public class WorldEvents implements IEventHandler
             for (var entry : rightEnchs.entrySet())
             {
                 var key = entry.getKey();
+
+                var canEnchant = EnchantmentHelper.isEnchantmentCompatible(leftEnchs.keySet(), key);
+
+                if (!canEnchant) continue;
+
                 int rightLevel = entry.getIntValue();
                 int leftLevel = leftEnchMutable.getLevel(key);
                 int finalLevel = Math.max(leftLevel, rightLevel);
