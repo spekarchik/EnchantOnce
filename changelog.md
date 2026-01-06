@@ -1,3 +1,9 @@
+## 📦 Version 2.0.2
+
+### 🐞 Fixed
+- Fixed a bug in *Survival Mode* where incompatible enchantments could be combined on a single item under certain conditions (e.g. *Silk Touch* and *Fortune*).
+
+
 ## 📦 Version 2.0.1
 
 ### 🐞 Fixed
