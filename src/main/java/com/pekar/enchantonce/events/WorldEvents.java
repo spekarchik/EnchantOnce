@@ -234,7 +234,9 @@ public class WorldEvents implements IEventHandler
             {
                 var key = entry.getKey();
 
-                var canEnchant = EnchantmentHelper.isEnchantmentCompatible(leftEnchs.keySet(), key);
+                boolean areEnchantmentsCompatible = EnchantmentHelper.isEnchantmentCompatible(leftEnchs.keySet(), key);
+                boolean areEnchantmentsAlreadyPresent = leftEnchs.keySet().contains(key);
+                boolean canEnchant = areEnchantmentsCompatible || areEnchantmentsAlreadyPresent;
 
                 if (!canEnchant) continue;
 
@@ -314,8 +316,10 @@ public class WorldEvents implements IEventHandler
                 for (var entry : rightEnchs.entrySet())
                 {
                     var key = entry.getKey();
-                    var canEnchant = key.value().definition().supportedItems().contains(leftItemStack.getItemHolder());
-                    canEnchant &= EnchantmentHelper.isEnchantmentCompatible(leftEnchs.keySet(), key);
+                    boolean isEnchantmentSupportedByItem = key.value().definition().supportedItems().contains(leftItemStack.getItemHolder());
+                    boolean areEnchantmentsCompatible = EnchantmentHelper.isEnchantmentCompatible(leftEnchs.keySet(), key);
+                    boolean areEnchantmentsAlreadyPresent = leftEnchs.keySet().contains(key);
+                    boolean canEnchant = isEnchantmentSupportedByItem && (areEnchantmentsCompatible || areEnchantmentsAlreadyPresent);
 
                     if (!canEnchant) continue;
 
