@@ -1,3 +1,12 @@
+## 📦 Version 2.1.0
+
+### 🐞 Fixed
+- Fixed a bug where an existing enchantment with a higher level was ignored and didn't influence the resulting item.
+
+### 📝 Improvements
+- Now multiple **flints** can be consumed at once.
+
+
 ## 📦 Version 2.0.2
 
 ### 🐞 Fixed
