@@ -131,25 +131,37 @@ public class WorldEvents implements IEventHandler
                 var enchantments = EnchantmentHelper.getEnchantmentsForCrafting(leftItemStack);
                 var resultEnchantments = new ItemEnchantments.Mutable(enchantments);
                 boolean changed = false;
+                int flintsAvailable = rightItemStack.getCount();
+                int maxLevel = 0;
+                boolean hasCurses = false;
+
+                for (var entry : enchantments.entrySet())
+                {
+                    var key = entry.getKey();
+                    int level = entry.getIntValue();
+                    maxLevel = Math.max(maxLevel, level);
+                    if (key.is(EnchantmentTags.CURSE)) hasCurses = true;
+                }
+
+                int levelsToRemove = hasCurses ? maxLevel : (maxLevel - 1); // we can remove all enchantments and keep only curses
+                int flintsConsumed = Math.min(levelsToRemove, flintsAvailable);
 
                 // modify the existing enchantment collection in-place: lower each level by 1, remove if becomes 0
                 for (var entry : enchantments.entrySet())
                 {
                     var key = entry.getKey();
-                    int level = entry.getIntValue();
 
                     // Do not touch curses: keep them intact
                     if (key.is(EnchantmentTags.CURSE)) continue;
 
-                    int newLevel = level - 1;
-                    if (newLevel >= 0)
-                    {
-                        resultEnchantments.set(key, newLevel);
-                        changed = true;
-                    }
+                    int level = entry.getIntValue();
+
+                    int newLevel = Math.max(0, level - flintsConsumed);
+                    resultEnchantments.set(key, newLevel);
+                    changed = true;
                 }
 
-                if (!changed || resultEnchantments.keySet().isEmpty())
+                if (!changed || flintsConsumed == 0 || resultEnchantments.keySet().isEmpty())
                 {
                     event.setCanceled(true);
                     return;
@@ -158,8 +170,8 @@ public class WorldEvents implements IEventHandler
                 var result = leftItemStack.copy();
                 EnchantmentHelper.setEnchantments(result, resultEnchantments.toImmutable());
                 event.setOutput(result);
-                event.setMaterialCost(1);
-                event.setXpCost(1);
+                event.setMaterialCost(flintsConsumed);
+                event.setXpCost(flintsConsumed);
                 return;
             }
         }
