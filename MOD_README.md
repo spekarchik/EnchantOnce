@@ -70,6 +70,7 @@ Create a perfect duplicate of any enchanted item.
 
 ### ⚖️ Vanilla Enchantment Combination Change
 *(Available for Minecraft 1.21.5+, since 2.0.0 mod version)*
+
 The vanilla enchantment level increase mechanic has been intentionally disabled.
 
 In vanilla Minecraft, combining two enchanted books or items with the same enchantment level increases the resulting enchantment level. This behavior makes sense in vanilla, because enchanted books and items are effectively **single-use** and cannot be duplicated.
@@ -86,6 +87,7 @@ This change is intentional and required for compatibility with the mod’s dupli
 
 ### 🔻 Downgrade Enchanted Books (Flint)
 *(Available for Minecraft 1.21.5+, since 2.0.0 mod version)*
+
 Lower enchantment levels on enchanted books using **Flint**.
 
 - Place an **enchanted book** in the left anvil slot and **Flint** in the right.
