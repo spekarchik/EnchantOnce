@@ -20,16 +20,15 @@ public class WorldEvents implements IEventHandler
     private static final int SHIELD_REPAIR_PORTIONS = 2;
     private static final int FLINT_AND_STEEL_REPAIR_PORTIONS = 1;
     private static final int SHEARS_REPAIR_PORTIONS = 1;
-    private static final int ELYTRA_REPAIR_AMOUNT = getRepairAmount(Items.ELYTRA.getDefaultInstance().getMaxDamage(), ELYTRA_REPAIR_PORTIONS);
-    private static final int SHIELD_REPAIR_AMOUNT = getRepairAmount(Items.SHIELD.getDefaultInstance().getMaxDamage(), SHIELD_REPAIR_PORTIONS);
-    private static final int BOW_REPAIR_AMOUNT = getRepairAmount(Items.BOW.getDefaultInstance().getMaxDamage(), TOOL_REPAIR_PORTIONS);
-    private static final int FISHING_ROD_REPAIR_AMOUNT = getRepairAmount(Items.FISHING_ROD.getDefaultInstance().getMaxDamage(), TOOL_REPAIR_PORTIONS);
-    private static final int FLINT_AND_STEEL_REPAIR_AMOUNT = getRepairAmount(Items.FLINT_AND_STEEL.getDefaultInstance().getMaxDamage(), FLINT_AND_STEEL_REPAIR_PORTIONS);
-    private static final int CROSSBOW_REPAIR_AMOUNT = getRepairAmount(Items.CROSSBOW.getDefaultInstance().getMaxDamage(), TOOL_REPAIR_PORTIONS);
-    private static final int TRIDENT_REPAIR_AMOUNT = getRepairAmount(Items.TRIDENT.getDefaultInstance().getMaxDamage(), TOOL_REPAIR_PORTIONS);
-    private static final int SHEARS_REPAIR_AMOUNT = getRepairAmount(Items.SHEARS.getDefaultInstance().getMaxDamage(), SHEARS_REPAIR_PORTIONS);
-    private static final int BRUSH_REPAIR_AMOUNT = getRepairAmount(Items.BRUSH.getDefaultInstance().getMaxDamage(), TOOL_REPAIR_PORTIONS);
-    private static final int MACE_REPAIR_AMOUNT = getRepairAmount(Items.MACE.getDefaultInstance().getMaxDamage(), TOOL_REPAIR_PORTIONS);
+    private static final int ELYTRA_REPAIR_AMOUNT = getRepairAmount(431, ELYTRA_REPAIR_PORTIONS);
+    private static final int SHIELD_REPAIR_AMOUNT = getRepairAmount(335, SHIELD_REPAIR_PORTIONS);
+    private static final int BOW_REPAIR_AMOUNT = getRepairAmount(383, TOOL_REPAIR_PORTIONS);
+    private static final int FISHING_ROD_REPAIR_AMOUNT = getRepairAmount(63, TOOL_REPAIR_PORTIONS);
+    private static final int FLINT_AND_STEEL_REPAIR_AMOUNT = getRepairAmount(63, FLINT_AND_STEEL_REPAIR_PORTIONS);
+    private static final int CROSSBOW_REPAIR_AMOUNT = getRepairAmount(464, TOOL_REPAIR_PORTIONS);
+    private static final int TRIDENT_REPAIR_AMOUNT = getRepairAmount(249, TOOL_REPAIR_PORTIONS);
+    private static final int SHEARS_REPAIR_AMOUNT = getRepairAmount(237, SHEARS_REPAIR_PORTIONS);
+    private static final int BRUSH_REPAIR_AMOUNT = getRepairAmount(63, TOOL_REPAIR_PORTIONS);
     private static final int REPAIR_COST = 2;
     private static final int COPY_ENCHANTS_COST = 25;
     private static final int COPY_ENCHANTS_TO_BOOK_COST = 1;
@@ -328,7 +327,7 @@ public class WorldEvents implements IEventHandler
                 for (var entry : rightEnchs.entrySet())
                 {
                     var key = entry.getKey();
-                    boolean isEnchantmentSupportedByItem = key.value().definition().supportedItems().contains(leftItemStack.getItemHolder());
+                    boolean isEnchantmentSupportedByItem = key.value().definition().supportedItems().contains(leftItemStack.typeHolder());
                     boolean areEnchantmentsCompatible = EnchantmentHelper.isEnchantmentCompatible(leftEnchs.keySet(), key);
                     boolean areEnchantmentsAlreadyPresent = leftEnchs.keySet().contains(key);
                     boolean canEnchant = isEnchantmentSupportedByItem && (areEnchantmentsCompatible || areEnchantmentsAlreadyPresent);
