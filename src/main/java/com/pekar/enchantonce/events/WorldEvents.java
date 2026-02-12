@@ -128,50 +128,7 @@ public class WorldEvents implements IEventHandler
             if (leftItem == Items.ENCHANTED_BOOK)
             {
                 // the result is an echanted book with enchantments that have one step lower level than the input book
-                var enchantments = EnchantmentHelper.getEnchantmentsForCrafting(leftItemStack);
-                var resultEnchantments = new ItemEnchantments.Mutable(enchantments);
-                boolean changed = false;
-                int flintsAvailable = rightItemStack.getCount();
-                int maxLevel = 0;
-                boolean hasCurses = false;
-
-                for (var entry : enchantments.entrySet())
-                {
-                    var key = entry.getKey();
-                    int level = entry.getIntValue();
-                    maxLevel = Math.max(maxLevel, level);
-                    if (key.is(EnchantmentTags.CURSE)) hasCurses = true;
-                }
-
-                int levelsToRemove = hasCurses ? maxLevel : (maxLevel - 1); // we can remove all enchantments and keep only curses
-                int flintsConsumed = Math.min(levelsToRemove, flintsAvailable);
-
-                // modify the existing enchantment collection in-place: lower each level by 1, remove if becomes 0
-                for (var entry : enchantments.entrySet())
-                {
-                    var key = entry.getKey();
-
-                    // Do not touch curses: keep them intact
-                    if (key.is(EnchantmentTags.CURSE)) continue;
-
-                    int level = entry.getIntValue();
-
-                    int newLevel = Math.max(0, level - flintsConsumed);
-                    resultEnchantments.set(key, newLevel);
-                    changed = true;
-                }
-
-                if (!changed || flintsConsumed == 0 || resultEnchantments.keySet().isEmpty())
-                {
-                    event.setCanceled(true);
-                    return;
-                }
-
-                var result = leftItemStack.copy();
-                EnchantmentHelper.setEnchantments(result, resultEnchantments.toImmutable());
-                event.setOutput(result);
-                event.setMaterialCost(flintsConsumed);
-                event.setCost(flintsConsumed);
+                decreaseBookEnchantments(event);
                 return;
             }
         }
@@ -192,38 +149,14 @@ public class WorldEvents implements IEventHandler
 
             if (leftItem == Items.ENCHANTED_BOOK)
             {
-                ItemStack output = leftItemStack.copy();
-                output.setCount(booksToCopyAmount + 1);
-                event.setOutput(output);
-                event.setMaterialCost(booksToCopyAmount);
-
-                // see GrindstoneMenu.ctor().getExperienceFromItem()
-                var enchantments = EnchantmentHelper.getEnchantmentsForCrafting(leftItemStack);
-                int cost = 0;
-                for (var ench : enchantments.entrySet())
-                {
-                    var key = ench.getKey().value();
-                    var value = ench.getIntValue();
-                    if (!ench.getKey().is(EnchantmentTags.CURSE))
-                    {
-                        cost += key.getMinCost(value) / 17;
-                    }
-                }
-
-                if (cost < 1) cost = 1;
-                event.setCost(booksToCopyAmount * cost);
+                copyEnchantedBook(event, booksToCopyAmount);
             }
             else if (leftItemStack.isDamageableItem())
             {
                 if (!leftItemStack.isEnchanted() || leftItemStack.isDamaged() || rightItemStack.isEnchanted())
                     return;
 
-                var result = new ItemStack(Items.ENCHANTED_BOOK);
-                var enchantments = EnchantmentHelper.getEnchantmentsForCrafting(leftItemStack);
-                EnchantmentHelper.setEnchantments(result, enchantments);
-                event.setOutput(result);
-                event.setCost(COPY_ENCHANTS_TO_BOOK_COST);
-                event.setMaterialCost(1);
+                moveEnchantmentsToBook(event);
                 return;
             }
 
@@ -232,43 +165,7 @@ public class WorldEvents implements IEventHandler
 
         if (rightItem == Items.ENCHANTED_BOOK && leftItem == Items.ENCHANTED_BOOK)
         {
-            var leftEnchs = EnchantmentHelper.getEnchantmentsForCrafting(leftItemStack);
-            var rightEnchs = EnchantmentHelper.getEnchantmentsForCrafting(rightItemStack);
-
-            var leftEnchMutable = new ItemEnchantments.Mutable(leftEnchs);
-            boolean changed = false;
-
-            // Merge enchantments but do not increase any enchantment level beyond the highest level present in inputs.
-            // Merge into the left enchantment collection in-place. We cast to java.util.Map when
-            // using get/put to avoid trying to construct incompatible java.util collections from
-            // Minecraft/fastutil types.
-            for (var entry : rightEnchs.entrySet())
-            {
-                var key = entry.getKey();
-
-                boolean areEnchantmentsCompatible = EnchantmentHelper.isEnchantmentCompatible(leftEnchs.keySet(), key);
-                boolean areEnchantmentsAlreadyPresent = leftEnchs.keySet().contains(key);
-                boolean canEnchant = areEnchantmentsCompatible || areEnchantmentsAlreadyPresent;
-
-                if (!canEnchant) continue;
-
-                int rightLevel = entry.getIntValue();
-                int leftLevel = leftEnchMutable.getLevel(key);
-                int finalLevel = Math.max(leftLevel, rightLevel);
-                leftEnchMutable.set(key, finalLevel);
-                if (finalLevel != leftLevel) changed = true;
-            }
-
-            if (!changed)
-            {
-                event.setCanceled(true);
-                return;
-            }
-
-            var result = leftItemStack.copy();
-            EnchantmentHelper.setEnchantments(result, leftEnchMutable.toImmutable());
-            event.setOutput(result);
-            event.setMaterialCost(1);
+            combineEnchantedBooks(event);
             return;
         }
 
@@ -279,12 +176,7 @@ public class WorldEvents implements IEventHandler
 
             if (areItemsTheSame)
             {
-                var result = leftItemStack.copy();
-                var enchantments = EnchantmentHelper.getEnchantmentsForCrafting(leftItemStack);
-                EnchantmentHelper.setEnchantments(result, enchantments);
-                result.setCount(2);
-                event.setOutput(result);
-                event.setCost(COPY_ENCHANTS_COST);
+                copyEnchantedGear(event);
                 return;
             }
             // THIS IS CHEATY BECAUSE OF DIFFERENT ENCHANTABILITY OF DIFFERENT MATERIALS
@@ -319,47 +211,194 @@ public class WorldEvents implements IEventHandler
 
             if (areItemsTheSame || rightItem == Items.ENCHANTED_BOOK)
             {
-                var leftEnchs = EnchantmentHelper.getEnchantmentsForCrafting(leftItemStack);
-                var rightEnchs = EnchantmentHelper.getEnchantmentsForCrafting(rightItemStack);
-
-                var leftEnchMutable = new ItemEnchantments.Mutable(leftEnchs);
-                boolean changed = false;
-
-                for (var entry : rightEnchs.entrySet())
-                {
-                    var key = entry.getKey();
-                    boolean isEnchantmentSupportedByItem = key.value().definition().supportedItems().contains(leftItemStack.getItemHolder());
-                    boolean areEnchantmentsCompatible = EnchantmentHelper.isEnchantmentCompatible(leftEnchs.keySet(), key);
-                    boolean areEnchantmentsAlreadyPresent = leftEnchs.keySet().contains(key);
-                    boolean canEnchant = isEnchantmentSupportedByItem && (areEnchantmentsCompatible || areEnchantmentsAlreadyPresent);
-
-                    if (!canEnchant) continue;
-
-                    int rightLevel = entry.getIntValue();
-                    int leftLevel = leftEnchMutable.getLevel(key);
-                    int finalLevel = Math.max(leftLevel, rightLevel);
-                    leftEnchMutable.set(key, finalLevel);
-                    if (finalLevel != leftLevel) changed = true;
-                }
-
-                var result = event.getOutput().copy();
-
-                boolean durabilityChanged = leftItemStack.isDamageableItem() && rightItemStack.isDamageableItem()
-                        && (leftItemStack.getDamageValue() != result.getDamageValue() || rightItemStack.getDamageValue() != result.getDamageValue());
-
-                if (!changed && !durabilityChanged)
-                {
-                    event.setCanceled(true);
-                    return;
-                }
-
-                EnchantmentHelper.setEnchantments(result, leftEnchMutable.toImmutable());
-                event.setOutput(result);
-                event.setMaterialCost(1);
+                combineEnchantedItems(event);
                 return;
             }
 
         }
+    }
+
+    private static void decreaseBookEnchantments(AnvilUpdateEvent event)
+    {
+        var leftItemStack = event.getLeft();
+        var rightItemStack = event.getRight();
+        var enchantments = EnchantmentHelper.getEnchantmentsForCrafting(leftItemStack);
+        var resultEnchantments = new ItemEnchantments.Mutable(enchantments);
+        boolean changed = false;
+        int flintsAvailable = rightItemStack.getCount();
+        int maxLevel = 0;
+        boolean hasCurses = false;
+
+        for (var entry : enchantments.entrySet())
+        {
+            var key = entry.getKey();
+            int level = entry.getIntValue();
+            maxLevel = Math.max(maxLevel, level);
+            if (key.is(EnchantmentTags.CURSE)) hasCurses = true;
+        }
+
+        int levelsToRemove = hasCurses ? maxLevel : (maxLevel - 1); // we can remove all enchantments and keep only curses
+        int flintsConsumed = Math.min(levelsToRemove, flintsAvailable);
+
+        // modify the existing enchantment collection in-place: lower each level by 1, remove if becomes 0
+        for (var entry : enchantments.entrySet())
+        {
+            var key = entry.getKey();
+
+            // Do not touch curses: keep them intact
+            if (key.is(EnchantmentTags.CURSE)) continue;
+
+            int level = entry.getIntValue();
+
+            int newLevel = Math.max(0, level - flintsConsumed);
+            resultEnchantments.set(key, newLevel);
+            changed = true;
+        }
+
+        if (!changed || flintsConsumed == 0 || resultEnchantments.keySet().isEmpty())
+        {
+            event.setCanceled(true);
+            return;
+        }
+
+        var result = leftItemStack.copy();
+        EnchantmentHelper.setEnchantments(result, resultEnchantments.toImmutable());
+        event.setOutput(result);
+        event.setMaterialCost(flintsConsumed);
+        event.setCost(flintsConsumed);
+    }
+
+    private static void moveEnchantmentsToBook(AnvilUpdateEvent event)
+    {
+        var leftItemStack = event.getLeft();
+        var result = new ItemStack(Items.ENCHANTED_BOOK);
+        var enchantments = EnchantmentHelper.getEnchantmentsForCrafting(leftItemStack);
+        EnchantmentHelper.setEnchantments(result, enchantments);
+        event.setOutput(result);
+        event.setCost(COPY_ENCHANTS_TO_BOOK_COST);
+        event.setMaterialCost(1);
+    }
+
+    private static void copyEnchantedBook(AnvilUpdateEvent event, int booksToCopyAmount)
+    {
+        var leftItemStack = event.getLeft();
+        ItemStack output = leftItemStack.copy();
+        output.setCount(booksToCopyAmount + 1);
+        event.setOutput(output);
+        event.setMaterialCost(booksToCopyAmount);
+
+        // see GrindstoneMenu.ctor().getExperienceFromItem()
+        var enchantments = EnchantmentHelper.getEnchantmentsForCrafting(leftItemStack);
+        int cost = 0;
+        for (var ench : enchantments.entrySet())
+        {
+            var key = ench.getKey().value();
+            var value = ench.getIntValue();
+            if (!ench.getKey().is(EnchantmentTags.CURSE))
+            {
+                cost += key.getMinCost(value) / 17;
+            }
+        }
+
+        if (cost < 1) cost = 1;
+        event.setCost(booksToCopyAmount * cost);
+    }
+
+    private static void copyEnchantedGear(AnvilUpdateEvent event)
+    {
+        var leftItemStack = event.getLeft();
+        var result = leftItemStack.copy();
+        var enchantments = EnchantmentHelper.getEnchantmentsForCrafting(leftItemStack);
+        EnchantmentHelper.setEnchantments(result, enchantments);
+        result.setCount(2);
+        event.setOutput(result);
+        event.setCost(COPY_ENCHANTS_COST);
+    }
+
+    private static void combineEnchantedItems(AnvilUpdateEvent event)
+    {
+        var leftItemStack = event.getLeft();
+        var rightItemStack = event.getRight();
+        var leftEnchs = EnchantmentHelper.getEnchantmentsForCrafting(leftItemStack);
+        var rightEnchs = EnchantmentHelper.getEnchantmentsForCrafting(rightItemStack);
+
+        var leftEnchMutable = new ItemEnchantments.Mutable(leftEnchs);
+        boolean changed = false;
+
+        for (var entry : rightEnchs.entrySet())
+        {
+            var key = entry.getKey();
+            boolean isEnchantmentSupportedByItem = key.value().definition().supportedItems().contains(leftItemStack.getItemHolder());
+            boolean areEnchantmentsCompatible = EnchantmentHelper.isEnchantmentCompatible(leftEnchs.keySet(), key);
+            boolean areEnchantmentsAlreadyPresent = leftEnchs.keySet().contains(key);
+            boolean canEnchant = isEnchantmentSupportedByItem && (areEnchantmentsCompatible || areEnchantmentsAlreadyPresent);
+
+            if (!canEnchant) continue;
+
+            int rightLevel = entry.getIntValue();
+            int leftLevel = leftEnchMutable.getLevel(key);
+            int finalLevel = Math.max(leftLevel, rightLevel);
+            leftEnchMutable.set(key, finalLevel);
+            if (finalLevel != leftLevel) changed = true;
+        }
+
+        var result = event.getOutput().copy();
+
+        boolean durabilityChanged = leftItemStack.isDamageableItem() && rightItemStack.isDamageableItem()
+                && (leftItemStack.getDamageValue() != result.getDamageValue() || rightItemStack.getDamageValue() != result.getDamageValue());
+
+        if (!changed && !durabilityChanged)
+        {
+            event.setCanceled(true);
+            return;
+        }
+
+        EnchantmentHelper.setEnchantments(result, leftEnchMutable.toImmutable());
+        event.setOutput(result);
+        event.setMaterialCost(1);
+    }
+
+    private static void combineEnchantedBooks(AnvilUpdateEvent event)
+    {
+        var leftItemStack = event.getLeft();
+        var rightItemStack = event.getRight();
+        var leftEnchs = EnchantmentHelper.getEnchantmentsForCrafting(leftItemStack);
+        var rightEnchs = EnchantmentHelper.getEnchantmentsForCrafting(rightItemStack);
+
+        var leftEnchMutable = new ItemEnchantments.Mutable(leftEnchs);
+        boolean changed = false;
+
+        // Merge enchantments but do not increase any enchantment level beyond the highest level present in inputs.
+        // Merge into the left enchantment collection in-place. We cast to java.util.Map when
+        // using get/put to avoid trying to construct incompatible java.util collections from
+        // Minecraft/fastutil types.
+        for (var entry : rightEnchs.entrySet())
+        {
+            var key = entry.getKey();
+
+            boolean areEnchantmentsCompatible = EnchantmentHelper.isEnchantmentCompatible(leftEnchs.keySet(), key);
+            boolean areEnchantmentsAlreadyPresent = leftEnchs.keySet().contains(key);
+            boolean canEnchant = areEnchantmentsCompatible || areEnchantmentsAlreadyPresent;
+
+            if (!canEnchant) continue;
+
+            int rightLevel = entry.getIntValue();
+            int leftLevel = leftEnchMutable.getLevel(key);
+            int finalLevel = Math.max(leftLevel, rightLevel);
+            leftEnchMutable.set(key, finalLevel);
+            if (finalLevel != leftLevel) changed = true;
+        }
+
+        if (!changed)
+        {
+            event.setCanceled(true);
+            return;
+        }
+
+        var result = leftItemStack.copy();
+        EnchantmentHelper.setEnchantments(result, leftEnchMutable.toImmutable());
+        event.setOutput(result);
+        event.setMaterialCost(1);
     }
 
     private boolean validateAndRepair(ItemStack itemToRepair, Item repairItem, final AnvilUpdateEvent event)
