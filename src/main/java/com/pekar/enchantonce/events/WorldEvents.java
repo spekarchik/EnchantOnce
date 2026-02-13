@@ -1,16 +1,27 @@
 package com.pekar.enchantonce.events;
 
 import com.mojang.logging.LogUtils;
+import com.pekar.enchantonce.enchantments.EnchantmentRegistry;
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.EnchantmentTags;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.item.enchantment.ItemEnchantments;
+import net.minecraft.world.level.Level;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.event.AnvilUpdateEvent;
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
+
+import static com.pekar.enchantonce.Main.MODID;
 
 public class WorldEvents implements IEventHandler
 {
@@ -35,6 +46,8 @@ public class WorldEvents implements IEventHandler
     private static final int COPY_ENCHANTS_TO_BOOK_COST = 1;
     private static final int MAX_BOOK_COPIES = 4;
 
+    private static final TagKey<Enchantment> PERSISTENT = TagKey.create(Registries.ENCHANTMENT, Identifier.fromNamespaceAndPath(MODID, "persistent"));
+
     private static final Logger LOGGER = LogUtils.getLogger();
 
     private static int getRepairAmount(int maxDamage, int portions)
@@ -45,6 +58,8 @@ public class WorldEvents implements IEventHandler
     @SubscribeEvent
     public void onAnvilUpdateEvent(AnvilUpdateEvent event)
     {
+        if (event.getPlayer().level().isClientSide()) return;
+
         ItemStack rightItemStack = event.getRight();
         Item rightItem = rightItemStack.getItem();
         ItemStack leftItemStack = event.getLeft();
@@ -246,7 +261,7 @@ public class WorldEvents implements IEventHandler
             var key = entry.getKey();
 
             // Do not touch curses: keep them intact
-            if (key.is(EnchantmentTags.CURSE)) continue;
+            if (key.is(PERSISTENT)) continue;
 
             int level = entry.getIntValue();
 
@@ -273,7 +288,8 @@ public class WorldEvents implements IEventHandler
         var leftItemStack = event.getLeft();
         var result = new ItemStack(Items.ENCHANTED_BOOK);
         var enchantments = EnchantmentHelper.getEnchantmentsForCrafting(leftItemStack);
-        EnchantmentHelper.setEnchantments(result, enchantments);
+        var resultEnchantments = addSealedMarkerIfContainsWindBurst(enchantments, event.getPlayer().level());
+        EnchantmentHelper.setEnchantments(result, resultEnchantments);
         event.setOutput(result);
         event.setXpCost(COPY_ENCHANTS_TO_BOOK_COST);
         event.setMaterialCost(1);
@@ -282,19 +298,22 @@ public class WorldEvents implements IEventHandler
     private static void copyEnchantedBook(AnvilUpdateEvent event, int booksToCopyAmount)
     {
         var leftItemStack = event.getLeft();
+        var enchantments = EnchantmentHelper.getEnchantmentsForCrafting(leftItemStack);
+
+        var resultEnchantments = addSealedMarkerIfContainsWindBurst(enchantments, event.getPlayer().level());
         ItemStack output = leftItemStack.copy();
+        EnchantmentHelper.setEnchantments(output, resultEnchantments);
         output.setCount(booksToCopyAmount + 1);
         event.setOutput(output);
         event.setMaterialCost(booksToCopyAmount);
 
         // see GrindstoneMenu.ctor().getExperienceFromItem()
-        var enchantments = EnchantmentHelper.getEnchantmentsForCrafting(leftItemStack);
         int cost = 0;
         for (var ench : enchantments.entrySet())
         {
             var key = ench.getKey().value();
             var value = ench.getIntValue();
-            if (!ench.getKey().is(EnchantmentTags.CURSE))
+            if (!ench.getKey().is(PERSISTENT))
             {
                 cost += key.getMinCost(value) / 17;
             }
@@ -382,9 +401,22 @@ public class WorldEvents implements IEventHandler
 
             if (!canEnchant) continue;
 
+            boolean isWindBurst = key.is(Enchantments.WIND_BURST);
             int rightLevel = entry.getIntValue();
             int leftLevel = leftEnchMutable.getLevel(key);
-            int finalLevel = Math.max(leftLevel, rightLevel);
+            int finalLevel;
+
+            if (isWindBurst && rightLevel == leftLevel
+                    && rightEnchs.keySet().stream().noneMatch(x -> x.is(EnchantmentRegistry.SEALED_MARKER))
+                    && leftEnchs.keySet().stream().noneMatch(x -> x.is(EnchantmentRegistry.SEALED_MARKER)))
+            {
+                finalLevel = Math.min(rightLevel + 1, key.value().getMaxLevel());
+            }
+            else
+            {
+                finalLevel = Math.max(leftLevel, rightLevel);
+            }
+
             leftEnchMutable.set(key, finalLevel);
             if (finalLevel != leftLevel) changed = true;
         }
@@ -399,6 +431,26 @@ public class WorldEvents implements IEventHandler
         EnchantmentHelper.setEnchantments(result, leftEnchMutable.toImmutable());
         event.setOutput(result);
         event.setMaterialCost(1);
+    }
+
+    private static ItemEnchantments addSealedMarkerIfContainsWindBurst(ItemEnchantments enchantments, Level level)
+    {
+        boolean needToAddSealedMarker = enchantments.keySet().stream().anyMatch(x -> x.is(Enchantments.WIND_BURST));
+        var mutable = new ItemEnchantments.Mutable(enchantments);
+        if (needToAddSealedMarker)
+        {
+            var enchantmentRegistry = getEnchantmentRegistry(level);
+            var sealedEnchantment = enchantmentRegistry.getOrThrow(EnchantmentRegistry.SEALED_MARKER);
+            mutable.set(sealedEnchantment, 1);
+        }
+
+        return mutable.toImmutable();
+    }
+
+    private static @NotNull Registry<Enchantment> getEnchantmentRegistry(Level level)
+    {
+        var registryAccess = level.registryAccess();
+        return registryAccess.lookupOrThrow(Registries.ENCHANTMENT);
     }
 
     private boolean validateAndRepair(ItemStack itemToRepair, Item repairItem, final AnvilUpdateEvent event)
@@ -459,3 +511,4 @@ public class WorldEvents implements IEventHandler
         return Math.min(needed, materialNumberAvailable);
     }
 }
+
