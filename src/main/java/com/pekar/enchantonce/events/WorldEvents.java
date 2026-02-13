@@ -269,6 +269,13 @@ public class WorldEvents implements IEventHandler
             changed = true;
         }
 
+        if (resultEnchantments.keySet().stream().noneMatch(x -> x.is(Enchantments.WIND_BURST))
+            && resultEnchantments.keySet().stream().anyMatch(x -> x.is(EnchantmentRegistry.SEALED_MARKER)))
+        {
+            var enchantmentRegistry = getEnchantmentRegistry(event.getPlayer().level());
+            resultEnchantments.set(enchantmentRegistry.getOrThrow(EnchantmentRegistry.SEALED_MARKER), 0);
+        }
+
         if (!changed || flintsConsumed == 0 || resultEnchantments.keySet().isEmpty())
         {
             event.setCanceled(true);
