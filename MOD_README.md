@@ -100,6 +100,72 @@ This provides a controlled way to adjust enchantment strength without relying on
 
 ---
 
+### 🌪️ Wind Burst — Controlled Vanilla Scaling
+
+*(Available for Minecraft 1.21.5+, since 2.2.0 mod version)*
+
+In vanilla Minecraft, **Wind Burst** is a special-case enchantment:
+
+- It **only generates at level I** in Trial Chambers.
+- Its intended progression relies on **combining multiple level I books** to increase its level.
+- Without vanilla scaling, Wind Burst would become permanently locked at level I.
+
+Since EnchantOnce disables vanilla enchantment level scaling by default, Wind Burst requires a **carefully controlled exception** to preserve its intended gameplay — without opening duplication exploits.
+
+#### 🔒 Wind Burst Lock Mechanic
+
+EnchantOnce introduces an internal, book-only marker enchantment:  
+**`Wind Burst 🔒`**
+
+This marker is **not obtainable by players** and exists solely to control Wind Burst scaling behavior.
+
+#### ⚖️ Scaling Rules
+
+**Allowed:**
+- Wind Burst can increase in level **only** when:
+  - Both books originate from vanilla gameplay (Trial Chambers or combinations of such books)
+  - **Neither book has the 🔒 lock**
+
+**Blocked:**
+- If **any book involved** has the 🔒 lock, Wind Burst **will not scale**
+- The highest existing level is preserved instead
+
+#### 📚 Lock Propagation
+
+The 🔒 lock is automatically applied in the following cases:
+
+- **Enchanted Book Duplication**
+  - When duplicating a vanilla Wind Burst book:
+    - The original and all copies receive the 🔒 lock
+    - Resulting books can no longer be used for scaling
+
+- **Enchantment Extraction**
+  - If Wind Burst is extracted from an item onto a book:
+    - The resulting book receives the 🔒 lock
+    - Prevents item → book → combine scaling loops
+
+- **Downgrading with Flint**
+  - The 🔒 lock behaves like a Curse:
+    - It is never removed
+    - Even if Wind Burst levels are downgraded or removed
+
+#### 🛠️ Item Behavior
+
+- When applying Wind Burst to an item (e.g. Mace):
+  - The 🔒 lock is **not transferred**
+  - The lock exists **only on enchanted books**
+
+Items can still be duplicated, repaired, and extracted normally without enabling unintended scaling paths.
+
+#### ✅ Result
+
+- Vanilla Wind Burst progression is preserved
+- Duplication and cloning remain fully supported
+- Infinite enchantment scaling is prevented
+- Wind Burst is the **only enchantment** allowed to scale, under strict conditions
+
+---
+
 ## ✅ Compatibility
 
 - Compatible with **vanilla items** and most **modded gear** that follows NeoForge standards.
