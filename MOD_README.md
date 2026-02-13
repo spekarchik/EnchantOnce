@@ -150,8 +150,8 @@ The 🔒 lock is automatically applied in the following cases:
 
 - **Downgrading with Flint**
   - The 🔒 lock behaves like a Curse:
-    - It is never removed
-    - Even if Wind Burst levels are downgraded or removed
+    - It is preserved while Wind Burst remains on the book
+    - It is removed automatically if Wind Burst is completely removed
 
 #### 🛠️ Item Behavior
 
