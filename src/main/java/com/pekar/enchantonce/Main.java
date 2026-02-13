@@ -1,6 +1,7 @@
 package com.pekar.enchantonce;
 
 import com.mojang.logging.LogUtils;
+import com.pekar.enchantonce.enchantments.EnchantmentRegistry;
 import com.pekar.enchantonce.events.EventRegistry;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -30,6 +31,7 @@ public class Main
 
     private void initializeRegistry()
     {
+        EnchantmentRegistry.initStatic();
     }
 
     private void commonSetup(final FMLCommonSetupEvent event)
