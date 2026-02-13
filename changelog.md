@@ -1,3 +1,9 @@
+## 📦 Version 2.2.1
+
+### 📝 Improvements
+- Book downgrading now removes the **Wind Burst 🔒 lock marker** if no *Wind Burst* enchantment remains on the book.
+
+
 ## 📦 Version 2.2.0
 
 ### 📝 Improvements
