@@ -4,7 +4,7 @@ import com.mojang.logging.LogUtils;
 import com.pekar.enchantonce.enchantments.EnchantmentRegistry;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.EnchantmentTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
@@ -46,7 +46,7 @@ public class WorldEvents implements IEventHandler
     private static final int COPY_ENCHANTS_TO_BOOK_COST = 1;
     private static final int MAX_BOOK_COPIES = 4;
 
-    private static final TagKey<Enchantment> PERSISTENT = TagKey.create(Registries.ENCHANTMENT, Identifier.fromNamespaceAndPath(MODID, "persistent"));
+    private static final TagKey<Enchantment> PERSISTENT = TagKey.create(Registries.ENCHANTMENT, ResourceLocation.fromNamespaceAndPath(MODID, "persistent"));
 
     private static final Logger LOGGER = LogUtils.getLogger();
 
