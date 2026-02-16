@@ -320,7 +320,7 @@ public class WorldEvents implements IEventHandler
                     if (finalLevel != leftLevel) changed = true;
                 }
 
-                var result = event.getVanillaResult().output();
+                var result = event.getOutput();
 
                 boolean durabilityChanged = leftItemStack.isDamageableItem() && rightItemStack.isDamageableItem()
                         && (leftItemStack.getDamageValue() != result.getDamageValue() || rightItemStack.getDamageValue() != result.getDamageValue());
