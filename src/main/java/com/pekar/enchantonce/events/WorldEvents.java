@@ -436,7 +436,9 @@ public class WorldEvents implements IEventHandler
 
         var result = leftItemStack.copy();
         EnchantmentHelper.setEnchantments(result, leftEnchMutable.toImmutable());
+        int xpCost = getCombiningBooksXpCost(leftEnchs, rightEnchs);
         event.setOutput(result);
+        event.setCost(xpCost);
         event.setMaterialCost(1);
     }
 
@@ -459,6 +461,57 @@ public class WorldEvents implements IEventHandler
         var registryAccess = level.registryAccess();
         return registryAccess.lookupOrThrow(Registries.ENCHANTMENT);
     }
+
+    private static int getCombiningBooksXpCost(ItemEnchantments left, ItemEnchantments right)
+    {
+        int cost = 0;
+
+        for (var entry : right.entrySet())
+        {
+            var enchantmentHolder = entry.getKey();
+            var enchantment = enchantmentHolder.value();
+
+            int leftLevel = left.getLevel(enchantmentHolder);
+            int rightLevel = entry.getIntValue();
+
+            int resultLevel;
+            if (leftLevel == rightLevel)
+            {
+                resultLevel = rightLevel + 1;
+            }
+            else
+            {
+                resultLevel = Math.max(leftLevel, rightLevel);
+            }
+
+            resultLevel = Math.min(resultLevel, enchantment.getMaxLevel());
+
+            // conflict check
+            boolean compatible = true;
+            for (var existing : left.keySet())
+            {
+                if (!existing.equals(enchantmentHolder)
+                        && !Enchantment.areCompatible(existing, enchantmentHolder))
+                {
+                    compatible = false;
+                    cost += 1; // vanilla penalty for conflict
+                }
+            }
+
+            if (!compatible)
+            {
+                continue;
+            }
+
+            int perLevelCost = enchantment.getAnvilCost();
+            perLevelCost = Math.max(1, perLevelCost / 2); // book discount
+
+            cost += perLevelCost * resultLevel;
+        }
+
+        return cost;
+    }
+
 
     private boolean validateAndRepair(ItemStack itemToRepair, Item repairItem, final AnvilUpdateEvent event)
     {
