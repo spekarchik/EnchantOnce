@@ -1,15 +1,20 @@
-## 📦 Version 2.2.2
+## 📦 Version 2.3.0
 
 ### ✨ New
 - **Flint** can now downgrade *enchanted books* by decreasing the level of their enchantments by 1.
     - Enchantments at their minimum level are removed.
     - *Curse* enchantments are preserved.
 - A vanilla behavior has been overridden: when combining two items with the same enchantment level, the resulting enchantment level no longer increases. This change is intentional to preserve balance and prevent enchantment scaling (see the description for details).
+- The XP cost calculation algorithm for combining items and books has been adjusted.
+  - It now accounts for cases where vanilla increases an enchantment level but the mod intentionally does not.
+  - In all other cases, the XP cost matches vanilla or differs only negligibly.
+  - **Wind Burst 🔒** marker enchantment doesn't increas the XP cost.
 
 #### Wind Burst enchantment
 - Added a **controlled scaling exception** for the Wind Burst enchantment.
 - Introduced an internal **Wind Burst 🔒 lock marker** to distinguish vanilla-origin books from duplicated ones.
 - Wind Burst enchantment level can now increase **only when combining unmodified vanilla books**.
+- The *Wind Burst* enchantment level is also increased when combining a **Mace** with an **Enchanted Book**.
 - Prevented Wind Burst level scaling on **duplicated, extracted, or modified enchanted books**.
 - Ensured Wind Burst progression remains possible without reintroducing infinite scaling exploits.
 - Duplicating an enchanted book with Wind Burst now applies the 🔒 lock to the original and all copies.
