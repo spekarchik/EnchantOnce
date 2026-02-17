@@ -440,8 +440,7 @@ public class WorldEvents implements IEventHandler
             int finalLevel;
 
             if (isWindBurst && rightLevel == leftLevel
-                    && rightEnchs.keySet().stream().noneMatch(x -> x.is(EnchantmentRegistry.SEALED_MARKER))
-                    && leftEnchs.keySet().stream().noneMatch(x -> x.is(EnchantmentRegistry.SEALED_MARKER)))
+                    && rightEnchs.keySet().stream().noneMatch(x -> x.is(EnchantmentRegistry.SEALED_MARKER)))
             {
                 finalLevel = Math.min(rightLevel + 1, key.value().getMaxLevel());
             }
