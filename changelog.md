@@ -1,57 +1,29 @@
-## 📦 Version 2.2.1
-
-### 📝 Improvements
-- Book downgrading now removes the **Wind Burst 🔒 lock marker** if no *Wind Burst* enchantment remains on the book.
-
-
-## 📦 Version 2.2.0
-
-### 📝 Improvements
-- Added a **controlled scaling exception** for the Wind Burst enchantment.
-- Introduced an internal **Wind Burst 🔒 lock marker** to distinguish vanilla-origin books from duplicated ones.
-- Wind Burst enchantment level can now increase **only when combining unmodified vanilla books**.
-- Prevented Wind Burst level scaling on **duplicated, extracted, or modified enchanted books**.
-- Ensured Wind Burst progression remains possible without reintroducing infinite scaling exploits.
-
-### 🔒 Enchantment Safety & Exploit Prevention
-- Duplicating an enchanted book with Wind Burst now applies the 🔒 lock to the original and all copies.
-- Extracting Wind Burst from an item onto a book applies the 🔒 lock to the resulting book.
-- The 🔒 lock is preserved during enchantment downgrading with Flint.
-- The 🔒 lock exists **only on books** and is never transferred to items.
-
-### ⚙️ Technical Changes
-- Vanilla enchantment combination logic selectively restored **only for Wind Burst** under strict conditions.
-- Enchantment scaling rules updated to support Wind Burst’s unique vanilla generation mechanics.
-
-
-## 📦 Version 2.1.0
-
-### 🐞 Fixed
-- Fixed a bug where an existing enchantment with a higher level was ignored and didn't influence the resulting item.
-
-### 📝 Improvements
-- Now multiple **flints** can be consumed at once.
-
-
-## 📦 Version 2.0.2
-
-### 🐞 Fixed
-- Fixed a bug in *Survival Mode* where incompatible enchantments could be combined on a single item under certain conditions (e.g. *Silk Touch* and *Fortune*).
-
-
-## 📦 Version 2.0.1
-
-### 🐞 Fixed
-- Fixed a bug where combining two items with the same enchantment level increased the resulting enchantment level.
-
-
-## 📦 Version 2.0.0
+## 📦 Version 2.2.2
 
 ### ✨ New
 - **Flint** can now downgrade *enchanted books* by decreasing the level of their enchantments by 1.
     - Enchantments at their minimum level are removed.
     - *Curse* enchantments are preserved.
 - A vanilla behavior has been overridden: when combining two items with the same enchantment level, the resulting enchantment level no longer increases. This change is intentional to preserve balance and prevent enchantment scaling (see the description for details).
+
+#### Wind Burst enchantment
+- Added a **controlled scaling exception** for the Wind Burst enchantment.
+- Introduced an internal **Wind Burst 🔒 lock marker** to distinguish vanilla-origin books from duplicated ones.
+- Wind Burst enchantment level can now increase **only when combining unmodified vanilla books**.
+- Prevented Wind Burst level scaling on **duplicated, extracted, or modified enchanted books**.
+- Ensured Wind Burst progression remains possible without reintroducing infinite scaling exploits.
+- Duplicating an enchanted book with Wind Burst now applies the 🔒 lock to the original and all copies.
+- Extracting Wind Burst from an item onto a book applies the 🔒 lock to the resulting book.
+- The 🔒 lock is preserved during enchantment downgrading with Flint.
+- The 🔒 lock exists **only on books** and is never transferred to items.
+- Book downgrading removes the **Wind Burst 🔒 lock marker** if no *Wind Burst* enchantment remains on the book.
+
+### ⚙️ Technical Changes
+- Vanilla enchantment combination logic selectively restored **only for Wind Burst** under strict conditions.
+- Enchantment scaling rules updated to support Wind Burst’s unique vanilla generation mechanics.
+
+### 📝 Improvements
+- Now multiple **flints** can be consumed at once.
 
 
 ## 📦 Version 1.1.2
