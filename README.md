@@ -69,6 +69,8 @@ Create a perfect duplicate of any enchanted item.
 ---
 
 ### ⚖️ Vanilla Enchantment Combination Change
+*(Available since 2.0.0 mod version)*
+
 The vanilla enchantment level increase mechanic has been intentionally disabled.
 
 In vanilla Minecraft, combining two enchanted books or items with the same enchantment level increases the resulting enchantment level. This behavior makes sense in vanilla, because enchanted books and items are effectively **single-use** and cannot be duplicated.
@@ -84,6 +86,8 @@ This change is intentional and required for compatibility with the mod’s dupli
 ---
 
 ### 🔻 Downgrade Enchanted Books (Flint)
+*(Available since 2.0.0 mod version)*
+
 Lower enchantment levels on enchanted books using **Flint**.
 
 - Place an **enchanted book** in the left anvil slot and **Flint** in the right.
@@ -102,7 +106,7 @@ This provides a controlled way to adjust enchantment strength without relying on
 
 ### 🌪️ Wind Burst — Controlled Vanilla Scaling
 
-*(Available for Minecraft 1.21.5+, since 2.2.0 mod version)*
+*(Available since 2.2.0 mod version)*
 
 In vanilla Minecraft, **Wind Burst** is a special-case enchantment:
 
@@ -121,14 +125,16 @@ This marker is **not obtainable by players** and exists solely to control Wind B
 
 #### ⚖️ Scaling Rules
 
+Wind Burst enchantment level scaling follows a single consistent rule:
+
 **Allowed:**
-- Wind Burst can increase in level **only** when:
-  - Both books originate from vanilla gameplay (Trial Chambers or combinations of such books)
-  - **Neither book has the 🔒 lock**
+- Wind Burst **can increase in level** if the item in the **right slot** is an **Enchanted Book without the 🔒 lock**
 
 **Blocked:**
-- If **any book involved** has the 🔒 lock, Wind Burst **will not scale**
-- The highest existing level is preserved instead
+- In all other cases, Wind Burst **will not scale**, including:
+  - The right slot item is **not a book**
+  - The right slot book **has the 🔒 lock**
+- When scaling is blocked, the **highest existing level is preserved**
 
 #### 📚 Lock Propagation
 
@@ -166,7 +172,7 @@ Items can still be duplicated, repaired, and extracted normally without enabling
 
 ---
 
-## ✅ Compatibility
+## ✅ Mod Compatibility
 
 - Compatible with **vanilla items** and most **modded gear** that follows NeoForge standards.
 - Fully supports custom items from my **The Block of Angel** mod.
