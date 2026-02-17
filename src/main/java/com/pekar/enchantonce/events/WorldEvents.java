@@ -353,7 +353,7 @@ public class WorldEvents implements IEventHandler
         for (var entry : rightEnchs.entrySet())
         {
             var key = entry.getKey();
-            boolean isEnchantmentSupportedByItem = key.value().definition().supportedItems().contains(leftItemStack.typeHolder());
+            boolean isEnchantmentSupportedByItem = leftItemStack.supportsEnchantment(key);
             boolean areEnchantmentsCompatible = EnchantmentHelper.isEnchantmentCompatible(leftEnchs.keySet(), key);
             boolean areEnchantmentsAlreadyPresent = leftEnchs.keySet().contains(key);
             boolean canEnchant = isEnchantmentSupportedByItem && (areEnchantmentsCompatible || areEnchantmentsAlreadyPresent);
