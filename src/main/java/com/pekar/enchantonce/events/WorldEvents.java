@@ -375,9 +375,8 @@ public class WorldEvents implements IEventHandler
             int leftLevel = leftEnchMutable.getLevel(key);
             int finalLevel;
 
-            if (isWindBurst && rightLevel == leftLevel
-                    && rightEnchs.keySet().stream().noneMatch(x -> x.is(EnchantmentRegistry.SEALED_MARKER))
-                    && leftEnchs.keySet().stream().noneMatch(x -> x.is(EnchantmentRegistry.SEALED_MARKER)))
+            if (isWindBurst && rightLevel == leftLevel && rightItemStack.is(Items.ENCHANTED_BOOK)
+                    && rightEnchs.keySet().stream().noneMatch(x -> x.is(EnchantmentRegistry.SEALED_MARKER)))
             {
                 finalLevel = Math.min(rightLevel + 1, key.value().getMaxLevel());
             }
