@@ -356,7 +356,7 @@ public class WorldEvents implements IEventHandler
         var rightItemStack = event.getRight();
 
         int xpCost = getXpCost(leftItemStack, rightItemStack, AnvilMergeMode.ITEM_BOOK, leftItemStack::supportsEnchantment);
-        event.setXpCost(xpCost);
+        event.setCost(xpCost);
     }
 
     private static void combineEnchantedItems(AnvilUpdateEvent event)
