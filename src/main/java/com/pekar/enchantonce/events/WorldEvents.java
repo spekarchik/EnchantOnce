@@ -43,7 +43,6 @@ public class WorldEvents implements IEventHandler
     private static final int TRIDENT_REPAIR_AMOUNT = getRepairAmount(Items.TRIDENT.getDefaultInstance().getMaxDamage(), TOOL_REPAIR_PORTIONS);
     private static final int SHEARS_REPAIR_AMOUNT = getRepairAmount(Items.SHEARS.getDefaultInstance().getMaxDamage(), SHEARS_REPAIR_PORTIONS);
     private static final int BRUSH_REPAIR_AMOUNT = getRepairAmount(Items.BRUSH.getDefaultInstance().getMaxDamage(), TOOL_REPAIR_PORTIONS);
-    private static final int MACE_REPAIR_AMOUNT = getRepairAmount(Items.MACE.getDefaultInstance().getMaxDamage(), TOOL_REPAIR_PORTIONS);
     private static final int REPAIR_COST = 2;
     private static final int COPY_ENCHANTS_COST = 25;
     private static final int COPY_ENCHANTS_TO_BOOK_COST = 1;
@@ -126,14 +125,6 @@ public class WorldEvents implements IEventHandler
                 return;
             }
         }
-
-//        if (rightItem == Items.BREEZE_ROD)
-//        {
-//            if (leftItem == Items.MACE)
-//            {
-//                validateAndRepairCustom(leftItemStack, MACE_REPAIR_AMOUNT, event);
-//            }
-//        }
 
         else if (rightItem == Items.FLINT)
         {
@@ -608,8 +599,8 @@ public class WorldEvents implements IEventHandler
         }
 
         int leftMax = left.getMaxDamage();
-        int leftRemaining = leftMax - left.getDamageValue();    // оставшаяся прочность левого
-        int rightRemaining = right.getMaxDamage() - right.getDamageValue(); // оставшаяся прочность правого
+        int leftRemaining = leftMax - left.getDamageValue();
+        int rightRemaining = right.getMaxDamage() - right.getDamageValue();
 
         int combinedRemaining = leftRemaining + rightRemaining + leftMax * 12 / 100;
 
