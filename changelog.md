@@ -5,9 +5,7 @@
   - It now accounts for cases where vanilla increases an enchantment level but the mod intentionally does not.
   - In all other cases, the XP cost matches vanilla or differs only negligibly.
   - **Wind Burst 🔒** enchantment no longer increases the XP cost.
-- The *Wind Burst* enchantment level is now increased when combining:
-  - two **Maces**
-  - a **Mace** with an **Enchanted Book**
+- The *Wind Burst* enchantment level is now also increased when combining a **Mace** with an **Enchanted Book**.
 
 
 ## 📦 Version 2.2.1
