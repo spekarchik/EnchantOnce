@@ -14,8 +14,11 @@
 - Added a **controlled scaling exception** for the Wind Burst enchantment.
 - Introduced an internal **Wind Burst 🔒 lock marker** to distinguish vanilla-origin books from duplicated ones.
 - Wind Burst enchantment level can now increase **only when combining unmodified vanilla books**.
-- The *Wind Burst* enchantment level is also increased when combining a **Mace** with an **Enchanted Book**.
-- Prevented Wind Burst level scaling on **duplicated, extracted, or modified enchanted books**.
+- The *Wind Burst* enchantment level is now increased:
+  - When combining a **Mace** with an **Enchanted Book**.
+  - When combining two books and the right book does not contain the **Wind Burst 🔒** marker, regardless of whether the left one does.  
+    In this case, the marker is moved to the result item.
+- Prevented Wind Burst level scaling on **duplicated or extracted enchanted books**.
 - Ensured Wind Burst progression remains possible without reintroducing infinite scaling exploits.
 - Duplicating an enchanted book with Wind Burst now applies the 🔒 lock to the original and all copies.
 - Extracting Wind Burst from an item onto a book applies the 🔒 lock to the resulting book.
