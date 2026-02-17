@@ -126,14 +126,6 @@ public class WorldEvents implements IEventHandler
             }
         }
 
-//        if (rightItem == Items.BREEZE_ROD)
-//        {
-//            if (leftItem == Items.MACE)
-//            {
-//                validateAndRepairCustom(leftItemStack, MACE_REPAIR_AMOUNT, event);
-//            }
-//        }
-
         else if (rightItem == Items.FLINT)
         {
             if (leftItem == Items.FLINT_AND_STEEL)
@@ -607,8 +599,8 @@ public class WorldEvents implements IEventHandler
         }
 
         int leftMax = left.getMaxDamage();
-        int leftRemaining = leftMax - left.getDamageValue();    // оставшаяся прочность левого
-        int rightRemaining = right.getMaxDamage() - right.getDamageValue(); // оставшаяся прочность правого
+        int leftRemaining = leftMax - left.getDamageValue();
+        int rightRemaining = right.getMaxDamage() - right.getDamageValue();
 
         int combinedRemaining = leftRemaining + rightRemaining + leftMax * 12 / 100;
 
