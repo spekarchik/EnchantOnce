@@ -145,6 +145,11 @@ The 🔒 lock is automatically applied in the following cases:
     - The original and all copies receive the 🔒 lock
     - Resulting books can no longer be used for scaling
 
+- **Book Combination**
+  - When combining two Enchanted Books containing Wind Burst:
+    - If **either book** has the 🔒 lock, the **resulting book also receives it**
+    - This applies **even if the enchantment level increases**
+
 - **Enchantment Extraction**
   - If Wind Burst is extracted from an item onto a book:
     - The resulting book receives the 🔒 lock
