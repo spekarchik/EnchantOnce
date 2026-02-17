@@ -274,7 +274,7 @@ public class WorldEvents implements IEventHandler
             && resultEnchantments.keySet().stream().anyMatch(x -> x.is(EnchantmentRegistry.SEALED_MARKER)))
         {
             var enchantmentRegistry = getEnchantmentRegistry(event.getPlayer().level());
-            resultEnchantments.set(enchantmentRegistry.getOrThrow(EnchantmentRegistry.SEALED_MARKER), 0);
+            resultEnchantments.set(enchantmentRegistry.getHolderOrThrow(EnchantmentRegistry.SEALED_MARKER), 0);
         }
 
         if (!changed || flintsConsumed == 0 || resultEnchantments.keySet().isEmpty())
@@ -474,7 +474,7 @@ public class WorldEvents implements IEventHandler
         if (needToAddSealedMarker)
         {
             var enchantmentRegistry = getEnchantmentRegistry(level);
-            var sealedEnchantment = enchantmentRegistry.getOrThrow(EnchantmentRegistry.SEALED_MARKER);
+            var sealedEnchantment = enchantmentRegistry.getHolderOrThrow(EnchantmentRegistry.SEALED_MARKER);
             mutable.set(sealedEnchantment, 1);
         }
 
@@ -484,7 +484,7 @@ public class WorldEvents implements IEventHandler
     private static @NotNull Registry<Enchantment> getEnchantmentRegistry(Level level)
     {
         var registryAccess = level.registryAccess();
-        return registryAccess.lookupOrThrow(Registries.ENCHANTMENT);
+        return registryAccess.registryOrThrow(Registries.ENCHANTMENT);
     }
 
     private static int getXpCost(
