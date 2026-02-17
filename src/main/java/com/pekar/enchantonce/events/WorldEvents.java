@@ -232,7 +232,13 @@ public class WorldEvents implements IEventHandler
                 combineEnchantedItems(event);
                 return;
             }
+        }
 
+        if (leftItemStack.isEnchantable() && !leftItemStack.is(Items.ENCHANTED_BOOK)
+                && rightItemStack.is(Items.ENCHANTED_BOOK) && !leftItemStack.isEnchanted())
+        {
+            enchantGearWithBook(event);
+            return;
         }
     }
 
@@ -344,6 +350,15 @@ public class WorldEvents implements IEventHandler
         event.setXpCost(COPY_ENCHANTS_COST);
     }
 
+    private static void enchantGearWithBook(AnvilUpdateEvent event)
+    {
+        var leftItemStack = event.getLeft();
+        var rightItemStack = event.getRight();
+
+        int xpCost = getXpCost(leftItemStack, rightItemStack, AnvilMergeMode.ITEM_BOOK, leftItemStack::supportsEnchantment);
+        event.setXpCost(xpCost);
+    }
+
     private static void combineEnchantedItems(AnvilUpdateEvent event)
     {
         var leftItemStack = event.getLeft();
@@ -384,7 +399,7 @@ public class WorldEvents implements IEventHandler
             if (finalLevel != leftLevel) changed = true;
         }
 
-        var result = event.getVanillaResult().output().copy();
+        var result = leftItemStack.copy();
         int resultDamageValue = getResultDamageValue(leftItemStack, rightItemStack);
 
         boolean durabilityChanged = leftItemStack.isDamageableItem() && rightItemStack.isDamageableItem()
@@ -501,11 +516,18 @@ public class WorldEvents implements IEventHandler
             var enchHolder = entry.getKey();
             var ench = enchHolder.value();
 
+            if (enchHolder.is(EnchantmentRegistry.SEALED_MARKER)) continue;
+
             int leftLevel = leftEnchs.getLevel(enchHolder);
             int rightLevel = entry.getIntValue();
 
+            boolean isNotSealedWindBurst = enchHolder.is(Enchantments.WIND_BURST)
+                    && rightLevel == leftLevel
+                    && rightEnchs.keySet().stream().noneMatch(x -> x.is(EnchantmentRegistry.SEALED_MARKER))
+                    && leftEnchs.keySet().stream().noneMatch(x -> x.is(EnchantmentRegistry.SEALED_MARKER));
+
             int resultLevel =
-                    leftLevel == rightLevel
+                    isNotSealedWindBurst
                             ? rightLevel + 1
                             : Math.max(leftLevel, rightLevel);
 
