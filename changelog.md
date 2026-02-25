@@ -1,9 +1,4 @@
 ## 📦 Version 1.1.2
-- Code optimizations related to `damageMainHandGear` command.
-- No impact on gameplay.
-
-
-## 📦 Version 1.1.0
 
 ### 📝 Improvements
 - Allow consuming the required number of repair materials in a single operation.
