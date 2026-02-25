@@ -2,13 +2,11 @@ package com.pekar.enchantonce.events;
 
 import com.mojang.logging.LogUtils;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraftforge.event.AnvilUpdateEvent;
-import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.slf4j.Logger;
 
@@ -35,19 +33,6 @@ public class WorldEvents implements IEventHandler
     private static final int MAX_BOOK_COPIES = 4;
 
     private static final Logger LOGGER = LogUtils.getLogger();
-
-    // TODO: For tests - keep it commented!
-//    @SubscribeEvent
-    public void onLivingJump(LivingEvent.LivingJumpEvent event)
-    {
-        var mainHandItem = event.getEntity().getMainHandItem();
-        if (mainHandItem.isDamageableItem())
-        {
-            mainHandItem.setDamageValue(mainHandItem.getMaxDamage() - 4);
-            if (event.getEntity() instanceof Player player)
-                player.giveExperienceLevels(50);
-        }
-    }
 
     @SubscribeEvent
     public void onAnvilUpdateEvent(AnvilUpdateEvent event)
