@@ -29,7 +29,6 @@ public class WorldEvents implements IEventHandler
     private static final int TRIDENT_REPAIR_AMOUNT = Items.TRIDENT.getDefaultInstance().getMaxDamage() / TOOL_REPAIR_PORTIONS;
     private static final int SHEARS_REPAIR_AMOUNT = Items.SHEARS.getDefaultInstance().getMaxDamage() / SHEARS_REPAIR_PORTIONS;
     private static final int BRUSH_REPAIR_AMOUNT = Items.BRUSH.getDefaultInstance().getMaxDamage() / TOOL_REPAIR_PORTIONS;
-    private static final int MACE_REPAIR_AMOUNT = Items.MACE.getDefaultInstance().getMaxDamage() / TOOL_REPAIR_PORTIONS;
     private static final int REPAIR_COST = 2;
     private static final int COPY_ENCHANTS_COST = 25;
     private static final int COPY_ENCHANTS_TO_BOOK_COST = 1;
@@ -156,13 +155,13 @@ public class WorldEvents implements IEventHandler
                 event.setMaterialCost(booksToCopyAmount);
 
                 // see GrindstoneMenu.ctor().getExperienceFromItem()
-                var enchantments = EnchantmentHelper.getEnchantmentsForCrafting(leftItemStack);
+                var enchantments = EnchantmentHelper.getEnchantments(leftItemStack);
                 int cost = 0;
                 for (var ench : enchantments.entrySet())
                 {
-                    var key = ench.getKey().value();
-                    var value = ench.getIntValue();
-                    if (!ench.getKey().value().isCurse())
+                    var key = ench.getKey();
+                    var value = ench.getValue();
+                    if (!ench.getKey().isCurse())
                     {
                         cost += key.getMinCost(value) / 17;
                     }
@@ -177,8 +176,8 @@ public class WorldEvents implements IEventHandler
                     return;
 
                 var result = new ItemStack(Items.ENCHANTED_BOOK);
-                var enchantments = EnchantmentHelper.getEnchantmentsForCrafting(leftItemStack);
-                EnchantmentHelper.setEnchantments(result, enchantments);
+                var enchantments = EnchantmentHelper.getEnchantments(leftItemStack);
+                EnchantmentHelper.setEnchantments(enchantments, result);
                 event.setOutput(result);
                 event.setCost(COPY_ENCHANTS_TO_BOOK_COST);
                 event.setMaterialCost(1);
@@ -196,8 +195,8 @@ public class WorldEvents implements IEventHandler
             if (areItemsTheSame)
             {
                 var result = rightItemStack.copy();
-                var enchantments = EnchantmentHelper.getEnchantmentsForCrafting(leftItemStack);
-                EnchantmentHelper.setEnchantments(result, enchantments);
+                var enchantments = EnchantmentHelper.getEnchantments(leftItemStack);
+                EnchantmentHelper.setEnchantments(enchantments, result);
                 result.setCount(2);
                 event.setOutput(result);
                 event.setCost(COPY_ENCHANTS_COST);
