@@ -4,6 +4,7 @@ import com.mojang.logging.LogUtils;
 import com.pekar.enchantonce.enchantments.EnchantmentRegistry;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.tags.EnchantmentTags;
@@ -500,6 +501,11 @@ public class WorldEvents implements IEventHandler
         var leftEnchs = EnchantmentHelper.getEnchantmentsForCrafting(left);
         var rightEnchs = EnchantmentHelper.getEnchantmentsForCrafting(right);
 
+        // 1. prior work cost
+        long priorWork = (long) left.getOrDefault(DataComponents.REPAIR_COST, 0)
+                + (long) right.getOrDefault(DataComponents.REPAIR_COST, 0);
+        cost += priorWork;
+
         for (var entry : rightEnchs.entrySet())
         {
             var enchHolder = entry.getKey();
@@ -515,10 +521,9 @@ public class WorldEvents implements IEventHandler
                     && rightEnchs.keySet().stream().noneMatch(x -> x.is(EnchantmentRegistry.SEALED_MARKER))
                     && leftEnchs.keySet().stream().noneMatch(x -> x.is(EnchantmentRegistry.SEALED_MARKER));
 
-            int resultLevel =
-                    isNotSealedWindBurst
-                            ? rightLevel + 1
-                            : Math.max(leftLevel, rightLevel);
+            int resultLevel = isNotSealedWindBurst
+                    ? rightLevel + 1
+                    : Math.max(leftLevel, rightLevel);
 
             resultLevel = Math.min(resultLevel, ench.getMaxLevel());
 
@@ -543,10 +548,7 @@ public class WorldEvents implements IEventHandler
                 cost += 1;
             }
 
-            if (!compatible)
-            {
-                continue;
-            }
+            if (!compatible) continue;
 
             anyApplied = true;
 
@@ -580,6 +582,16 @@ public class WorldEvents implements IEventHandler
         {
             cost += 2;
         }
+
+        // renaming cost
+        boolean renamed = left.has(DataComponents.CUSTOM_NAME) || right.has(DataComponents.CUSTOM_NAME);
+        if (renamed)
+        {
+            cost += 1;
+        }
+
+        // clamp like vanilla
+        if (cost > 40) cost = 40;
 
         return cost;
     }

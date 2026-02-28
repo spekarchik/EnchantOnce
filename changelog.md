@@ -1,3 +1,9 @@
+## 📦 Version 2.3.1
+
+### 🐞 Fixed
+- XP cost for combining enchantments now correctly accounts for existing enchantments and prior work, matching Vanilla behavior.
+
+
 ## 📦 Version 2.3.0
 
 ### 📝 Improvements
