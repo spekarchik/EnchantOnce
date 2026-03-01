@@ -1,3 +1,10 @@
+## 📦 Version 2.3.2
+
+### 🐞 Fixed
+- History weight (the accumulated "prior work" of a gear or book, affecting XP cost for anvil operations) is now copied to the result when copying books or gear.
+- The only case when the history is cleared is moving enchantments to a book.
+
+
 ## 📦 Version 2.3.1
 
 ### 🐞 Fixed
