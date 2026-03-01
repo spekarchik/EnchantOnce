@@ -10,6 +10,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.EnchantmentTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
+import net.minecraft.world.inventory.AnvilMenu;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -286,6 +287,7 @@ public class WorldEvents implements IEventHandler
 
         var result = leftItemStack.copy();
         EnchantmentHelper.setEnchantments(result, resultEnchantments.toImmutable());
+        setHistoryWeightToResult(leftItemStack, rightItemStack, result, false);
         event.setOutput(result);
         event.setMaterialCost(flintsConsumed);
         event.setCost(flintsConsumed);
@@ -298,6 +300,7 @@ public class WorldEvents implements IEventHandler
         var enchantments = EnchantmentHelper.getEnchantmentsForCrafting(leftItemStack);
         var resultEnchantments = addSealedMarkerIfContainsWindBurst(enchantments, event.getPlayer().level());
         EnchantmentHelper.setEnchantments(result, resultEnchantments);
+        // not to copy history weight to the book
         event.setOutput(result);
         event.setCost(COPY_ENCHANTS_TO_BOOK_COST);
         event.setMaterialCost(1);
@@ -311,6 +314,7 @@ public class WorldEvents implements IEventHandler
         var resultEnchantments = addSealedMarkerIfContainsWindBurst(enchantments, event.getPlayer().level());
         ItemStack output = leftItemStack.copy();
         EnchantmentHelper.setEnchantments(output, resultEnchantments);
+        setHistoryWeightToResult(leftItemStack, ItemStack.EMPTY, output, false);
         output.setCount(booksToCopyAmount + 1);
         event.setOutput(output);
         event.setMaterialCost(booksToCopyAmount);
@@ -337,6 +341,7 @@ public class WorldEvents implements IEventHandler
         var result = leftItemStack.copy();
         var enchantments = EnchantmentHelper.getEnchantmentsForCrafting(leftItemStack);
         EnchantmentHelper.setEnchantments(result, enchantments);
+        setHistoryWeightToResult(leftItemStack, ItemStack.EMPTY, result, false);
         result.setCount(2);
         event.setOutput(result);
         event.setCost(COPY_ENCHANTS_COST);
@@ -404,6 +409,7 @@ public class WorldEvents implements IEventHandler
 
         result.setDamageValue(resultDamageValue);
         EnchantmentHelper.setEnchantments(result, leftEnchMutable.toImmutable());
+        setHistoryWeightToResult(leftItemStack, rightItemStack, result, true);
         var anvilMergeMode = rightItemStack.is(Items.ENCHANTED_BOOK)? AnvilMergeMode.ITEM_BOOK : AnvilMergeMode.ITEM_ITEM;
         int xpCost = getXpCost(leftItemStack, rightItemStack, anvilMergeMode, leftItemStack::supportsEnchantment);
         event.setOutput(result);
@@ -461,7 +467,9 @@ public class WorldEvents implements IEventHandler
         }
 
         var result = leftItemStack.copy();
+
         EnchantmentHelper.setEnchantments(result, leftEnchMutable.toImmutable());
+        setHistoryWeightToResult(leftItemStack, rightItemStack, result, true);
         int xpCost = getXpCost(leftItemStack, rightItemStack, AnvilMergeMode.BOOK_BOOK, e -> true);
         event.setOutput(result);
         event.setCost(xpCost);
@@ -486,6 +494,17 @@ public class WorldEvents implements IEventHandler
     {
         var registryAccess = level.registryAccess();
         return registryAccess.lookupOrThrow(Registries.ENCHANTMENT);
+    }
+
+    private static void setHistoryWeightToResult(ItemStack leftItemStack, ItemStack rightItemStack, ItemStack result, boolean increaseWeight)
+    {
+        int leftRepair = leftItemStack.getOrDefault(DataComponents.REPAIR_COST, 0);
+        int rightRepair = rightItemStack.getOrDefault(DataComponents.REPAIR_COST, 0);
+        int newRepairCost = Math.max(leftRepair, rightRepair);
+        if (increaseWeight)
+            newRepairCost = AnvilMenu.calculateIncreasedRepairCost(newRepairCost);
+
+        result.set(DataComponents.REPAIR_COST, newRepairCost);
     }
 
     private static int getXpCost(
