@@ -1,6 +1,8 @@
 # 🔧 EnchantOnce — Enchanting & Repair Overhaul
 
-A minimalistic mod that reworks enchanting and repairing: fixed XP costs, enchant extraction, book copying, and full gear duplication — all using vanilla mechanics.
+A lightweight mod that improves enchanting and anvil mechanics: controlled XP costs, enchant extraction, book copying, and full gear duplication.
+
+Find a rare enchanted book or item once, and use its enchantments on as many items as you like.
 
 ## 🎯 Who is this mod for?
 
@@ -11,7 +13,7 @@ A minimalistic mod that reworks enchanting and repairing: fixed XP costs, enchan
 ## 📌 Features
 
 ### 🛠️ Flat Repair Cost
-- Repairing any damaged item always costs **2 experience levels** — no matter how many times it's been repaired.
+- Repairing a damaged item with its base material always costs **2 experience levels** — no matter how many times it's been repaired.
 - The "Too Expensive" limitation is removed entirely.
 
 ### 🔄 Repair with Materials
