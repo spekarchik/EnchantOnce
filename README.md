@@ -256,8 +256,8 @@ Artificially sets the damage value of the item held in the player’s **main han
 
 ## Technical Details
 - **Developer:** Sergey Pekarchik
-- **Supported NeoForge versions:** 1.20.5 - 1.21.11
-- **Supported Forge versions:** 1.20.6 - 1.21.5 (no plans to support later versions)
+- **Supported Minecraft versions with NeoForge:** 1.20.5 - 1.21.11
+- **Supported Minecraft versions with Forge:** 1.20.6 - 1.21.5 (no plans to support later versions)
 
 ---
 
