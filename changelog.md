@@ -8,8 +8,8 @@
   - `repairArmor [half | <durabilityValue>]` – set durability of worn armor
   - `hp [<hpValue>]` – set player health
   - `food [<foodLevel>]` – set hunger level (resets saturation)
-  - `enchantMax [all | clear]` – apply max compatible enchantments to main-hand item
-  - `enchantArmorMax [all | clear]` – apply max compatible enchantments to worn armor
+  - `enchantMax [all | basic | clear]` – apply max compatible enchantments to main-hand item
+  - `enchantArmorMax [all | basic | clear]` – apply max compatible enchantments to worn armor
 
 
 ## 📦 Version 2.3.2
