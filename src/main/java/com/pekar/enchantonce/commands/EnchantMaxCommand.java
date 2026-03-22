@@ -64,10 +64,10 @@ public class EnchantMaxCommand
             }
 
             Registry<Enchantment> registry =
-                    player.level().registryAccess().lookupOrThrow(Registries.ENCHANTMENT);
+                    player.level().registryAccess().registryOrThrow(Registries.ENCHANTMENT);
 
             var mutableEnchantments = new ItemEnchantments.Mutable(ItemEnchantments.EMPTY);
-            for (var enchantment : registry.listElements().toList())
+            for (var enchantment : registry.asLookup().listElements().toList())
             {
                 int level = enchantment.value().getMaxLevel();
                 if (enchantment.is(EnchantmentTags.CURSE) || mode == Mode.CLEAR) level = 0;

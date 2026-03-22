@@ -58,7 +58,7 @@ public class EnchantArmorMaxCommand
             var armorStacks = Utils.instance.player.getArmorInSlots(player);
 
             Registry<Enchantment> registry =
-                    player.level().registryAccess().lookupOrThrow(Registries.ENCHANTMENT);
+                    player.level().registryAccess().registryOrThrow(Registries.ENCHANTMENT);
 
             String[] slotNames = {"head", "chest", "legs", "feet"};
             StringBuilder sb = new StringBuilder();
@@ -80,7 +80,7 @@ public class EnchantArmorMaxCommand
                 }
 
                 var mutableEnchantments = new ItemEnchantments.Mutable(ItemEnchantments.EMPTY);
-                for (var enchantment : registry.listElements().toList())
+                for (var enchantment : registry.asLookup().listElements().toList())
                 {
                     int level = enchantment.value().getMaxLevel();
                     if (enchantment.is(EnchantmentTags.CURSE) || mode == Mode.CLEAR) level = 0;
