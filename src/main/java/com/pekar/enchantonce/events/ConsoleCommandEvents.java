@@ -1,14 +1,7 @@
 package com.pekar.enchantonce.events;
 
-import com.mojang.brigadier.arguments.IntegerArgumentType;
-import com.mojang.brigadier.context.CommandContext;
 import com.mojang.logging.LogUtils;
-import net.minecraft.commands.CommandSourceStack;
-import net.minecraft.commands.Commands;
-import net.minecraft.network.chat.Component;
-import net.minecraft.server.permissions.Permissions;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
+import com.pekar.enchantonce.commands.*;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
 import org.slf4j.Logger;
@@ -26,58 +19,21 @@ public class ConsoleCommandEvents implements IEventHandler
             var commands = server.getCommands();
             var dispatcher = commands.getDispatcher();
 
-            dispatcher.register(Commands.literal("damageMainHandGear")
-                    .requires(src -> src.permissions().hasPermission(Permissions.COMMANDS_ADMIN))
-                    // no-arg: default behaviour (maxDamage - 1)
-                    .executes(ctx -> handleDamageGearCommand(ctx, -1))
-                    // optional int argument 'damage' (>=0)
-                    .then(Commands.argument("damage", IntegerArgumentType.integer(0))
-                            .executes(ctx -> handleDamageGearCommand(ctx, IntegerArgumentType.getInteger(ctx, "damage")))
-                    )
-            );
+            // Delegate registration to per-command classes
+            DamageMainHandCommand.register(dispatcher);
+            RepairMainHandCommand.register(dispatcher);
+            DamageArmorCommand.register(dispatcher);
+            RepairArmorCommand.register(dispatcher);
+            FoodCommand.register(dispatcher);
+            HpCommand.register(dispatcher);
+            EnchantMaxCommand.register(dispatcher);
+            EnchantArmorMaxCommand.register(dispatcher);
 
-            LOGGER.info("Registered console command 'damageMainHandGear'");
+            LOGGER.info("Registered console commands: damageMainHand, repairMainHand, damageArmor, repairArmor, hp, food, enchantMax, enchantArmorMax");
         }
         catch (Throwable t)
         {
-            LOGGER.warn("Could not register 'damageMainHandGear' command: {}", t.toString());
-        }
-    }
-
-    private static int handleDamageGearCommand(CommandContext<CommandSourceStack> ctx, int requestedDamage)
-    {
-        try
-        {
-            Player player = ctx.getSource().getPlayerOrException();
-            ItemStack mainHand = player.getMainHandItem();
-            if (mainHand.isDamageableItem())
-            {
-                int max = mainHand.getMaxDamage();
-                int maxAllowed = Math.max(0, max - 1);
-                int finalDamage;
-                if (requestedDamage < 0)
-                {
-                    finalDamage = maxAllowed;
-                }
-                else
-                {
-                    // clamp to [0, maxAllowed]
-                    finalDamage = Math.min(Math.max(0, requestedDamage), maxAllowed);
-                }
-                mainHand.setDamageValue(finalDamage);
-                ctx.getSource().sendSuccess(() -> Component.literal("damageMainHandGear: set main-hand item damage to " + finalDamage), false);
-                return 1;
-            }
-            else
-            {
-                ctx.getSource().sendSuccess(() -> Component.literal("damageMainHandGear: you must hold a damageable item in main hand"), false);
-                return 0;
-            }
-        }
-        catch (Exception ex)
-        {
-            ctx.getSource().sendSuccess(() -> Component.literal("damageMainHandGear: this command must be run by a player"), false);
-            return 0;
+            LOGGER.warn("Could not register console commands: {}", t.toString());
         }
     }
 }
