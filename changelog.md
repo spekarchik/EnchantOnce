@@ -1,3 +1,17 @@
+## 📦 Version 2.4.0
+
+### ✨ New
+- Replaced the 'damageMainHandGear` console command with the following new commands:
+  - `damageMainHand [half | <damageValue>]` – set damage of main-hand item
+  - `damageArmor [half | <damageValue>]` – set damage of worn armor
+  - `repairMainHand [half | <durabilityValue>]` – set durability of main-hand item
+  - `repairArmor [half | <durabilityValue>]` – set durability of worn armor
+  - `hp [<hpValue>]` – set player health
+  - `food [<foodLevel>]` – set hunger level (resets saturation)
+  - `enchantMax [all | clear]` – apply max compatible enchantments to main-hand item
+  - `enchantArmorMax [all | clear]` – apply max compatible enchantments to worn armor
+
+
 ## 📦 Version 2.3.2
 
 ### 🐞 Fixed
