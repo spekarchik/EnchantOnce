@@ -1,5 +1,6 @@
 package com.pekar.enchantonce.events.handlers;
 
+import com.pekar.enchantonce.Config;
 import com.pekar.enchantonce.enchantments.EnchantmentRegistry;
 import com.pekar.enchantonce.events.handlers.base.AnvilUpdateEventHandler;
 import net.minecraft.world.item.Items;
@@ -15,6 +16,8 @@ public class CombineEnchantedBooksHandler extends AnvilUpdateEventHandler
     @Override
     protected boolean handleInternally()
     {
+        if (Config.PREVENT_INCREASE_ENCHANTMENT_LEVEL.isFalse()) return false;
+
         if (leftItemStack.is(Items.ENCHANTED_BOOK) && rightItemStack.is(Items.ENCHANTED_BOOK))
         {
             combineEnchantedBooks();
