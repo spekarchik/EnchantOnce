@@ -1,5 +1,6 @@
 package com.pekar.enchantonce.events.handlers;
 
+import com.pekar.enchantonce.Config;
 import com.pekar.enchantonce.events.handlers.base.AnvilUpdateEventHandler;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -10,15 +11,15 @@ import static com.pekar.enchantonce.events.handlers.AnvilHelper.setHistoryWeight
 
 public class CopyEnchantedBookHandler extends AnvilUpdateEventHandler
 {
-    private static final int MAX_BOOK_COPIES = 4;
-
     @Override
     protected boolean handleInternally()
     {
+        if (Config.ALLOW_BOOK_COPYING.isFalse()) return false;
+
         if (leftItemStack.is(Items.ENCHANTED_BOOK) && rightItemStack.is(Items.BOOK))
         {
             int rightItemStackCount = rightItemStack.getCount();
-            int booksToCopyAmount = Math.min(rightItemStackCount, MAX_BOOK_COPIES);
+            int booksToCopyAmount = Math.min(rightItemStackCount, Config.MAX_BOOK_COPIES.getAsInt());
 
             copyEnchantedBook(booksToCopyAmount);
             return true;
