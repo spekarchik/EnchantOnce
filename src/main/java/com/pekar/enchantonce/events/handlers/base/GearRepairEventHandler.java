@@ -1,22 +1,11 @@
 package com.pekar.enchantonce.events.handlers.base;
 
+import com.pekar.enchantonce.Config;
 import net.minecraft.world.item.ItemStack;
 
 public abstract class GearRepairEventHandler extends AnvilUpdateEventHandler
 {
-    private static final int EQUIPMENT_REPAIR_PORTIONS = 4;
-    private static final int REPAIR_COST = 2;
     protected static final int TOOL_REPAIR_PORTIONS = 4;
-
-    protected boolean validateAndRepair()
-    {
-        if (!isValidRepairItem(leftItemStack, rightItemStack) || leftItemStack.getDamageValue() == 0)
-            return false;
-
-        int repairAmount = getRepairAmount(leftItemStack.getMaxDamage(), EQUIPMENT_REPAIR_PORTIONS);
-        setAndRepair(repairAmount);
-        return true;
-    }
 
     protected void validateAndRepairCustom(int repairAmountPerRepairItem)
     {
@@ -24,7 +13,7 @@ public abstract class GearRepairEventHandler extends AnvilUpdateEventHandler
         setAndRepair(repairAmountPerRepairItem);
     }
 
-    private void setAndRepair(int repairAmountPerRepairItem)
+    protected void setAndRepair(int repairAmountPerRepairItem)
     {
         int materialAmountAvailable = rightItemStack.getCount();
         int materialNumberConsumed = calculateMaterialNumberConsumed(leftItemStack, repairAmountPerRepairItem, materialAmountAvailable);
@@ -34,7 +23,7 @@ public abstract class GearRepairEventHandler extends AnvilUpdateEventHandler
         var result = leftItemStack.copy();
         repair(result, repairAmountPerRepairItem * materialNumberConsumed);
         event.setOutput(result);
-        event.setXpCost(REPAIR_COST * materialNumberConsumed);
+        event.setXpCost(Config.FIXED_REPAIR_COST.getAsInt() * materialNumberConsumed);
         event.setMaterialCost(materialNumberConsumed);
     }
 
@@ -47,12 +36,6 @@ public abstract class GearRepairEventHandler extends AnvilUpdateEventHandler
     {
         int newDamage = itemToRepair.getDamageValue() - damageDecrement;
         itemToRepair.setDamageValue(Math.max(newDamage, 0));
-    }
-
-    private static boolean isValidRepairItem(ItemStack itemToRepair, ItemStack repairItem)
-    {
-        // found in ItemStack (1.21.4)
-        return itemToRepair.isValidRepairItem(repairItem);
     }
 
     private static int calculateMaterialNumberConsumed(ItemStack itemToRepair, int repairAmountPerRepairingItem, int materialNumberAvailable)
