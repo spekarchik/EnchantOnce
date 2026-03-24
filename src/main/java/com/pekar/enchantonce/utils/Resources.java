@@ -1,9 +1,6 @@
 package com.pekar.enchantonce.utils;
 
 import net.minecraft.resources.Identifier;
-import net.minecraft.resources.ResourceKey;
-import net.minecraft.world.item.equipment.EquipmentAsset;
-import net.minecraft.world.item.equipment.EquipmentAssets;
 
 public class Resources
 {
@@ -16,12 +13,4 @@ public class Resources
     {
         return Identifier.fromNamespaceAndPath(namespace, name); //was: new ResourceLocation(name),
     }
-
-    public ResourceKey<EquipmentAsset> createEquipmentResourceKey(String namespace, String armorName)
-    {
-        return ResourceKey.create(
-                EquipmentAssets.ROOT_ID,
-                createResourceLocation(namespace, armorName));
-    }
-
 }
