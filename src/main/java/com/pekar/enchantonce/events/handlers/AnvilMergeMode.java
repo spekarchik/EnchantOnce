@@ -1,4 +1,4 @@
-package com.pekar.enchantonce.events;
+package com.pekar.enchantonce.events.handlers;
 
 enum AnvilMergeMode
 {
