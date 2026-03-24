@@ -7,7 +7,6 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
-import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
 import org.slf4j.Logger;
@@ -23,8 +22,6 @@ public class Main
     {
         initializeRegistry();
 
-//        modEventBus.addListener(this::commonSetup);
-
         NeoForge.EVENT_BUS.register(this);
         EventRegistry.registerEvents();
     }
@@ -34,16 +31,8 @@ public class Main
         EnchantmentRegistry.initStatic();
     }
 
-    private void commonSetup(final FMLCommonSetupEvent event)
-    {
-
-    }
-
-    // You can use SubscribeEvent and let the Event Bus discover methods to call
     @SubscribeEvent
     public void onServerStarting(ServerStartingEvent event)
     {
-        // Do something when the server starts
-        //LOGGER.info("HELLO from server starting");
     }
 }
