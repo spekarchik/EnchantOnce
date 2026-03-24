@@ -33,11 +33,15 @@ public class AnvilEvents implements IEventHandler
     private static final Logger LOGGER = LogUtils.getLogger();
 
     @SubscribeEvent
-//    public void onAnvilUpdateEvent1(AnvilUpdateEvent event){}
     public void onAnvilUpdateEvent(AnvilUpdateEvent event)
     {
         boolean handled = ANVIL_UPDATE_EVENT_HANDLER_CHAIN.tryHandle(event);
-        LOGGER.debug("");
+
+        if (!event.getPlayer().level().isClientSide())
+        {
+            LOGGER.debug("Handled AnvilUpdateEvent: {}, left: {}, right: {}, result: {}",
+                    handled, event.getLeft(), event.getRight(), event.getOutput());
+        }
     }
 }
 
