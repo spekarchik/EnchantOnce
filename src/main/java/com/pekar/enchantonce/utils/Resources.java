@@ -13,4 +13,9 @@ public class Resources
     {
         return Identifier.fromNamespaceAndPath(namespace, name); //was: new ResourceLocation(name),
     }
+
+    public static Identifier parseResourceLocation(String location)
+    {
+        return Identifier.parse(location);
+    }
 }
