@@ -1,5 +1,6 @@
 package com.pekar.enchantonce.events.handlers.repair;
 
+import com.pekar.enchantonce.Config;
 import com.pekar.enchantonce.events.handlers.base.GearRepairEventHandler;
 import net.minecraft.world.item.Items;
 
@@ -11,6 +12,8 @@ public class ElytraRepairHandler extends GearRepairEventHandler
     @Override
     protected boolean handleInternally()
     {
+        if (Config.ALLOW_NONSTANDARD_REPAIRS.isFalse()) return false;
+
         if (rightItemStack.is(Items.PHANTOM_MEMBRANE) && leftItemStack.is(Items.ELYTRA))
         {
             validateAndRepairCustom(ELYTRA_REPAIR_AMOUNT);

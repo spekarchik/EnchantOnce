@@ -1,6 +1,19 @@
 ## 📦 Version 2.4.0
 
 ### ✨ New
+- Added configurable system to enable or disable individual mod features:
+  - `allowBookCopying` – allow creating copies of enchanted books
+  - `allowGearCopying` – allow copying enchantments directly between gear items
+  - `allowMoveEnchantmentsToBook` – allow moving enchantments from gear to books
+  - `allowDecreaseEnchantmentLevel` – allow decreasing enchantment level on books using flint
+  - `allowFixedRepairCost` – enable fixed XP cost for repairing items with materials
+  - `fixedRepairCost` – set XP cost (in levels) for material repairs when fixed repair cost is enabled
+  - `preventIncreaseEnchantmentLevel` – prevent combining items from increasing enchantment levels beyond original values
+  - `allowNonstandardRepairs` – allow repairing normally non-repairable items with materials (Trident, Shears etc.)
+  - `moveEnchantmentsToBookCost` – XP cost (in levels) for moving enchantments from gear to books
+  - `gearCopyingCost` – XP cost (in levels) for copying enchantments between gear
+  - `maxBookCopies` – maximum number of copies allowed per enchanted book copy operation
+
 - Replaced the 'damageMainHandGear` console command with the following new commands:
   - `damageMainHand [half | <damageValue>]` – set damage of main-hand item
   - `damageArmor [half | <damageValue>]` – set damage of worn armor
@@ -10,6 +23,9 @@
   - `food [<foodLevel>]` – set hunger level (resets saturation)
   - `enchantMax [all | basic | clear]` – apply max compatible enchantments to main-hand item
   - `enchantArmorMax [all | basic | clear]` – apply max compatible enchantments to worn armor
+
+### 🐞 Fixed
+- Fixed client-server synchronization issue where XP cost sometimes displayed incorrectly
 
 
 ## 📦 Version 2.3.2

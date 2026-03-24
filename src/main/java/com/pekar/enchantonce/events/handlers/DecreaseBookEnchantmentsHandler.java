@@ -1,5 +1,6 @@
 package com.pekar.enchantonce.events.handlers;
 
+import com.pekar.enchantonce.Config;
 import com.pekar.enchantonce.enchantments.EnchantmentRegistry;
 import com.pekar.enchantonce.events.handlers.base.AnvilUpdateEventHandler;
 import net.minecraft.tags.EnchantmentTags;
@@ -13,6 +14,8 @@ public class DecreaseBookEnchantmentsHandler extends AnvilUpdateEventHandler
     @Override
     protected boolean handleInternally()
     {
+        if (Config.ALLOW_DECREASE_ENCHANTMENT_LEVEL.isFalse()) return false;
+
         if (leftItemStack.is(Items.ENCHANTED_BOOK) && rightItemStack.is(Items.FLINT))
         {
             decreaseBookEnchantments();
@@ -75,6 +78,6 @@ public class DecreaseBookEnchantmentsHandler extends AnvilUpdateEventHandler
         AnvilHelper.setHistoryWeightToResult(leftItemStack, rightItemStack, result, false);
         event.setOutput(result);
         event.setMaterialCost(flintsConsumed);
-        event.setXpCost(flintsConsumed);
+        event.setXpCost(flintsConsumed * Config.DECREASE_ENCHANTMENT_LEVEL_COST.getAsInt());
     }
 }

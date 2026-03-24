@@ -1,5 +1,6 @@
 package com.pekar.enchantonce.events.handlers;
 
+import com.pekar.enchantonce.Config;
 import com.pekar.enchantonce.events.handlers.base.AnvilUpdateEventHandler;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -9,11 +10,11 @@ import static com.pekar.enchantonce.events.handlers.AnvilHelper.addLockMarkerIfC
 
 public class MoveEnchantmentsToBookHandler extends AnvilUpdateEventHandler
 {
-    private static final int COPY_ENCHANTS_TO_BOOK_COST = 1;
-
     @Override
     protected boolean handleInternally()
     {
+        if (Config.ALLOW_MOVE_ENCHANTMENTS_TO_BOOK.isFalse()) return false;
+
         if (leftItemStack.isDamageableItem() && rightItemStack.is(Items.BOOK))
         {
             if (!leftItemStack.isEnchanted() || leftItemStack.isDamaged() || rightItemStack.isEnchanted())
@@ -34,7 +35,7 @@ public class MoveEnchantmentsToBookHandler extends AnvilUpdateEventHandler
         EnchantmentHelper.setEnchantments(result, resultEnchantments);
         // not to copy history weight to the book
         event.setOutput(result);
-        event.setXpCost(COPY_ENCHANTS_TO_BOOK_COST);
+        event.setXpCost(Config.MOVE_ENCHANTMENTS_TO_BOOK_COST.getAsInt());
         event.setMaterialCost(1);
     }
 }

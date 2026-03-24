@@ -33,6 +33,11 @@ public class AnvilUpdateEventWrapper
         event.setCost(xpCost);
     }
 
+    public int getMaterialCost()
+    {
+        return event.getMaterialCost();
+    }
+
     public void setMaterialCost(int materialCost)
     {
         event.setMaterialCost(materialCost);
