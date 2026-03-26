@@ -28,8 +28,10 @@ public class ConsoleCommandEvents implements IEventHandler
             HpCommand.register(dispatcher);
             EnchantMaxCommand.register(dispatcher);
             EnchantArmorMaxCommand.register(dispatcher);
+            Xp500Command.register(dispatcher);
+            DayLockCommand.register(dispatcher);
 
-            LOGGER.info("Registered console commands: damageMainHand, repairMainHand, damageArmor, repairArmor, hp, food, enchantMax, enchantArmorMax");
+            LOGGER.info("Registered console commands: damageMainHand, repairMainHand, damageArmor, repairArmor, hp, food, enchantMax, enchantArmorMax...");
         }
         catch (Throwable t)
         {
