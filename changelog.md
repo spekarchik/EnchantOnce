@@ -22,7 +22,7 @@
   - `gearCopyingCost` – XP cost (in levels) for copying enchantments between gear
   - `maxBookCopies` – maximum number of copies allowed per enchanted book copy operation
 
-- Replaced the 'damageMainHandGear` console command with the following new commands:
+- Replaced the `damageMainHandGear` console command with the following new commands:
   - `damageMainHand [half | <damageValue>]` – set damage of main-hand item
   - `damageArmor [half | <damageValue>]` – set damage of worn armor
   - `repairMainHand [half | <durabilityValue>]` – set durability of main-hand item
