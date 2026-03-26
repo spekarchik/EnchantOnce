@@ -249,14 +249,14 @@ Artificially sets the damage value of the item held in the player’s **main han
 # 🛠️ Installation and Technical Information
 
 ## Installation
-- Make sure you have **Minecraft 1.20.5 - 1.21.11** with **NeoForge** or **Forge** installed.
+- Make sure you have **Minecraft 1.20.5 - 26.1** with **NeoForge** or **Forge** installed.
 - Download the mod `.jar` file.
 - Place it into your `mods` folder.
 - Launch the game and enjoy your adventure!
 
 ## Technical Details
 - **Developer:** Sergey Pekarchik
-- **Supported Minecraft versions with NeoForge:** 1.20.5 - 1.21.11
+- **Supported Minecraft versions with NeoForge:** 1.20.5 - 26.1
 - **Supported Minecraft versions with Forge:** 1.20.6 - 1.21.5 (no plans to support later versions)
 
 ---
