@@ -1,12 +1,33 @@
 # 🔧 EnchantOnce — Enchanting & Repair Overhaul
 
-A lightweight mod that improves enchanting and anvil mechanics: controlled XP costs, enchant extraction, book copying, and full gear duplication.
+A lightweight **configurable** mod that improves enchanting and anvil mechanics: controlled XP costs, enchant extraction, book copying, and full gear duplication.
 
 Find a rare enchanted book or item once, and use its enchantments on as many items as you like.
+
+---
 
 ## 🎯 Who is this mod for?
 
 **EnchantOnce** is perfect for players who enjoy using enchantments but would prefer to spend less in-game time grinding XP and repeating enchanting rituals. It’s designed for those who value efficiency, clarity, and a smoother experience when working with enchanted gear.
+
+---
+
+## 📑 Table of Contents
+
+- [Features](#-features)
+    - [Flat Repair Cost](#-flat-repair-cost)
+    - [Repair with Materials](#-repair-with-materials)
+    - [Duplicate Enchanted Books](#-duplicate-enchanted-books)
+    - [Extract Enchantments](#-extract-enchantments)
+    - [Clone Enchanted Items](#-clone-enchanted-items)
+    - [Vanilla Enchantment Combination Change](#-vanilla-enchantment-combination-change)
+    - [Downgrade Enchanted Books (Flint)](#-downgrade-enchanted-books-flint)
+    - [Wind Burst — Controlled Vanilla Scaling](#-wind-burst--controlled-vanilla-scaling)
+    - [Configuration](#-configuration)
+- [Compatibility](#-mod-compatibility)
+- [Philosophy](#-philosophy)
+- [Testing Commands](#-testing--utility-commands-creative--admin)
+- [Installation and Technical Information](#-installation-and-technical-information)
 
 ---
 
@@ -15,6 +36,7 @@ Find a rare enchanted book or item once, and use its enchantments on as many ite
 ### 🛠️ Flat Repair Cost
 - Repairing a damaged item with its base material always costs **2 experience levels** — no matter how many times it's been repaired.
 - The "Too Expensive" limitation is removed entirely.
+- **Item history is preserved** during repairs (it is not reset or increased).
 
 ### 🔄 Repair with Materials
 Repair tools and gear using **base materials**, instead of combining duplicate items.
@@ -46,6 +68,7 @@ Copy enchanted books using blank books.
   - Minimum cost per copy is always **1 level**.
 
 > This system prevents XP farming via book copying + grindstone trickery.
+> **Book history is preserved and copied to all resulting books.**
 
 ---
 
@@ -57,6 +80,7 @@ Move all enchantments from any enchanted item to a single enchanted book.
 - Output is one enchanted book with all enchantments.
 - The item is **destroyed** in the process.
 - **XP cost:** 1 level.
+- **This is the only operation that resets history.**
 
 ---
 
@@ -67,6 +91,7 @@ Create a perfect duplicate of any enchanted item.
 - Both items must be **completely intact** (no damage).
 - Output: a copy with the **same enchantments**.
 - **XP cost:** 25 levels.
+- **Item history is preserved and copied to the result.**
 
 ---
 
@@ -179,6 +204,37 @@ Items can still be duplicated, repaired, and extracted normally without enabling
 
 ---
 
+## ⚙️ Configuration
+
+*(Available since 2.4.0 mod version)*
+
+**EnchantOnce** now includes a fully configurable system that allows you to enable, disable, or tweak nearly every feature of the mod.
+
+You can even **disable all mechanics** and effectively restore full vanilla behavior — making the mod completely non-intrusive if desired.
+
+### 🔧 Available Options
+
+- `allowBookCopying` – allow creating copies of enchanted books  
+- `allowGearCopying` – allow copying enchantments directly between gear items  
+- `allowMoveEnchantmentsToBook` – allow moving enchantments from gear to books  
+- `allowDecreaseEnchantmentLevel` – allow decreasing enchantment level on books using flint  
+- `allowFixedRepairCost` – enable fixed XP cost for repairing items with materials  
+- `fixedRepairCost` – set XP cost (in levels) for material repairs  
+- `preventIncreaseEnchantmentLevel` – prevent enchantment level scaling when combining items  
+- `allowNonstandardRepairs` – allow repairing items like Trident, Shears, etc. with materials  
+- `moveEnchantmentsToBookCost` – XP cost for moving enchantments to books  
+- `gearCopyingCost` – XP cost for copying enchantments between gear  
+- `maxBookCopies` – maximum number of copies per book duplication operation  
+
+### 📁 Config Location
+
+The configuration file is generated automatically after launching the game and can be found in the standard mod config directory.
+
+By default, it is located at:
+`config/enchantonce-common.toml`
+
+---
+
 ## ✅ Mod Compatibility
 
 - Compatible with **vanilla items** and most **modded gear** that follows NeoForge standards.
@@ -194,70 +250,47 @@ You earned them — keep them. This mod respects your time and your progress.
 
 ---
 
-## 🧪 Testing Command (Creative / Admin)
-*(Version 1.1.0 or later)*
+## 🧪 Testing & Utility Commands (Creative / Admin)
 
-**EnchantOnce** includes a small utility command intended for **testing, debugging, and experimentation** with enchanting and repair mechanics.
+*(Updated in 2.4.0 and later)*
 
-### ⌨️ `/damageMainHandGear`
+**EnchantOnce** includes a set of utility commands for **testing, debugging, and experimentation**.
 
-Artificially sets the damage value of the item held in the player’s **main hand**.
+### ⌨️ Available Commands
 
-- **Who can use it:** server operators (permission level `2`)
-- **How it is used:** typed as a command while **playing in the world**
-- **Works** in singleplayer and when typed by a player on a server
-- **Does not work** from the dedicated server console or via automation (command blocks or functions)
-- Works **only if you are holding a damageable item** in your main hand
+- `damageMainHand [half | <damageValue>]` – set damage of main-hand item  
+- `damageArmor [half | <damageValue>]` – set damage of worn armor  
+- `repairMainHand [half | <durabilityValue>]` – set durability of main-hand item  
+- `repairArmor [half | <durabilityValue>]` – set durability of worn armor  
+- `hp [<hpValue>]` – set player health  
+- `food [<foodLevel>]` – set hunger level (resets saturation)  
+- `enchantMax [all | basic | clear]` – apply max compatible enchantments to main-hand item  
+- `enchantArmorMax [all | basic | clear]` – apply max compatible enchantments to worn armor  
 
-### Syntax
+### 🧪 Additional Testing Commands *(2.4.1)*
 
-```
-/damageMainHandGear
-/damageMainHandGear <damage>
-```
-
-### Behavior
-
-- Without arguments, the item is damaged to **maximum possible value minus 1**  
-  (i.e. the item becomes almost broken, but not destroyed).
-- With `<damage>` argument:
-  - Sets the exact damage value.
-  - The value is automatically clamped to a valid range:
-    - Minimum: `0`
-    - Maximum: `maxDurability - 1`
-
-### Examples
-
-```
-/damageMainHandGear
-```
-
-→ Sets the held item to near-broken state.
-
-```
-/damageMainHandGear 10
-```
-
-→ Sets item damage to `10`.
+- `dayLock [night|cancel]` – set clear weather, set time (day or night), and freeze the cycle  
+- `xp500 [level]` – set player experience (default: 500 levels)
 
 ### Notes
-- If the player is not holding a damageable item, the command does nothing.
-- Intended strictly for **testing and development**; it has no gameplay purpose in survival progression.
+
+- Commands require operator permissions  
+- Intended for testing and sandbox use — not survival progression
 
 ---
 
 # 🛠️ Installation and Technical Information
 
 ## Installation
-- Make sure you have **Minecraft 1.20.5 - 1.21.11** with **NeoForge** or **Forge** installed.
+- Make sure you have **Minecraft 1.20.5 - 26.1** with **NeoForge** or **Forge** installed.
 - Download the mod `.jar` file.
 - Place it into your `mods` folder.
 - Launch the game and enjoy your adventure!
 
 ## Technical Details
 - **Developer:** Sergey Pekarchik
-- **Supported Minecraft versions with NeoForge:** 1.20.5 - 1.21.11
-- **Supported Minecraft versions with Forge:** 1.20.6 - 1.21.5 (no plans to support later versions)
+- **Supported Minecraft versions with NeoForge:** 1.20.5 - 26.1
+- **Supported Minecraft versions with Forge:** 1.20.1 - 1.21.5 (no plans to support later versions)
 
 ---
 
