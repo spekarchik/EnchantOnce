@@ -15,19 +15,19 @@ Find a rare enchanted book or item once, and use its enchantments on as many ite
 ## 📑 Table of Contents
 
 - [Features](#-features)
-    - [Flat Repair Cost](#-flat-repair-cost)
+    - [Flat Repair Cost](#%EF%B8%8F-flat-repair-cost)
     - [Repair with Materials](#-repair-with-materials)
     - [Duplicate Enchanted Books](#-duplicate-enchanted-books)
     - [Extract Enchantments](#-extract-enchantments)
     - [Clone Enchanted Items](#-clone-enchanted-items)
-    - [Vanilla Enchantment Combination Change](#-vanilla-enchantment-combination-change)
+    - [Vanilla Enchantment Combination Change](#%EF%B8%8F-vanilla-enchantment-combination-change)
     - [Downgrade Enchanted Books (Flint)](#-downgrade-enchanted-books-flint)
-    - [Wind Burst — Controlled Vanilla Scaling](#-wind-burst--controlled-vanilla-scaling)
-    - [Configuration](#-configuration)
+    - [Wind Burst — Controlled Vanilla Scaling](#%EF%B8%8F-wind-burst--controlled-vanilla-scaling)
+    - [Configuration](#%EF%B8%8F-configuration)
 - [Compatibility](#-mod-compatibility)
 - [Philosophy](#-philosophy)
 - [Testing Commands](#-testing--utility-commands-creative--admin)
-- [Installation and Technical Information](#-installation-and-technical-information)
+- [Installation and Technical Information](#%EF%B8%8F-installation-and-technical-information)
 
 ---
 
