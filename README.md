@@ -1,14 +1,16 @@
 # 🔧 EnchantOnce — Enchanting & Repair Overhaul
 
-A lightweight **configurable** mod that improves enchanting and anvil mechanics: controlled XP costs, enchant extraction, book copying, and full gear duplication.
+A lightweight **configurable** mod that removes enchanting frustration: control XP costs, extract and copy enchantments, and duplicate fully enchanted gear.
 
-Find a rare enchanted book or item once, and use its enchantments on as many items as you like.
+Find a rare enchanted book or item once — and never worry about losing it again.
 
 ---
 
 ## 🎯 Who is this mod for?
 
-**EnchantOnce** is perfect for players who enjoy using enchantments but would prefer to spend less in-game time grinding XP and repeating enchanting rituals. It’s designed for those who value efficiency, clarity, and a smoother experience when working with enchanted gear.
+**EnchantOnce** is for players who enjoy enchantments but are tired of grinding XP and repeating the same rituals.
+
+If you prefer a smoother, more controlled experience — where your best finds actually matter — this mod is for you.
 
 ---
 
