@@ -1,3 +1,10 @@
+## 📦 Version 2.4.2
+
+### 📝 Changes
+- Updated mod metadata (home URL and description).
+- No gameplay changes.
+
+
 ## 📦 Version 2.4.1
 
 - Now supports Minecraft 26.1.1
