@@ -300,10 +300,10 @@ You earned them — keep them. This mod respects your time and your progress.
 
 **EnchantOnce** is fully compatible with the following mods by the same author:
 
-- **[🧭 Compass Cleaner](https://modrinth.com/mod/compass-cleaner)** — adds a minimalist recipe to reset a _Lodestone Compass_ to a regular _Compass_.  
+- **[🧭 Compass Cleaner](https://www.curseforge.com/minecraft/mc-mods/compass-cleaner)** — adds a minimalist recipe to reset a _Lodestone Compass_ to a regular _Compass_.  
     Ideal for tidying up obsolete compasses after you lose or remove their lodestone targets.
 
-- **[🌟 Pouch & Paper](https://modrinth.com/mod/pouch-and-paper)** — introduces compact forms of tradeable resources for easier storage and trading:  
+- **[🌟 Pouch & Paper](https://www.curseforge.com/minecraft/mc-mods/pouch-and-paper)** — introduces compact forms of tradeable resources for easier storage and trading:  
   • paper (stackable and block form),  
   • ink and glow ink (bottled),  
   • leather (bundled),  
@@ -311,7 +311,7 @@ You earned them — keep them. This mod respects your time and your progress.
   • feathers (as compact packs).  
   Includes the *Burnt Paper Block* — crafted by setting a Paper Block on fire. It attracts creepers and repels bees, perfect for traps and moody builds.
 
-- **[🌟 The Block of Angel](https://modrinth.com/mod/angel-block-mod)**
+- **[🌟 The Block of Angel](https://www.curseforge.com/minecraft/mc-mods/angel-block-mod)**
   An exploration-focused mod that rewards curiosity and reduces repetitive grind — while keeping the core survival balance intact. Perfect for players who want each discovery to matter.
   Start with almost nothing — earn every shortcut.  
   This mod transforms Minecraft into a world of meaningful adventure and artifact-driven progression. No grind, no farms — just clever tools, dangerous dungeons, and rewards you must conquer.
