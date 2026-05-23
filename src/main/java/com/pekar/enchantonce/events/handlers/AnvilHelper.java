@@ -5,6 +5,7 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.tags.EnchantmentTags;
 import net.minecraft.world.inventory.AnvilMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
@@ -16,7 +17,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Predicate;
 
-class AnvilHelper
+public class AnvilHelper
 {
     public static ItemEnchantments addLockMarkerIfContainsWindBurst(ItemEnchantments enchantments, Level level)
     {
@@ -63,8 +64,8 @@ class AnvilHelper
         var rightEnchs = EnchantmentHelper.getEnchantmentsForCrafting(right);
 
         // 1. prior work cost
-        long priorWork = (long) left.getOrDefault(DataComponents.REPAIR_COST, 0)
-                + (long) right.getOrDefault(DataComponents.REPAIR_COST, 0);
+        int priorWork = left.getOrDefault(DataComponents.REPAIR_COST, 0)
+                + right.getOrDefault(DataComponents.REPAIR_COST, 0);
         cost += priorWork;
 
         for (var entry : rightEnchs.entrySet())
@@ -155,5 +156,21 @@ class AnvilHelper
         if (cost > 40) cost = 40;
 
         return cost;
+    }
+
+    public static void cleanEnchantmentsExceptCurses(ItemStack item)
+    {
+        var enchantments = EnchantmentHelper.getEnchantmentsForCrafting(item);
+        var mutable = new ItemEnchantments.Mutable(enchantments);
+
+        for (var entry : enchantments.entrySet())
+        {
+            var key = entry.getKey();
+            if (key.is(EnchantmentTags.CURSE)) continue;
+
+            mutable.set(key, 0);
+        }
+
+        EnchantmentHelper.setEnchantments(item, mutable.toImmutable());
     }
 }

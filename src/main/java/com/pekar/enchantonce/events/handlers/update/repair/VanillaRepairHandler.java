@@ -1,4 +1,4 @@
-package com.pekar.enchantonce.events.handlers.repair;
+package com.pekar.enchantonce.events.handlers.update.repair;
 
 import com.pekar.enchantonce.Config;
 import com.pekar.enchantonce.events.handlers.base.GearRepairEventHandler;
