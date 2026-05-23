@@ -29,7 +29,7 @@ public abstract class GearRepairEventHandler extends AnvilUpdateEventHandler
 
     protected static int getRepairAmount(int maxDamage, int portions)
     {
-        return (maxDamage + portions - 1) / portions;
+        return (maxDamage + portions - 2) / portions;
     }
 
     private static void repair(ItemStack itemToRepair, int damageDecrement)
