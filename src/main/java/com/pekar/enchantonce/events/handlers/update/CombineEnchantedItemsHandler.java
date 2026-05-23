@@ -1,7 +1,8 @@
-package com.pekar.enchantonce.events.handlers;
+package com.pekar.enchantonce.events.handlers.update;
 
 import com.pekar.enchantonce.Config;
 import com.pekar.enchantonce.enchantments.EnchantmentRegistry;
+import com.pekar.enchantonce.events.handlers.AnvilMergeMode;
 import com.pekar.enchantonce.events.handlers.base.AnvilUpdateEventHandler;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;

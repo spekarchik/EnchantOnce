@@ -42,6 +42,10 @@ public class Config
             .comment("XP cost (in levels) for moving enchantments from gear to book")
             .defineInRange("moveEnchantmentsToBookCost", 1, 1, 100);
 
+    public static final ModConfigSpec.BooleanValue KEEP_ITEM_WHEN_MOVING_ENCHANTMENTS_TO_BOOK = BUILDER
+            .comment("Keep the original gear item after moving enchantments to a book instead of consuming it during extraction")
+            .define("keepItemWhenMovingEnchantmentsToBook", false);
+
     public static final ModConfigSpec.IntValue DECREASE_ENCHANTMENT_LEVEL_COST = BUILDER
             .comment("XP cost (in levels) for decreasing enchantment level on books using flint")
             .defineInRange("decreaseEnchantmentLevelCost", 1, 1, 100);
