@@ -1,4 +1,4 @@
-package com.pekar.enchantonce.events.handlers;
+package com.pekar.enchantonce.events.handlers.update;
 
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
