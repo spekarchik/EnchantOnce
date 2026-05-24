@@ -1,3 +1,10 @@
+## 📦 Version 2.5.0
+
+### ✨ New
+- Added a config option to keep gear items when moving enchantments to a book (disabled by default).
+- **Warped Fungus on a Stick** and **Carrot on a Stick** can now be repaired with **String** using the fixed repair cost mechanics.
+
+
 ## 📦 Version 2.4.2
 
 ### 📝 Changes
