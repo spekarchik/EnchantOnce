@@ -7,7 +7,7 @@ import com.pekar.enchantonce.events.handlers.update.*;
 import com.pekar.enchantonce.events.handlers.update.repair.*;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.event.AnvilUpdateEvent;
-import net.neoforged.neoforge.event.entity.player.AnvilCraftEvent;
+import net.neoforged.neoforge.event.entity.player.AnvilRepairEvent;
 import org.slf4j.Logger;
 
 public class AnvilEvents implements IEventHandler
@@ -32,7 +32,7 @@ public class AnvilEvents implements IEventHandler
             .attach(new EnchantGearWithBookHandler())
             .getFirst();
 
-    private static final AnvilEventHandler<AnvilCraftEvent> ANVIL_CRAFT_EVENT_HANDLER_CHAIN =
+    private static final AnvilEventHandler<AnvilRepairEvent> ANVIL_CRAFT_EVENT_HANDLER_CHAIN =
             new KeepItemAfterMovingEnchsToBookHandler();
 
     private static final Logger LOGGER = LogUtils.getLogger();
@@ -50,7 +50,7 @@ public class AnvilEvents implements IEventHandler
     }
 
     @SubscribeEvent
-    public void onAnvilCraftEvent(AnvilCraftEvent.Post event)
+    public void onAnvilCraftEvent(AnvilRepairEvent event)
     {
         boolean handled = ANVIL_CRAFT_EVENT_HANDLER_CHAIN.tryHandle(event);
 
