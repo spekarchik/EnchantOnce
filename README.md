@@ -43,16 +43,18 @@ If you prefer a smoother, more controlled experience — where your best finds a
 ### 🔄 Repair with Materials
 Repair tools and gear using **base materials**, instead of combining duplicate items.
 
-| Item                   | Repair Material        | Amount Repaired         |
-|------------------------|------------------------|--------------------------|
-| Shield                 | Any Planks             | ½ durability             |
-| Shears                 | Iron Ingot             | Full durability          |
-| Bow, Fishing Rod       | String                 | ¼ durability             |
-| Crossbow               | String                 | ¼ durability             |
-| Flint & Steel          | Flint                  | Full durability          |
-| Trident                | Prismarine Shard       | ¼ durability             |
-| Brush                  | Feather                | ¼ durability             |
-| Elytra                 | Phantom Membrane       | Full durability          |
+| Item                     | Repair Material        | Amount Repaired         |
+|--------------------------|------------------------|--------------------------|
+| Shield                   | Any Planks             | ½ durability             |
+| Shears                   | Iron Ingot             | Full durability          |
+| Bow, Crossbow            | String                 | ¼ durability             |
+| Fishing Rod              | String                 | ¼ durability             |
+| Carrot on a Stick        | String                 | ¼ durability             |
+| Warped Fungus on a Stick | String                 | ¼ durability             |
+| Flint & Steel            | Flint                  | Full durability          |
+| Trident                  | Prismarine Shard       | ¼ durability             |
+| Brush                    | Feather                | ¼ durability             |
+| Elytra                   | Phantom Membrane       | Full durability          |
 
 ➡ Only works if the item is damaged. The material is consumed.
 
@@ -80,7 +82,8 @@ Move all enchantments from any enchanted item to a single enchanted book.
 - Place the **item** in the left anvil slot, and a **book** in the right.
 - The item must be **completely intact** (no damage).
 - Output is one enchanted book with all enchantments.
-- The item is **destroyed** in the process.
+- By default, the original item is **destroyed** in the process.
+- If enabled in the config, the original item is kept, but all curses remain on it.
 - **XP cost:** 1 level.
 - **This is the only operation that resets history.**
 
