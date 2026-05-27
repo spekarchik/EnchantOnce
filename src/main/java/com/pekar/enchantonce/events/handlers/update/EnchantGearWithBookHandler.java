@@ -3,6 +3,7 @@ package com.pekar.enchantonce.events.handlers.update;
 import com.pekar.enchantonce.Config;
 import com.pekar.enchantonce.events.handlers.AnvilMergeMode;
 import com.pekar.enchantonce.events.handlers.base.AnvilUpdateEventHandler;
+import com.pekar.enchantonce.utils.ItemStackWrapper;
 import net.minecraft.world.item.Items;
 
 import static com.pekar.enchantonce.events.handlers.AnvilHelper.getXpCost;
@@ -26,7 +27,7 @@ public class EnchantGearWithBookHandler extends AnvilUpdateEventHandler
 
     private void enchantGearWithBook()
     {
-        int xpCost = getXpCost(leftItemStack, rightItemStack, AnvilMergeMode.ITEM_BOOK, leftItemStack::supportsEnchantment);
+        int xpCost = getXpCost(leftItemStack, rightItemStack, AnvilMergeMode.ITEM_BOOK, ench -> ItemStackWrapper.of(leftItemStack).supportsEnchantment(ench));
         event.setXpCost(xpCost);
     }
 }
