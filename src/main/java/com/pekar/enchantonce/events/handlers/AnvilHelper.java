@@ -107,7 +107,6 @@ public class AnvilHelper
                     && !supportsEnchantment.test(enchHolder))
             {
                 compatible = false;
-                cost += 1;
             }
 
             if (!compatible) continue;
@@ -143,13 +142,6 @@ public class AnvilHelper
         if (mode == AnvilMergeMode.ITEM_ITEM && anyApplied)
         {
             cost += 2;
-        }
-
-        // renaming cost
-        boolean renamed = left.has(DataComponents.CUSTOM_NAME) || right.has(DataComponents.CUSTOM_NAME);
-        if (renamed)
-        {
-            cost += 1;
         }
 
         // clamp like vanilla

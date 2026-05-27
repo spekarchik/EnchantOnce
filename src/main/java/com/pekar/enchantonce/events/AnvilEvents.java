@@ -26,7 +26,6 @@ public class AnvilEvents implements IEventHandler
             .attach(new CombineEnchantedBooksHandler())
             .attach(new CopyEnchantedGearHandler())
             .attach(new CombineEnchantedItemsHandler())
-            .attach(new EnchantGearWithBookHandler())
             .getFirst();
 
     private static final AnvilEventHandler<AnvilCraftPostEvent> ANVIL_CRAFT_EVENT_HANDLER_CHAIN =
