@@ -1,6 +1,6 @@
 package com.pekar.enchantonce;
 
-import net.neoforged.neoforge.common.ModConfigSpec;
+import com.pekar.enchantonce.config.ModConfigSpec;
 
 public class Config
 {
