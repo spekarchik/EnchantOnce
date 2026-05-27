@@ -2,6 +2,7 @@ package com.pekar.enchantonce.utils;
 
 import net.minecraft.core.Holder;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantment;
 
 public class ItemStackWrapper
@@ -20,6 +21,6 @@ public class ItemStackWrapper
 
     public boolean supportsEnchantment(Holder<Enchantment> enchantmentHolder)
     {
-        return itemStack.supportsEnchantment(enchantmentHolder);
+        return itemStack.is(Items.ENCHANTED_BOOK) || enchantmentHolder.value().isSupportedItem(itemStack);
     }
 }

@@ -173,9 +173,4 @@ public class AnvilHelper
 
         EnchantmentHelper.setEnchantments(item, mutable.toImmutable());
     }
-
-    public static boolean supportsEnchantment(ItemStack itemStack, Holder<Enchantment> enchantmentHolder)
-    {
-        return itemStack.supportsEnchantment(enchantmentHolder);
-    }
 }
