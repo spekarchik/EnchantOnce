@@ -1,3 +1,11 @@
+## 📦 Version 2.5.1
+
+### 📝 Changes
+- Anvil XP cost calculation is now closer to vanilla behavior.
+  - Enchantments incompatible with the target item no longer increase XP cost.
+  - Custom names on input items no longer increase XP cost.
+
+
 ## 📦 Version 2.5.0
 
 ### ✨ New
