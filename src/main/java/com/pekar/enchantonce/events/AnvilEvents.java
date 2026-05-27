@@ -12,7 +12,7 @@ import org.slf4j.Logger;
 
 public class AnvilEvents implements IEventHandler
 {
-    private static final AnvilEventHandler<AnvilUpdateEvent> ANVIL_UPDATE_EVENT_HANDLER_CHAIN =
+    private static final AnvilEventHandler<com.pekar.enchantonce.events.AnvilUpdateEvent> ANVIL_UPDATE_EVENT_HANDLER_CHAIN =
             new ElytraRepairHandler().asFirst()
             .attach(new ShieldRepairHandler())
             .attach(new VanillaRepairHandler())

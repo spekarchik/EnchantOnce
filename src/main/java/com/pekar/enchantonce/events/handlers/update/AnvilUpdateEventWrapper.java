@@ -1,8 +1,8 @@
 package com.pekar.enchantonce.events.handlers.update;
 
+import com.pekar.enchantonce.events.AnvilUpdateEvent;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.neoforged.neoforge.event.AnvilUpdateEvent;
 
 public class AnvilUpdateEventWrapper
 {
