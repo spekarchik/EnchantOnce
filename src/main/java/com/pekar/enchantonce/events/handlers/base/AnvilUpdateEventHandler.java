@@ -1,11 +1,11 @@
 package com.pekar.enchantonce.events.handlers.base;
 
+import com.pekar.enchantonce.events.AnvilUpdateEvent;
 import com.pekar.enchantonce.events.handlers.update.AnvilUpdateEventWrapper;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
-import net.neoforged.neoforge.event.AnvilUpdateEvent;
 
 import static com.pekar.enchantonce.Main.MODID;
 import static com.pekar.enchantonce.utils.Resources.createResourceLocation;

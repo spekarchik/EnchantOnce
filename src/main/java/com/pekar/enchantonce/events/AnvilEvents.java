@@ -5,14 +5,11 @@ import com.pekar.enchantonce.events.handlers.base.AnvilEventHandler;
 import com.pekar.enchantonce.events.handlers.craft.KeepItemAfterMovingEnchsToBookHandler;
 import com.pekar.enchantonce.events.handlers.update.*;
 import com.pekar.enchantonce.events.handlers.update.repair.*;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.neoforge.event.AnvilUpdateEvent;
-import net.neoforged.neoforge.event.entity.player.AnvilCraftEvent;
 import org.slf4j.Logger;
 
 public class AnvilEvents implements IEventHandler
 {
-    private static final AnvilEventHandler<com.pekar.enchantonce.events.AnvilUpdateEvent> ANVIL_UPDATE_EVENT_HANDLER_CHAIN =
+    private static final AnvilEventHandler<AnvilUpdateEvent> ANVIL_UPDATE_EVENT_HANDLER_CHAIN =
             new ElytraRepairHandler().asFirst()
             .attach(new ShieldRepairHandler())
             .attach(new VanillaRepairHandler())
@@ -32,12 +29,12 @@ public class AnvilEvents implements IEventHandler
             .attach(new EnchantGearWithBookHandler())
             .getFirst();
 
-    private static final AnvilEventHandler<AnvilCraftEvent> ANVIL_CRAFT_EVENT_HANDLER_CHAIN =
+    private static final AnvilEventHandler<AnvilCraftPostEvent> ANVIL_CRAFT_EVENT_HANDLER_CHAIN =
             new KeepItemAfterMovingEnchsToBookHandler();
 
     private static final Logger LOGGER = LogUtils.getLogger();
 
-    @SubscribeEvent
+//    @SubscribeEvent
     public void onAnvilUpdateEvent(AnvilUpdateEvent event)
     {
         boolean handled = ANVIL_UPDATE_EVENT_HANDLER_CHAIN.tryHandle(event);
@@ -49,12 +46,12 @@ public class AnvilEvents implements IEventHandler
         }
     }
 
-    @SubscribeEvent
-    public void onAnvilCraftEvent(AnvilCraftEvent.Post event)
+//    @SubscribeEvent
+    public void onAnvilCraftEvent(AnvilCraftPostEvent event)
     {
         boolean handled = ANVIL_CRAFT_EVENT_HANDLER_CHAIN.tryHandle(event);
 
-        if (!event.getEntity().level().isClientSide())
+        if (!event.getPlayer().level().isClientSide())
         {
             LOGGER.debug("Handled AnvilCraftEvent: {}, left: {}, right: {}, result: {}",
                     handled, event.getLeft(), event.getRight(), event.getOutput());
