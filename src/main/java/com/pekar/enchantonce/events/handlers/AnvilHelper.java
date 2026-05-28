@@ -26,7 +26,7 @@ public class AnvilHelper
         if (needToAddSealedMarker)
         {
             var enchantmentRegistry = getEnchantmentRegistry(level);
-            var sealedEnchantment = enchantmentRegistry.getOrThrow(EnchantmentRegistry.LOCK_MARKER);
+            var sealedEnchantment = enchantmentRegistry.getHolderOrThrow(EnchantmentRegistry.LOCK_MARKER);
             mutable.set(sealedEnchantment, 1);
         }
 
@@ -36,7 +36,7 @@ public class AnvilHelper
     public static @NotNull Registry<Enchantment> getEnchantmentRegistry(Level level)
     {
         var registryAccess = level.registryAccess();
-        return registryAccess.lookupOrThrow(Registries.ENCHANTMENT);
+        return registryAccess.registryOrThrow(Registries.ENCHANTMENT);
     }
 
     public static void setHistoryWeightToResult(ItemStack leftItemStack, ItemStack rightItemStack, ItemStack result, boolean increaseWeight)

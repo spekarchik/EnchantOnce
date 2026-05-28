@@ -65,7 +65,7 @@ public class DecreaseBookEnchantmentsHandler extends AnvilUpdateEventHandler
                 && resultEnchantments.keySet().stream().anyMatch(x -> x.is(EnchantmentRegistry.LOCK_MARKER)))
         {
             var enchantmentRegistry = AnvilHelper.getEnchantmentRegistry(event.getLevel());
-            resultEnchantments.set(enchantmentRegistry.getOrThrow(EnchantmentRegistry.LOCK_MARKER), 0);
+            resultEnchantments.set(enchantmentRegistry.getHolderOrThrow(EnchantmentRegistry.LOCK_MARKER), 0);
         }
 
         if (!changed || flintsConsumed == 0 || resultEnchantments.keySet().isEmpty())

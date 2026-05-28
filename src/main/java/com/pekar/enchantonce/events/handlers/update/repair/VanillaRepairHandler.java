@@ -28,7 +28,6 @@ public class VanillaRepairHandler extends GearRepairEventHandler
 
     private static boolean isValidRepairItem(ItemStack itemToRepair, ItemStack repairItem)
     {
-        // found in ItemStack (1.21.4)
-        return itemToRepair.isValidRepairItem(repairItem);
+        return itemToRepair.getItem().isValidRepairItem(itemToRepair, repairItem);
     }
 }
