@@ -18,11 +18,6 @@ public class AnvilUpdateEventWrapper
         return event.getPlayer().level();
     }
 
-    public ItemStack getOutput()
-    {
-        return event.getOutput();
-    }
-
     public void setOutput(ItemStack output)
     {
         event.setOutput(output);
@@ -31,11 +26,6 @@ public class AnvilUpdateEventWrapper
     public void setXpCost(int xpCost)
     {
         event.setCost(xpCost);
-    }
-
-    public int getMaterialCost()
-    {
-        return event.getMaterialCost();
     }
 
     public void setMaterialCost(int materialCost)
