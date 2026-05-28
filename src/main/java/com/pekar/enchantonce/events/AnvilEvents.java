@@ -34,7 +34,7 @@ public class AnvilEvents implements IEventHandler
     private static final Logger LOGGER = LogUtils.getLogger();
 
 //    @SubscribeEvent
-    public void onAnvilUpdateEvent(AnvilUpdateEvent event)
+    public static void onAnvilUpdateEvent(AnvilUpdateEvent event)
     {
         boolean handled = ANVIL_UPDATE_EVENT_HANDLER_CHAIN.tryHandle(event);
 

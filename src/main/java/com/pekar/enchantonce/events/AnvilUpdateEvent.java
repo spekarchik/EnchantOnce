@@ -74,4 +74,9 @@ public class AnvilUpdateEvent implements Event
     {
         return output;
     }
+
+    public boolean handled()
+    {
+        return cancelled || (output != null && !output.isEmpty());
+    }
 }

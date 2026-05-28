@@ -1,8 +1,6 @@
 package com.pekar.enchantonce;
 
 import com.mojang.logging.LogUtils;
-import com.pekar.enchantonce.enchantments.EnchantmentRegistry;
-import com.pekar.enchantonce.events.EventRegistry;
 import org.slf4j.Logger;
 
 // The value here should match an entry in the META-INF/mods.toml file
@@ -10,7 +8,6 @@ import org.slf4j.Logger;
 public class Main
 {
     public static final String MODID = "enchantonce";
-    private static final Logger LOGGER = LogUtils.getLogger();
 
 //    public Main(IEventBus modEventBus, ModContainer modContainer)
 //    {
