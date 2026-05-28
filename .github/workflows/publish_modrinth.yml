@@ -10,13 +10,16 @@ jobs:
   publish:
     if: |
       github.event.workflow_run.conclusion == 'success' &&
-      (startsWith(github.event.workflow_run.head_branch, 'Neo/1.21.') ||
-       startsWith(github.event.workflow_run.head_branch, 'Neo/26.'))
+      (
+        startsWith(github.event.workflow_run.head_branch, 'Neo/') ||
+        startsWith(github.event.workflow_run.head_branch, 'Fabric/') ||
+        startsWith(github.event.workflow_run.head_branch, 'Forge/')
+      )
     runs-on: ubuntu-latest
     env:
       MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
       MODRINTH_PROJECT_ID: CLOsbQfZ
-      MOD_LOADER: neoforge
+      
     steps:
       - name: Publish gate
         run: |
@@ -25,24 +28,53 @@ jobs:
           else
             echo "PUBLISH=true" >> $GITHUB_ENV
           fi
+
       - name: Detect triggering branch
         if: env.PUBLISH == 'true'
         run: |
           BRANCH="${{ github.event.workflow_run.head_branch }}"
           echo "TRIGGER_BRANCH=$BRANCH" >> $GITHUB_ENV
 
-          if [[ "$BRANCH" == Neo/1.21.* ]]; then
-            echo "TARGET=1.21" >> $GITHUB_ENV
-          elif [[ "$BRANCH" == Neo/26.* ]]; then
-            echo "TARGET=26" >> $GITHUB_ENV
+          echo "Detected branch: $BRANCH"
+
+          # --- определяем loader ---
+          if [[ "$BRANCH" =~ ^Neo/ ]]; then
+            echo "MOD_LOADER=neoforge" >> $GITHUB_ENV
+            BRANCH_PAYLOAD="${BRANCH#Neo/}"
+
+          elif [[ "$BRANCH" =~ ^Fabric/ ]]; then
+            echo "MOD_LOADER=fabric" >> $GITHUB_ENV
+            BRANCH_PAYLOAD="${BRANCH#Fabric/}"
+
+          elif [[ "$BRANCH" =~ ^Forge/ ]]; then
+            echo "MOD_LOADER=forge" >> $GITHUB_ENV
+            BRANCH_PAYLOAD="${BRANCH#Forge/}"
+
           else
-            echo "Unknown branch $BRANCH → skip"
+            echo "Unknown loader in branch: $BRANCH"
+            echo "PUBLISH=false" >> $GITHUB_ENV
+            exit 0
+          fi
+
+          echo "BRANCH_PAYLOAD=$BRANCH_PAYLOAD" >> $GITHUB_ENV
+
+          # --- определяем TARGET ---
+          if [[ "$BRANCH_PAYLOAD" == 1.21.* ]]; then
+            echo "TARGET=1.21" >> $GITHUB_ENV
+
+          elif [[ "$BRANCH_PAYLOAD" == 26.* ]]; then
+            echo "TARGET=26" >> $GITHUB_ENV
+
+          else
+            echo "Unknown target version in branch: $BRANCH"
+            echo "PUBLISH=false" >> $GITHUB_ENV
+            exit 0
           fi
 
       - name: Parse Minecraft versions from branch
         if: env.PUBLISH == 'true'
         run: |
-          BRANCH="${TRIGGER_BRANCH#Neo/}"
+          BRANCH="$BRANCH_PAYLOAD"
 
           echo "Branch payload: $BRANCH"
 
