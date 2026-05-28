@@ -7,7 +7,6 @@ import com.mojang.logging.LogUtils;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.Component;
-import net.minecraft.server.permissions.Permissions;
 import net.minecraft.world.entity.player.Player;
 import org.slf4j.Logger;
 
@@ -25,7 +24,7 @@ public class HpCommand
         }
 
         dispatcher.register(Commands.literal(commandName)
-                .requires(src -> src.permissions().hasPermission(Permissions.COMMANDS_ADMIN))
+                .requires(src -> src.hasPermission(Permissions.COMMANDS_ADMIN))
                 // no-arg: set to max health
                 .executes(ctx -> handleHpCommand(ctx, Integer.MIN_VALUE))
                 // optional integer argument: desired health value (will be clamped)

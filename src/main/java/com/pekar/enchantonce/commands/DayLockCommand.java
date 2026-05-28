@@ -10,8 +10,8 @@ import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.server.permissions.Permissions;
-import net.minecraft.world.level.gamerules.GameRules;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.GameRules;
 import org.slf4j.Logger;
 
 public class DayLockCommand
@@ -29,7 +29,7 @@ public class DayLockCommand
         }
 
         dispatcher.register(Commands.literal(commandName)
-                .requires(src -> src.permissions().hasPermission(Permissions.COMMANDS_ADMIN))
+                .requires(src -> src.hasPermission(Permissions.COMMANDS_ADMIN))
                 // no-arg: lock day and clear weather
                 .executes(ctx -> handleDayLock(ctx, Param.DEFAULT))
                 // 'cancel' literal -> re-enable advance_time/advance_weather
@@ -46,7 +46,7 @@ public class DayLockCommand
     {
         try
         {
-            var player = ctx.getSource().getPlayerOrException();
+            Player player = ctx.getSource().getPlayerOrException(); // Player (not ServerPlayer!) is important for compatibility with 1.21.5
 
             if (!(player instanceof ServerPlayer serverPlayer))
             {
@@ -54,16 +54,21 @@ public class DayLockCommand
                 return 0;
             }
 
-            ServerLevel level = serverPlayer.level();
-            var gameRules = GameRulesAccessor.of(level);
+            var level = player.level(); // DON'T remove casting to ServerLevel! Necessary for 1.21.5
+            if (!(level instanceof ServerLevel serverLevel))
+            {
+                ctx.getSource().sendSuccess(() -> Component.literal(commandName + ": this command can only be run in a server level"), false);
+                return 0;
+            }
+            var gameRules = GameRulesAccessor.of(serverLevel);
 
             switch (param)
             {
                 case CANCEL ->
                 {
                     // Re-enable daylight and weather advancement
-                    gameRules.set(GameRules.ADVANCE_TIME, true);
-                    gameRules.set(GameRules.ADVANCE_WEATHER, true);
+                    gameRules.set(GameRules.RULE_DAYLIGHT, true);
+                    gameRules.set(GameRules.RULE_WEATHER_CYCLE, true);
 
                     ctx.getSource().sendSuccess(() -> Component.literal(commandName + ": unlocked (advance_time and advance_weather enabled)"), false);
                 }
@@ -71,8 +76,8 @@ public class DayLockCommand
                 case NIGHT ->
                 {
                     // Disable daylight and weather advancement
-                    gameRules.set(GameRules.ADVANCE_TIME, false);
-                    gameRules.set(GameRules.ADVANCE_WEATHER, false);
+                    gameRules.set(GameRules.RULE_DAYLIGHT, false);
+                    gameRules.set(GameRules.RULE_WEATHER_CYCLE, false);
 
                     // Set time to day (same as 'time set day')
                     ctx.getSource().getServer().getCommands()
@@ -87,8 +92,8 @@ public class DayLockCommand
                 case DEFAULT ->
                 {
                     // Disable daylight and weather advancement
-                    gameRules.set(GameRules.ADVANCE_TIME, false);
-                    gameRules.set(GameRules.ADVANCE_WEATHER, false);
+                    gameRules.set(GameRules.RULE_DAYLIGHT, false);
+                    gameRules.set(GameRules.RULE_WEATHER_CYCLE, false);
 
                     // Set time to day (same as 'time set day')
                     ctx.getSource().getServer().getCommands()

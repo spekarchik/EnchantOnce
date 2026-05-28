@@ -1,7 +1,7 @@
 package com.pekar.enchantonce.utils;
 
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.level.gamerules.GameRule;
+import net.minecraft.world.level.GameRules;
 
 public class GameRulesAccessor
 {
@@ -17,13 +17,13 @@ public class GameRulesAccessor
         return new GameRulesAccessor(level);
     }
 
-    public <T> T get(GameRule<T> gameRule)
+    public <T extends GameRules.Value<T>> T get(GameRules.Key<T> gameRule)
     {
-        return level.getGameRules().get(gameRule);
+        return level.getGameRules().getRule(gameRule);
     }
 
-    public <T> void set(GameRule<T> gameRule, T value)
+    public void set(GameRules.Key<GameRules.BooleanValue> gameRule, boolean value)
     {
-        level.getGameRules().set(gameRule, value, level.getServer());
+        level.getGameRules().getRule(gameRule).set(value, level.getServer());
     }
 }

@@ -4,6 +4,7 @@ import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.logging.LogUtils;
 import com.pekar.enchantonce.Main;
+import com.pekar.enchantonce.events.handlers.AnvilHelper;
 import com.pekar.enchantonce.utils.ItemStackWrapper;
 import com.pekar.enchantonce.utils.Utils;
 import net.minecraft.commands.CommandSourceStack;
@@ -11,7 +12,6 @@ import net.minecraft.commands.Commands;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.server.permissions.Permissions;
 import net.minecraft.tags.EnchantmentTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.player.Player;
@@ -40,7 +40,7 @@ public class EnchantArmorMaxCommand
         }
 
         dispatcher.register(Commands.literal(commandName)
-                .requires(src -> src.permissions().hasPermission(Permissions.COMMANDS_ADMIN))
+                .requires(src -> src.hasPermission(Permissions.COMMANDS_ADMIN))
                 .executes(ctx -> handleEnchantArmorCommand(ctx, Mode.DEFAULT))
                 .then(Commands.literal("all")
                         .executes(ctx -> handleEnchantArmorCommand(ctx, Mode.ALL))

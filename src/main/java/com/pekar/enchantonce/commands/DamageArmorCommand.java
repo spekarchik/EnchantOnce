@@ -8,7 +8,6 @@ import com.pekar.enchantonce.utils.Utils;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.Component;
-import net.minecraft.server.permissions.Permissions;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import org.slf4j.Logger;
@@ -27,7 +26,7 @@ public class DamageArmorCommand
         }
 
         dispatcher.register(Commands.literal(commandName)
-                .requires(src -> src.permissions().hasPermission(Permissions.COMMANDS_ADMIN))
+                .requires(src -> src.hasPermission(Permissions.COMMANDS_ADMIN))
                 .executes(ctx -> handleDamageArmorCommand(ctx, -1))
                 .then(Commands.argument("damage", IntegerArgumentType.integer(0))
                         .executes(ctx -> handleDamageArmorCommand(ctx, IntegerArgumentType.getInteger(ctx, "damage"))))

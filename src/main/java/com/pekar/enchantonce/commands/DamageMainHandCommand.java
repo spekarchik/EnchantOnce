@@ -7,7 +7,6 @@ import com.mojang.logging.LogUtils;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.Component;
-import net.minecraft.server.permissions.Permissions;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import org.slf4j.Logger;
@@ -26,7 +25,7 @@ public class DamageMainHandCommand
         }
 
         dispatcher.register(Commands.literal(commandName)
-                .requires(src -> src.permissions().hasPermission(Permissions.COMMANDS_ADMIN))
+                .requires(src -> src.hasPermission(Permissions.COMMANDS_ADMIN))
                 // no-arg: default behaviour (maxDamage - 1)
                 .executes(ctx -> handleDamageGearCommand(ctx, -1))
                 // optional int argument 'damage' (>=0)

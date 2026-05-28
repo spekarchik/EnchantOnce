@@ -10,7 +10,6 @@ import net.minecraft.commands.Commands;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.server.permissions.Permissions;
 import net.minecraft.tags.EnchantmentTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.player.Player;
@@ -39,7 +38,7 @@ public class EnchantMaxCommand
         }
 
         dispatcher.register(Commands.literal(commandName)
-                .requires(src -> src.permissions().hasPermission(Permissions.COMMANDS_ADMIN))
+                .requires(src -> src.hasPermission(Permissions.COMMANDS_ADMIN))
                 .executes(ctx -> handleEnchantMaxCommand(ctx, Mode.DEFAULT))
                 .then(Commands.literal("all")
                         .executes(ctx -> handleEnchantMaxCommand(ctx, Mode.ALL))
