@@ -28,31 +28,29 @@ public class AnvilEvents implements IEventHandler
             .attach(new CombineEnchantedItemsHandler())
             .getFirst();
 
-    private static final AnvilEventHandler<AnvilCraftPostEvent> ANVIL_CRAFT_EVENT_HANDLER_CHAIN =
+    private static final AnvilEventHandler<AnvilCraftPreEvent> ANVIL_CRAFT_EVENT_HANDLER_CHAIN =
             new KeepItemAfterMovingEnchsToBookHandler();
 
     private static final Logger LOGGER = LogUtils.getLogger();
 
-//    @SubscribeEvent
     public static void onAnvilUpdateEvent(AnvilUpdateEvent event)
     {
         boolean handled = ANVIL_UPDATE_EVENT_HANDLER_CHAIN.tryHandle(event);
 
         if (!event.getPlayer().level().isClientSide())
         {
-            LOGGER.debug("Handled AnvilUpdateEvent: {}, left: {}, right: {}, result: {}",
+            LOGGER.info("Handled AnvilUpdateEvent: {}, left: {}, right: {}, result: {}",
                     handled, event.getLeft(), event.getRight(), event.getOutput());
         }
     }
 
-//    @SubscribeEvent
-    public void onAnvilCraftEvent(AnvilCraftPostEvent event)
+    public static void onAnvilCraftEvent(AnvilCraftPreEvent event)
     {
         boolean handled = ANVIL_CRAFT_EVENT_HANDLER_CHAIN.tryHandle(event);
 
         if (!event.getPlayer().level().isClientSide())
         {
-            LOGGER.debug("Handled AnvilCraftEvent: {}, left: {}, right: {}, result: {}",
+            LOGGER.info("Handled AnvilCraftEvent: {}, left: {}, right: {}, result: {}",
                     handled, event.getLeft(), event.getRight(), event.getOutput());
         }
     }

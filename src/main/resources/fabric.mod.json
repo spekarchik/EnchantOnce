@@ -14,7 +14,7 @@
 	"environment": "*",
 	"entrypoints": {
 		"main": [
-			"com.pekar.enchantonce.EnchantOnce"
+			"com.pekar.enchantonce.Main"
 		]
 	},
 	"mixins": [

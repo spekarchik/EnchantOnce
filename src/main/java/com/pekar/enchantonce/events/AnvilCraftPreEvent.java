@@ -3,14 +3,14 @@ package com.pekar.enchantonce.events;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 
-public class AnvilCraftPostEvent implements Event
+public class AnvilCraftPreEvent implements Event
 {
     private final Player player;
     private final ItemStack left;
     private final ItemStack right;
     private final ItemStack output;
 
-    public AnvilCraftPostEvent(Player player, ItemStack left, ItemStack right, ItemStack output)
+    public AnvilCraftPreEvent(Player player, ItemStack left, ItemStack right, ItemStack output)
     {
         this.player = player;
         this.left = left;

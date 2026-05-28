@@ -1,5 +1,6 @@
 package com.pekar.enchantonce.mixin;
 
+import com.pekar.enchantonce.events.AnvilCraftPreEvent;
 import com.pekar.enchantonce.events.AnvilEvents;
 import com.pekar.enchantonce.events.AnvilUpdateEvent;
 import net.minecraft.world.inventory.AnvilMenu;
@@ -21,7 +22,6 @@ public class AnvilMenuMixin
     @Inject(method = "createResult", at = @At("HEAD"), cancellable = true)
     private void onCreateResult(CallbackInfo ci)
     {
-        var self = (AnvilMenu)(Object)this;
         var accessor = (ItemCombinerMenuAccessor)this;
         var player = accessor.getPlayer();
         var inputSlots = accessor.getInputSlots();
@@ -38,5 +38,21 @@ public class AnvilMenuMixin
         resultSlots.setItem(0, event.getOutput());
         cost.set(event.getXpCost());
         repairItemCountCost = event.getMaterialCost();
+    }
+
+    @Inject(method = "onTake", at = @At("HEAD"))
+    private void onTake(CallbackInfo ci)
+    {
+        var accessor = (ItemCombinerMenuAccessor) this;
+        var player = accessor.getPlayer();
+        var inputSlots = accessor.getInputSlots();
+        var resultSlots = accessor.getResultSlots();
+
+        var left = inputSlots.getItem(0);
+        var right = inputSlots.getItem(1);
+        var output = resultSlots.getItem(0);
+
+        var event = new AnvilCraftPreEvent(player, left, right, output);
+        AnvilEvents.onAnvilCraftEvent(event);
     }
 }
