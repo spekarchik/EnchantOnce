@@ -1,7 +1,7 @@
 package com.pekar.enchantonce.utils;
 
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.storage.ServerLevelData;
 
 public class Weather
 {
@@ -19,41 +19,42 @@ public class Weather
 
     public void clear()
     {
-        if (level instanceof ServerLevel serverLevel)
+        if (level.getLevelData() instanceof ServerLevelData levelData)
         {
-            var weatherData = serverLevel.getWeatherData();
-            weatherData.setRaining(false);
-            weatherData.setThundering(false);
+            levelData.setRaining(false);
+            levelData.setThundering(false);
+        }
+        else
+        {
+            level.getLevelData().setRaining(false);
         }
     }
 
     public void rain()
     {
-        if (level instanceof ServerLevel serverLevel)
+        if (level.getLevelData() instanceof ServerLevelData levelData)
         {
-            var weatherData = serverLevel.getWeatherData();
-            weatherData.setRaining(true);
-            weatherData.setThundering(false);
-            if (weatherData.getRainTime() == 0)
+            levelData.setRaining(true);
+            levelData.setThundering(false);
+            if (levelData.getRainTime() == 0)
             {
                 var weatherLasts = level.getRandom().nextIntBetweenInclusive(1200, 24000);
-                weatherData.setRainTime(weatherLasts);
+                levelData.setRainTime(weatherLasts);
             }
         }
     }
 
     public void thunder()
     {
-        if (level instanceof ServerLevel serverLevel)
+        if (level.getLevelData() instanceof ServerLevelData levelData)
         {
-            var weatherData = serverLevel.getWeatherData();
-            weatherData.setRaining(true);
-            weatherData.setThundering(true);
-            if (weatherData.getRainTime() == 0 || weatherData.getThunderTime() == 0)
+            levelData.setRaining(true);
+            levelData.setThundering(true);
+            if (levelData.getRainTime() == 0 || levelData.getThunderTime() == 0)
             {
                 var weatherLasts = level.getRandom().nextIntBetweenInclusive(1200, 24000);
-                weatherData.setRainTime(weatherLasts);
-                weatherData.setThunderTime(weatherLasts);
+                levelData.setRainTime(weatherLasts);
+                levelData.setThunderTime(weatherLasts);
             }
         }
     }
