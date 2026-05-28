@@ -1,13 +1,83 @@
 package com.pekar.enchantonce.config;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Properties;
 
 public class ModConfigSpec
 {
-    private ModConfigSpec()
+    private final List<Definition<?>> definitions;
+
+    private ModConfigSpec(List<Definition<?>> definitions)
     {
+        this.definitions = definitions;
+    }
+
+    public List<Definition<?>> getDefinitions()
+    {
+        return definitions;
+    }
+
+    public void load(Path path) throws IOException
+    {
+        Properties properties = new Properties();
+
+        if (Files.exists(path))
+        {
+            try (var reader = Files.newBufferedReader(path))
+            {
+                properties.load(reader);
+            }
+        }
+
+        for (var definition : definitions)
+        {
+            String value = properties.getProperty(definition.name);
+
+            if (value == null)
+            {
+                continue;
+            }
+
+            if (definition instanceof BooleanValue booleanValue)
+            {
+                booleanValue.setValue(Boolean.parseBoolean(value));
+            }
+            else if (definition instanceof IntValue intValue)
+            {
+                intValue.setValue(Integer.parseInt(value));
+            }
+        }
+
+        save(path);
+    }
+
+    public void save(Path path) throws IOException
+    {
+        if (path.getParent() != null)
+        {
+            Files.createDirectories(path.getParent());
+        }
+
+        try (var writer = Files.newBufferedWriter(path))
+        {
+            for (var definition : definitions)
+            {
+                for (var comment : definition.getComment())
+                {
+                    writer.write("# " + comment);
+                    writer.newLine();
+                }
+
+                writer.write(definition.name + "=" + definition.getValue());
+                writer.newLine();
+                writer.newLine();
+            }
+        }
     }
 
     public static class BooleanValue extends Definition<Boolean>
@@ -66,6 +136,7 @@ public class ModConfigSpec
     public static class Builder
     {
         private final List<String> comments = new ArrayList<>();
+        private final List<Definition<?>> definitions = new ArrayList<>();
 
         public Builder comment(String... textLines)
         {
@@ -82,6 +153,7 @@ public class ModConfigSpec
             }
 
             comments.clear();
+            definitions.add(definition);
 
             return definition;
         }
@@ -95,13 +167,14 @@ public class ModConfigSpec
             }
 
             comments.clear();
+            definitions.add(definition);
 
             return definition;
         }
 
         public ModConfigSpec build()
         {
-            return new ModConfigSpec();
+            return new ModConfigSpec(List.copyOf(definitions));
         }
     }
 }

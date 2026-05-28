@@ -3,8 +3,11 @@ package com.pekar.enchantonce;
 import com.pekar.enchantonce.commands.*;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
+import net.fabricmc.loader.api.FabricLoader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
 
 public class Main implements ModInitializer
 {
@@ -21,6 +24,19 @@ public class Main implements ModInitializer
 		// This code runs as soon as Minecraft is in a mod-load-ready state.
 		// However, some things (like resources) may still be uninitialized.
 		// Proceed with mild caution.
+
+		var configPath = FabricLoader.getInstance()
+				.getConfigDir()
+				.resolve("enchantonce-common.toml");
+
+		try
+		{
+			Config.SPEC.load(configPath);
+		}
+		catch (IOException e)
+		{
+			throw new RuntimeException("Failed to load config", e);
+		}
 
 		//LOGGER.info("Hello Fabric world!");
 		CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {
