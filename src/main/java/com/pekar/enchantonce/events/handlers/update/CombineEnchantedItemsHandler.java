@@ -4,6 +4,7 @@ import com.pekar.enchantonce.Config;
 import com.pekar.enchantonce.enchantments.EnchantmentRegistry;
 import com.pekar.enchantonce.events.handlers.AnvilMergeMode;
 import com.pekar.enchantonce.events.handlers.base.AnvilUpdateEventHandler;
+import com.pekar.enchantonce.utils.ItemStackWrapper;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
@@ -45,7 +46,7 @@ public class CombineEnchantedItemsHandler extends AnvilUpdateEventHandler
         for (var entry : rightEnchs.entrySet())
         {
             var key = entry.getKey();
-            boolean isEnchantmentSupportedByItem = leftItemStack.supportsEnchantment(key);
+            boolean isEnchantmentSupportedByItem = ItemStackWrapper.of(leftItemStack).supportsEnchantment(key);
             boolean areEnchantmentsCompatible = EnchantmentHelper.isEnchantmentCompatible(leftEnchs.keySet(), key);
             boolean areEnchantmentsAlreadyPresent = leftEnchs.keySet().contains(key);
             boolean canEnchant = isEnchantmentSupportedByItem && (areEnchantmentsCompatible || areEnchantmentsAlreadyPresent);
@@ -87,7 +88,7 @@ public class CombineEnchantedItemsHandler extends AnvilUpdateEventHandler
         EnchantmentHelper.setEnchantments(result, leftEnchMutable.toImmutable());
         setHistoryWeightToResult(leftItemStack, rightItemStack, result, true);
         var anvilMergeMode = rightItemStack.is(Items.ENCHANTED_BOOK)? AnvilMergeMode.ITEM_BOOK : AnvilMergeMode.ITEM_ITEM;
-        int xpCost = getXpCost(leftItemStack, rightItemStack, anvilMergeMode, leftItemStack::supportsEnchantment);
+        int xpCost = getXpCost(leftItemStack, rightItemStack, anvilMergeMode, ench -> ItemStackWrapper.of(leftItemStack).supportsEnchantment(ench));
         event.setOutput(result);
         event.setXpCost(xpCost);
         event.setMaterialCost(1);

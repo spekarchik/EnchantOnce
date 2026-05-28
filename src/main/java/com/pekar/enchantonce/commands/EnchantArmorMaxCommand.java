@@ -4,6 +4,8 @@ import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.logging.LogUtils;
 import com.pekar.enchantonce.Main;
+import com.pekar.enchantonce.events.handlers.AnvilHelper;
+import com.pekar.enchantonce.utils.ItemStackWrapper;
 import com.pekar.enchantonce.utils.Utils;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
@@ -98,7 +100,7 @@ public class EnchantArmorMaxCommand
                         if (isExclusive) level = 0;
                     }
 
-                    if (stack.supportsEnchantment(enchantment) || mode == Mode.CLEAR)
+                    if (ItemStackWrapper.of(stack).supportsEnchantment(enchantment) || mode == Mode.CLEAR)
                     {
                         mutableEnchantments.set(enchantment, level);
                     }
