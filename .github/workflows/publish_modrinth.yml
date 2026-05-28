@@ -189,7 +189,12 @@ jobs:
 
           # 2. Всё после второго - и до последнего .
           #    Затем убираем возможные -beta / -alpha в конце
-          VERSION_PART=$(echo "$FILENAME" | sed -E 's/^[^-]*-[^-]*-(.*)\.jar$/\1/')
+          if [[ "$FILENAME" =~ -([0-9]+\.[0-9]+\.[0-9]+(-(beta|alpha))?)\.jar$ ]]; then
+            VERSION_PART="${BASH_REMATCH[1]}"
+          else
+            echo "Cannot extract version from filename: $FILENAME"
+            exit 1
+          fi
 
           # 3. Определяем суффикс и чистую версию мода
           if [[ "$VERSION_PART" =~ ^([0-9]+\.[0-9]+\.[0-9]+)(-(beta|alpha))?$ ]]; then
