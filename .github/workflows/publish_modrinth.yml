@@ -12,7 +12,7 @@ jobs:
       github.event.workflow_run.conclusion == 'success' &&
       (
         startsWith(github.event.workflow_run.head_branch, 'Neo/') ||
-        startsWith(github.event.workflow_run.head_branch, 'Fabric/') ||
+        #startsWith(github.event.workflow_run.head_branch, 'Fabric/') ||
         startsWith(github.event.workflow_run.head_branch, 'Forge/')
       )
     runs-on: ubuntu-latest
