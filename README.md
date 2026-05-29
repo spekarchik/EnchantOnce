@@ -1,6 +1,6 @@
 # 🔧 EnchantOnce — Enchanting & Repair Overhaul
 
-A lightweight **configurable** mod that removes enchanting frustration: control XP costs, extract and copy enchantments, and duplicate fully enchanted gear.
+A lightweight **configurable** mod that removes enchanting frustration and overhauls enchanting and anvil mechanics: control XP costs, rework anvil repairs, extract and copy enchantments, and duplicate fully enchanted gear.
 
 Find a rare enchanted book or item once — and never worry about losing it again.
 
@@ -22,8 +22,8 @@ If you prefer a smoother, more controlled experience — where your best finds a
     - [Duplicate Enchanted Books](#-duplicate-enchanted-books)
     - [Extract Enchantments](#-extract-enchantments)
     - [Clone Enchanted Items](#-clone-enchanted-items)
-    - [Vanilla Enchantment Combination Change](#%EF%B8%8F-vanilla-enchantment-combination-change)
     - [Downgrade Enchanted Books (Flint)](#-downgrade-enchanted-books-flint)
+    - [Vanilla Enchantment Combination Change](#%EF%B8%8F-vanilla-enchantment-combination-change)
     - [Wind Burst — Controlled Vanilla Scaling](#%EF%B8%8F-wind-burst--controlled-vanilla-scaling)
     - [Configuration](#%EF%B8%8F-configuration)
 - [Compatibility](#-mod-compatibility)
@@ -38,7 +38,7 @@ If you prefer a smoother, more controlled experience — where your best finds a
 ### 🛠️ Flat Repair Cost
 - Repairing a damaged item with its base material always costs **2 experience levels** — no matter how many times it's been repaired.
 - The "Too Expensive" limitation is removed entirely.
-- **Item history is preserved** during repairs (it is not reset or increased).
+- **Prior anvil work history is preserved** during repairs (it is not reset or increased).
 
 ### 🔄 Repair with Materials
 Repair tools and gear using **base materials**, instead of combining duplicate items.
@@ -72,7 +72,7 @@ Copy enchanted books using blank books.
   - Minimum cost per copy is always **1 level**.
 
 > This system prevents XP farming via book copying + grindstone trickery.
-> **Book history is preserved and copied to all resulting books.**
+> **Prior anvil work history is preserved and copied to all resulting books.**
 
 ---
 
@@ -83,9 +83,9 @@ Move all enchantments from any enchanted item to a single enchanted book.
 - The item must be **completely intact** (no damage).
 - Output is one enchanted book with all enchantments.
 - By default, the original item is **destroyed** in the process.
-- If enabled in the config, the original item is kept, but all curses remain on it.
+- If enabled in the config, the original item is kept, but all curses remain on it and its prior anvil work history is preserved.
 - **XP cost:** 1 level.
-- **This is the only operation that resets history.**
+- **This is the only operation that resets the history on the resulting book.**
 
 ---
 
@@ -96,24 +96,7 @@ Create a perfect duplicate of any enchanted item.
 - Both items must be **completely intact** (no damage).
 - Output: a copy with the **same enchantments**.
 - **XP cost:** 25 levels.
-- **Item history is preserved and copied to the result.**
-
----
-
-### ⚖️ Vanilla Enchantment Combination Change
-*(Available since 2.0.0 mod version)*
-
-The vanilla enchantment level increase mechanic has been intentionally disabled.
-
-In vanilla Minecraft, combining two enchanted books or items with the same enchantment level increases the resulting enchantment level. This behavior makes sense in vanilla, because enchanted books and items are effectively **single-use** and cannot be duplicated.
-
-**EnchantOnce** introduces the ability to **duplicate enchanted books and clone enchanted items**. Without adjusting vanilla behavior, this would allow players to reach maximum enchantment levels simply by repeatedly cloning and combining items.
-
-To preserve balance and prevent enchantment scaling:
-- Combining two books or items with the same enchantment level **no longer increases** the resulting enchantment level.
-- The highest existing level is preserved instead.
-
-This change is intentional and required for compatibility with the mod’s duplication mechanics.
+- **Anvil work history is preserved and copied to the result.**
 
 ---
 
@@ -133,6 +116,23 @@ Lower enchantment levels on enchanted books using **Flint**.
 - **Material:** 1 Flint
 
 This provides a controlled way to adjust enchantment strength without relying on random rerolling or grindstone abuse.
+
+---
+
+### ⚖️ Vanilla Enchantment Combination Change
+*(Available since 2.0.0 mod version)*
+
+The vanilla enchantment level increase mechanic has been intentionally disabled.
+
+In vanilla Minecraft, combining two enchanted books or items with the same enchantment level increases the resulting enchantment level. This behavior makes sense in vanilla, because enchanted books and items are effectively **single-use** and cannot be duplicated.
+
+**EnchantOnce** introduces the ability to **duplicate enchanted books and clone enchanted items**. Without adjusting vanilla behavior, this would allow players to reach maximum enchantment levels simply by repeatedly cloning and combining items.
+
+To preserve balance and prevent enchantment scaling:
+- Combining two books or items with the same enchantment level **no longer increases** the resulting enchantment level.
+- The highest existing level is preserved instead.
+
+This change is intentional and required for compatibility with the mod’s duplication mechanics.
 
 ---
 
@@ -228,6 +228,7 @@ You can even **disable all mechanics** and effectively restore full vanilla beha
 - `preventIncreaseEnchantmentLevel` – prevent enchantment level scaling when combining items  
 - `allowNonstandardRepairs` – allow repairing items like Trident, Shears, etc. with materials  
 - `moveEnchantmentsToBookCost` – XP cost for moving enchantments to books  
+- `keepItemWhenMovingEnchantmentsToBook` – keep the original gear item instead of consuming it when moving enchantments to books (default: false)
 - `gearCopyingCost` – XP cost for copying enchantments between gear  
 - `maxBookCopies` – maximum number of copies per book duplication operation  
 
@@ -287,15 +288,16 @@ You earned them — keep them. This mod respects your time and your progress.
 # 🛠️ Installation and Technical Information
 
 ## Installation
-- Make sure you have **Minecraft 1.20.5 - 26.1** with **NeoForge** or **Forge** installed.
+- Make sure you have **Minecraft 1.20.5 - 26.1** with **NeoForge**, **Fabric** or **Forge** installed.
+- **Fabric** version requires **Fabric API** to be installed as well.
 - Download the mod `.jar` file.
 - Place it into your `mods` folder.
 - Launch the game and enjoy your adventure!
 
 ## Technical Details
-- **Developer:** Sergey Pekarchik
 - **Supported Minecraft versions with NeoForge:** 1.20.5 - 26.1
 - **Supported Minecraft versions with Forge:** 1.20.1 - 1.21.5 (no plans to support later versions)
+- **Supported Minecraft versions with Fabric:** 1.21.1, 1.21.5 - 1.21.11, 26.1 - 26.1.2
 
 ---
 
