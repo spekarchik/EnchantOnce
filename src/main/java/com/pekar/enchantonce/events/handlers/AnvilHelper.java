@@ -1,5 +1,6 @@
 package com.pekar.enchantonce.events.handlers;
 
+import com.pekar.enchantonce.Config;
 import com.pekar.enchantonce.enchantments.EnchantmentRegistry;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
@@ -21,6 +22,7 @@ public class AnvilHelper
 {
     public static ItemEnchantments addLockMarkerIfContainsWindBurst(ItemEnchantments enchantments, Level level)
     {
+        if (Config.PREVENT_INCREASE_ENCHANTMENT_LEVEL.isFalse()) return enchantments;
         boolean needToAddSealedMarker = enchantments.keySet().stream().anyMatch(x -> x.is(Enchantments.WIND_BURST));
         var mutable = new ItemEnchantments.Mutable(enchantments);
         if (needToAddSealedMarker)
