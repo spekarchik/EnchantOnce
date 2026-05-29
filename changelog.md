@@ -1,3 +1,9 @@
+## 📦 Version 2.5.2
+
+### 🐞 Fixed
+- **Wind Burst 🔒** marker is no longer added to the result when the `preventIncreaseEnchantmentLevel` config option is disabled.
+
+
 ## 📦 Version 2.5.1
 
 ### 📝 Changes
