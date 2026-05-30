@@ -1,10 +1,16 @@
 plugins {
-	id 'net.fabricmc.fabric-loom' version "${loom_version}"
+	id 'java-library'
 	id 'maven-publish'
+	id 'net.fabricmc.fabric-loom' version "${loom_version}"
+	id 'idea'
 }
 
-version = project.mod_version
-group = project.maven_group
+tasks.named('wrapper', Wrapper).configure {
+	distributionType = Wrapper.DistributionType.BIN
+}
+
+version = mod_version
+group = mod_group_id
 
 repositories {
 	// Add repositories to retrieve artifacts from in here.
@@ -31,23 +37,21 @@ def authorsJson = project.mod_authors
 		.join(", ")
 
 processResources {
-	def version = project.version
-	inputs.property "version", version
-	inputs.property "mod_id", project.mod_id
-	inputs.property "mod_name", project.mod_name
-	inputs.property "mod_description", project.mod_description
-	inputs.property "mod_authors", project.mod_authors
-	inputs.property "home_page", project.home_page
-	inputs.property "mod_license", project.mod_license
+	def replaceProperties = [
+			minecraft_version: minecraft_version,
+			loader_version   : loader_version,
+			mod_id           : mod_id,
+			mod_name         : mod_name,
+			mod_license      : mod_license,
+			mod_version      : mod_version,
+			home_page        : home_page,
+			mod_authors      : mod_authors,
+			mod_description  : mod_description,
+	]
+	inputs.properties replaceProperties
 
 	filesMatching("fabric.mod.json") {
-		expand "version": version,
-		"mod_id": project.mod_id,
-		"mod_name": project.mod_name,
-		"mod_description": project.mod_description,
-		"mod_authors": "[${authorsJson}]",
-		"home_page": project.home_page,
-		"mod_license": project.mod_license
+		expand replaceProperties
 	}
 }
 
