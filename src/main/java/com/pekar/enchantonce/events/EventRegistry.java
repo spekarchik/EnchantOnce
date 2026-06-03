@@ -6,7 +6,7 @@ public class EventRegistry
 {
     public static void registerEvents()
     {
-        register(new WorldEvents());
+        register(new AnvilEvents());
         register(new ConsoleCommandEvents());
     }
 

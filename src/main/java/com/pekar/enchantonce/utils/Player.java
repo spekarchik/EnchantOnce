@@ -1,0 +1,43 @@
+package com.pekar.enchantonce.utils;
+
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ArmorItem;
+import net.minecraft.world.item.ItemStack;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Set;
+
+public class Player
+{
+    Player()
+    {
+
+    }
+
+    public Set<ArmorItem.Type> getArmorTypes()
+    {
+        return Set.of(ArmorItem.Type.HELMET, ArmorItem.Type.CHESTPLATE, ArmorItem.Type.LEGGINGS, ArmorItem.Type.BOOTS);
+    }
+
+    public List<ItemStack> getArmorInSlots(LivingEntity entity)
+    {
+        return Arrays.asList(
+                entity.getItemBySlot(EquipmentSlot.HEAD),
+                entity.getItemBySlot(EquipmentSlot.CHEST),
+                entity.getItemBySlot(EquipmentSlot.LEGS),
+                entity.getItemBySlot(EquipmentSlot.FEET)
+        );
+    }
+
+    public List<EquipmentSlot> getArmorSlots()
+    {
+        return Arrays.asList(
+                EquipmentSlot.HEAD,
+                EquipmentSlot.CHEST,
+                EquipmentSlot.LEGS,
+                EquipmentSlot.FEET
+        );
+    }
+}
