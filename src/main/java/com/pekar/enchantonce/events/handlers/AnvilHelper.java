@@ -9,6 +9,8 @@ import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Predicate;
 
 public class AnvilHelper
@@ -82,7 +84,15 @@ public class AnvilHelper
 
             anyApplied = true;
 
-            int perLevelCost = rightEnch.getAnvilCost();
+            int perLevelCost;
+            switch (rightEnch.getRarity())
+            {
+                case COMMON -> perLevelCost = 1;
+                case UNCOMMON -> perLevelCost = 2;
+                case RARE -> perLevelCost = 4;
+                case VERY_RARE -> perLevelCost = 8;
+                default -> perLevelCost = 0;
+            }
 
             if (mode == AnvilMergeMode.BOOK_BOOK
                     || mode == AnvilMergeMode.ITEM_BOOK)
@@ -122,15 +132,16 @@ public class AnvilHelper
     public static void cleanEnchantmentsExceptCurses(ItemStack item)
     {
         var enchantments = EnchantmentHelper.getEnchantments(item);
+        var resultEnchantments = new HashMap<>(enchantments);
 
         for (var entry : enchantments.entrySet())
         {
             var key = entry.getKey();
             if (key.isCurse()) continue;
 
-            enchantments.put(key, 0);
+            resultEnchantments.remove(key);
         }
 
-        EnchantmentHelper.setEnchantments(enchantments, item);
+        EnchantmentHelper.setEnchantments(resultEnchantments, item);
     }
 }

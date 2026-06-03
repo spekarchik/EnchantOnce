@@ -1,6 +1,6 @@
 {
   "values": [
-    "#minecraft:curse",
-    "enchantonce:sealed_marker"
+    "minecraft:binding_curse",
+    "minecraft:vanishing_curse"
   ]
 }

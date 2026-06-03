@@ -89,7 +89,10 @@ public class EnchantMaxCommand
 
                 if (ItemStackWrapper.of(stack).supportsEnchantment(enchantment) || mode == Mode.CLEAR)
                 {
-                    mutableEnchantments.put(enchantment.value(), level);
+                    if (level > 0)
+                        mutableEnchantments.put(enchantment.value(), level);
+                    else
+                        mutableEnchantments.remove(enchantment.value());
                 }
             }
 

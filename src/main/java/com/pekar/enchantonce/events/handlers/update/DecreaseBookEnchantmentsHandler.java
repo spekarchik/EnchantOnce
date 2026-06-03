@@ -7,6 +7,7 @@ import net.minecraft.core.Holder;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class DecreaseBookEnchantmentsHandler extends AnvilUpdateEventHandler
@@ -28,7 +29,7 @@ public class DecreaseBookEnchantmentsHandler extends AnvilUpdateEventHandler
     private void decreaseBookEnchantments()
     {
         var enchantments = EnchantmentHelper.getEnchantments(leftItemStack);
-        var resultEnchantments = Map.copyOf(enchantments);
+        var resultEnchantments = new HashMap<>(enchantments);
         boolean changed = false;
         int flintsAvailable = rightItemStack.getCount();
         int maxLevel = 0;
@@ -56,7 +57,11 @@ public class DecreaseBookEnchantmentsHandler extends AnvilUpdateEventHandler
             int level = entry.getValue();
 
             int newLevel = Math.max(0, level - flintsConsumed);
-            resultEnchantments.put(key, newLevel);
+            if (newLevel > 0)
+                resultEnchantments.put(key, newLevel);
+            else
+                resultEnchantments.remove(key);
+
             changed = true;
         }
 
@@ -67,7 +72,8 @@ public class DecreaseBookEnchantmentsHandler extends AnvilUpdateEventHandler
         }
 
         var result = leftItemStack.copy();
-        EnchantmentHelper.setEnchantments(resultEnchantments, result);
+        EnchantmentHelper.setEnchantments(new HashMap<>(), result);
+//        EnchantmentHelper.setEnchantments(resultEnchantments, result);
         AnvilHelper.setHistoryWeightToResult(leftItemStack, rightItemStack, result, false);
         event.setOutput(result);
         event.setMaterialCost(flintsConsumed);
