@@ -145,6 +145,14 @@ To preserve balance and prevent enchantment scaling:
 
 This change is intentional and required for compatibility with the mod’s duplication mechanics.
 
+##### Vanilla behavior (config option `preventIncreaseEnchantmentLevel = false`):
+
+![Enchantment Combination: Vanilla Behavior](https://github.com/spekarchik/EnchantOnce/blob/main/docs/images/BooksEnchLevelUp1_cr.png?raw=true)
+
+##### Modified behavior, set by default (config option `preventIncreaseEnchantmentLevel = true`):
+
+![Enchantment Combination: Mod Behavior](https://github.com/spekarchik/EnchantOnce/blob/main/docs/images/BooksEnchLevelUp2_cr.png?raw=true)
+
 ---
 
 ### 🌪️ Wind Burst — Controlled Vanilla Scaling
