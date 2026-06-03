@@ -60,7 +60,10 @@ jobs:
           echo "BRANCH_PAYLOAD=$BRANCH_PAYLOAD" >> $GITHUB_ENV
 
           # --- определяем TARGET ---
-          if [[ "$BRANCH_PAYLOAD" == 1.21* ]]; then
+          if [[ "$BRANCH_PAYLOAD" == 1.20.1* ]]; then
+            echo "TARGET=1.20.1" >> $GITHUB_ENV
+
+          elif [[ "$BRANCH_PAYLOAD" == 1.21* ]]; then
             echo "TARGET=1.21" >> $GITHUB_ENV
 
           elif [[ "$BRANCH_PAYLOAD" == 26.* ]]; then
@@ -140,6 +143,13 @@ jobs:
             sudo apt-get install -y --no-install-recommends jq
           fi
       # Сборка мода прямо в CD
+      - name: Set up Java 17
+        if: env.PUBLISH == 'true' && env.TARGET == '1.20.1'
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
       - name: Set up Java 21
         if: env.PUBLISH == 'true' && env.TARGET == '1.21'
         uses: actions/setup-java@v4
@@ -186,7 +196,9 @@ jobs:
           fi
           
           # Определяем JAVA_VERSION
-          if [[ "$TARGET" == 1.21 ]]; then
+          if [[ "$TARGET" == 1.20.1 ]]; then
+            JAVA_VERSION="Java 17"
+          elif [[ "$TARGET" == 1.21 ]]; then
             JAVA_VERSION="Java 21"
           elif [[ "$TARGET" == 26 ]]; then
             JAVA_VERSION="Java 25"
