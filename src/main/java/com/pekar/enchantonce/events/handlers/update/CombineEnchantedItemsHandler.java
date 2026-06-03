@@ -54,7 +54,7 @@ public class CombineEnchantedItemsHandler extends AnvilUpdateEventHandler
             if (!canEnchant) continue;
 
             int rightLevel = entry.getValue();
-            int leftLevel = resultEnchantments.get(key);
+            int leftLevel = resultEnchantments.getOrDefault(key, 0);
             int finalLevel = Math.max(leftLevel, rightLevel);
 
             if (finalLevel == 0)

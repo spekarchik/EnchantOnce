@@ -54,7 +54,7 @@ public class AnvilHelper
         {
             var rightEnch = entry.getKey();
 
-            int leftLevel = leftEnchs.get(rightEnch);
+            int leftLevel = leftEnchs.getOrDefault(rightEnch, 0);
             int rightLevel = entry.getValue();
 
             int resultLevel = Math.max(leftLevel, rightLevel);

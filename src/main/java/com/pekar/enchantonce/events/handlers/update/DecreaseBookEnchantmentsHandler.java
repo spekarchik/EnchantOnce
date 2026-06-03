@@ -4,6 +4,7 @@ import com.pekar.enchantonce.Config;
 import com.pekar.enchantonce.events.handlers.AnvilHelper;
 import com.pekar.enchantonce.events.handlers.base.AnvilUpdateEventHandler;
 import net.minecraft.core.Holder;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 
@@ -52,7 +53,7 @@ public class DecreaseBookEnchantmentsHandler extends AnvilUpdateEventHandler
             var key = entry.getKey();
 
             // Do not touch curses: keep them intact
-            if (Holder.direct(key).is(PERSISTENT)) continue;
+            if (key.isCurse()) continue;
 
             int level = entry.getValue();
 
@@ -71,9 +72,8 @@ public class DecreaseBookEnchantmentsHandler extends AnvilUpdateEventHandler
             return;
         }
 
-        var result = leftItemStack.copy();
-        EnchantmentHelper.setEnchantments(new HashMap<>(), result);
-//        EnchantmentHelper.setEnchantments(resultEnchantments, result);
+        var result = new ItemStack(leftItemStack.getItem());
+        EnchantmentHelper.setEnchantments(resultEnchantments, result);
         AnvilHelper.setHistoryWeightToResult(leftItemStack, rightItemStack, result, false);
         event.setOutput(result);
         event.setMaterialCost(flintsConsumed);
