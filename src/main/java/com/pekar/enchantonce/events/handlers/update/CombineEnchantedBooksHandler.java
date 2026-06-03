@@ -1,13 +1,10 @@
 package com.pekar.enchantonce.events.handlers.update;
 
 import com.pekar.enchantonce.Config;
-import com.pekar.enchantonce.enchantments.EnchantmentRegistry;
 import com.pekar.enchantonce.events.handlers.AnvilMergeMode;
 import com.pekar.enchantonce.events.handlers.base.AnvilUpdateEventHandler;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
-import net.minecraft.world.item.enchantment.Enchantments;
-import net.minecraft.world.item.enchantment.ItemEnchantments;
 
 import static com.pekar.enchantonce.events.handlers.AnvilHelper.getXpCost;
 import static com.pekar.enchantonce.events.handlers.AnvilHelper.setHistoryWeightToResult;
@@ -33,7 +30,6 @@ public class CombineEnchantedBooksHandler extends AnvilUpdateEventHandler
         var leftEnchs = EnchantmentHelper.getEnchantments(leftItemStack);
         var rightEnchs = EnchantmentHelper.getEnchantments(rightItemStack);
 
-        var leftEnchMutable = new ItemEnchantments.Mutable(leftEnchs);
         boolean changed = false;
 
         // Merge enchantments but do not increase any enchantment level beyond the highest level present in inputs.
@@ -50,22 +46,11 @@ public class CombineEnchantedBooksHandler extends AnvilUpdateEventHandler
 
             if (!canEnchant) continue;
 
-            boolean isWindBurst = key.is(Enchantments.WIND_BURST);
-            int rightLevel = entry.getIntValue();
-            int leftLevel = leftEnchMutable.getLevel(key);
-            int finalLevel;
+            int rightLevel = entry.getValue();
+            int leftLevel = leftEnchs.get(key);
+            int finalLevel = Math.max(leftLevel, rightLevel);
 
-            if (isWindBurst && rightLevel == leftLevel
-                    && rightEnchs.keySet().stream().noneMatch(x -> x.is(EnchantmentRegistry.LOCK_MARKER)))
-            {
-                finalLevel = Math.min(rightLevel + 1, key.value().getMaxLevel());
-            }
-            else
-            {
-                finalLevel = Math.max(leftLevel, rightLevel);
-            }
-
-            leftEnchMutable.set(key, finalLevel);
+            leftEnchs.put(key, finalLevel);
             if (finalLevel != leftLevel) changed = true;
         }
 
@@ -77,7 +62,7 @@ public class CombineEnchantedBooksHandler extends AnvilUpdateEventHandler
 
         var result = leftItemStack.copy();
 
-        EnchantmentHelper.setEnchantments(result, leftEnchMutable.toImmutable());
+        EnchantmentHelper.setEnchantments(leftEnchs, result);
         setHistoryWeightToResult(leftItemStack, rightItemStack, result, true);
         int xpCost = getXpCost(leftItemStack, rightItemStack, AnvilMergeMode.BOOK_BOOK, e -> true);
         event.setOutput(result);

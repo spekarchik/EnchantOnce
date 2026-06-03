@@ -6,8 +6,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 
-import static com.pekar.enchantonce.events.handlers.AnvilHelper.addLockMarkerIfContainsWindBurst;
-
 public class MoveEnchantmentsToBookHandler extends AnvilUpdateEventHandler
 {
     @Override
@@ -30,9 +28,8 @@ public class MoveEnchantmentsToBookHandler extends AnvilUpdateEventHandler
     private void moveEnchantmentsToBook()
     {
         var result = new ItemStack(Items.ENCHANTED_BOOK);
-        var enchantments = EnchantmentHelper.getEnchantmentsForCrafting(leftItemStack);
-        var resultEnchantments = addLockMarkerIfContainsWindBurst(enchantments, event.getLevel());
-        EnchantmentHelper.setEnchantments(result, resultEnchantments);
+        var enchantments = EnchantmentHelper.getEnchantments(leftItemStack);
+        EnchantmentHelper.setEnchantments(enchantments, result);
         // not to copy history weight to the book
         event.setOutput(result);
         event.setXpCost(Config.MOVE_ENCHANTMENTS_TO_BOOK_COST.get());

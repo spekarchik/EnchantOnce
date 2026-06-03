@@ -1,15 +1,13 @@
 package com.pekar.enchantonce.events.handlers.update;
 
 import com.pekar.enchantonce.Config;
-import com.pekar.enchantonce.enchantments.EnchantmentRegistry;
 import com.pekar.enchantonce.events.handlers.AnvilMergeMode;
 import com.pekar.enchantonce.events.handlers.base.AnvilUpdateEventHandler;
 import com.pekar.enchantonce.utils.ItemStackWrapper;
+import net.minecraft.core.Holder;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
-import net.minecraft.world.item.enchantment.Enchantments;
-import net.minecraft.world.item.enchantment.ItemEnchantments;
 
 import static com.pekar.enchantonce.events.handlers.AnvilHelper.getXpCost;
 import static com.pekar.enchantonce.events.handlers.AnvilHelper.setHistoryWeightToResult;
@@ -37,38 +35,26 @@ public class CombineEnchantedItemsHandler extends AnvilUpdateEventHandler
 
     private void combineEnchantedItems()
     {
-        var leftEnchs = EnchantmentHelper.getEnchantmentsForCrafting(leftItemStack);
-        var rightEnchs = EnchantmentHelper.getEnchantmentsForCrafting(rightItemStack);
+        var leftEnchs = EnchantmentHelper.getEnchantments(leftItemStack);
+        var rightEnchs = EnchantmentHelper.getEnchantments(rightItemStack);
 
-        var leftEnchMutable = new ItemEnchantments.Mutable(leftEnchs);
         boolean changed = false;
 
         for (var entry : rightEnchs.entrySet())
         {
             var key = entry.getKey();
-            boolean isEnchantmentSupportedByItem = ItemStackWrapper.of(leftItemStack).supportsEnchantment(key);
+            boolean isEnchantmentSupportedByItem = ItemStackWrapper.of(leftItemStack).supportsEnchantment(Holder.direct(key));
             boolean areEnchantmentsCompatible = EnchantmentHelper.isEnchantmentCompatible(leftEnchs.keySet(), key);
             boolean areEnchantmentsAlreadyPresent = leftEnchs.keySet().contains(key);
             boolean canEnchant = isEnchantmentSupportedByItem && (areEnchantmentsCompatible || areEnchantmentsAlreadyPresent);
 
             if (!canEnchant) continue;
 
-            boolean isWindBurst = key.is(Enchantments.WIND_BURST);
-            int rightLevel = entry.getIntValue();
-            int leftLevel = leftEnchMutable.getLevel(key);
-            int finalLevel;
+            int rightLevel = entry.getValue();
+            int leftLevel = leftEnchs.get(key);
+            int finalLevel = Math.max(leftLevel, rightLevel);
 
-            if (isWindBurst && rightLevel == leftLevel && rightItemStack.is(Items.ENCHANTED_BOOK)
-                    && rightEnchs.keySet().stream().noneMatch(x -> x.is(EnchantmentRegistry.LOCK_MARKER)))
-            {
-                finalLevel = Math.min(rightLevel + 1, key.value().getMaxLevel());
-            }
-            else
-            {
-                finalLevel = Math.max(leftLevel, rightLevel);
-            }
-
-            leftEnchMutable.set(key, finalLevel);
+            leftEnchs.put(key, finalLevel);
             if (finalLevel != leftLevel) changed = true;
         }
 
@@ -85,10 +71,10 @@ public class CombineEnchantedItemsHandler extends AnvilUpdateEventHandler
         }
 
         result.setDamageValue(resultDamageValue);
-        EnchantmentHelper.setEnchantments(result, leftEnchMutable.toImmutable());
+        EnchantmentHelper.setEnchantments(leftEnchs, result);
         setHistoryWeightToResult(leftItemStack, rightItemStack, result, true);
         var anvilMergeMode = rightItemStack.is(Items.ENCHANTED_BOOK)? AnvilMergeMode.ITEM_BOOK : AnvilMergeMode.ITEM_ITEM;
-        int xpCost = getXpCost(leftItemStack, rightItemStack, anvilMergeMode, ench -> ItemStackWrapper.of(leftItemStack).supportsEnchantment(ench));
+        int xpCost = getXpCost(leftItemStack, rightItemStack, anvilMergeMode, ench -> ItemStackWrapper.of(leftItemStack).supportsEnchantment(Holder.direct(ench)));
         event.setOutput(result);
         event.setXpCost(xpCost);
         event.setMaterialCost(1);

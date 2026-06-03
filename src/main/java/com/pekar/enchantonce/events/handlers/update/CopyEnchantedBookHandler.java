@@ -2,11 +2,11 @@ package com.pekar.enchantonce.events.handlers.update;
 
 import com.pekar.enchantonce.Config;
 import com.pekar.enchantonce.events.handlers.base.AnvilUpdateEventHandler;
+import net.minecraft.core.Holder;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 
-import static com.pekar.enchantonce.events.handlers.AnvilHelper.addLockMarkerIfContainsWindBurst;
 import static com.pekar.enchantonce.events.handlers.AnvilHelper.setHistoryWeightToResult;
 
 public class CopyEnchantedBookHandler extends AnvilUpdateEventHandler
@@ -30,11 +30,10 @@ public class CopyEnchantedBookHandler extends AnvilUpdateEventHandler
 
     private void copyEnchantedBook(int booksToCopyAmount)
     {
-        var enchantments = EnchantmentHelper.getEnchantmentsForCrafting(leftItemStack);
+        var enchantments = EnchantmentHelper.getEnchantments(leftItemStack);
 
-        var resultEnchantments = addLockMarkerIfContainsWindBurst(enchantments, event.getLevel());
         ItemStack output = leftItemStack.copy();
-        EnchantmentHelper.setEnchantments(output, resultEnchantments);
+        EnchantmentHelper.setEnchantments(enchantments, output);
         setHistoryWeightToResult(leftItemStack, ItemStack.EMPTY, output, false);
         output.setCount(booksToCopyAmount + 1);
         event.setOutput(output);
@@ -44,9 +43,9 @@ public class CopyEnchantedBookHandler extends AnvilUpdateEventHandler
         int cost = 0;
         for (var ench : enchantments.entrySet())
         {
-            var key = ench.getKey().value();
-            var value = ench.getIntValue();
-            if (!ench.getKey().is(PERSISTENT))
+            var key = ench.getKey();
+            var value = ench.getValue();
+            if (!Holder.direct(key).is(PERSISTENT))
             {
                 cost += key.getMinCost(value) / 17;
             }

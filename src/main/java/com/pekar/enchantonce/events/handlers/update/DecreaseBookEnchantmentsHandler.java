@@ -1,14 +1,13 @@
 package com.pekar.enchantonce.events.handlers.update;
 
 import com.pekar.enchantonce.Config;
-import com.pekar.enchantonce.enchantments.EnchantmentRegistry;
 import com.pekar.enchantonce.events.handlers.AnvilHelper;
 import com.pekar.enchantonce.events.handlers.base.AnvilUpdateEventHandler;
-import net.minecraft.tags.EnchantmentTags;
+import net.minecraft.core.Holder;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
-import net.minecraft.world.item.enchantment.Enchantments;
-import net.minecraft.world.item.enchantment.ItemEnchantments;
+
+import java.util.Map;
 
 public class DecreaseBookEnchantmentsHandler extends AnvilUpdateEventHandler
 {
@@ -28,8 +27,8 @@ public class DecreaseBookEnchantmentsHandler extends AnvilUpdateEventHandler
 
     private void decreaseBookEnchantments()
     {
-        var enchantments = EnchantmentHelper.getEnchantmentsForCrafting(leftItemStack);
-        var resultEnchantments = new ItemEnchantments.Mutable(enchantments);
+        var enchantments = EnchantmentHelper.getEnchantments(leftItemStack);
+        var resultEnchantments = Map.copyOf(enchantments);
         boolean changed = false;
         int flintsAvailable = rightItemStack.getCount();
         int maxLevel = 0;
@@ -38,9 +37,9 @@ public class DecreaseBookEnchantmentsHandler extends AnvilUpdateEventHandler
         for (var entry : enchantments.entrySet())
         {
             var key = entry.getKey();
-            int level = entry.getIntValue();
+            int level = entry.getValue();
             maxLevel = Math.max(maxLevel, level);
-            if (key.is(EnchantmentTags.CURSE)) hasCurses = true;
+            if (key.isCurse()) hasCurses = true;
         }
 
         int levelsToRemove = hasCurses ? maxLevel : (maxLevel - 1); // we can remove all enchantments and keep only curses
@@ -52,30 +51,23 @@ public class DecreaseBookEnchantmentsHandler extends AnvilUpdateEventHandler
             var key = entry.getKey();
 
             // Do not touch curses: keep them intact
-            if (key.is(PERSISTENT)) continue;
+            if (Holder.direct(key).is(PERSISTENT)) continue;
 
-            int level = entry.getIntValue();
+            int level = entry.getValue();
 
             int newLevel = Math.max(0, level - flintsConsumed);
-            resultEnchantments.set(key, newLevel);
+            resultEnchantments.put(key, newLevel);
             changed = true;
         }
 
-        if (resultEnchantments.keySet().stream().noneMatch(x -> x.is(Enchantments.WIND_BURST))
-                && resultEnchantments.keySet().stream().anyMatch(x -> x.is(EnchantmentRegistry.LOCK_MARKER)))
-        {
-            var enchantmentRegistry = AnvilHelper.getEnchantmentRegistry(event.getLevel());
-            resultEnchantments.set(enchantmentRegistry.getHolderOrThrow(EnchantmentRegistry.LOCK_MARKER), 0);
-        }
-
-        if (!changed || flintsConsumed == 0 || resultEnchantments.keySet().isEmpty())
+        if (!changed || flintsConsumed == 0 || resultEnchantments.isEmpty())
         {
             event.cancel();
             return;
         }
 
         var result = leftItemStack.copy();
-        EnchantmentHelper.setEnchantments(result, resultEnchantments.toImmutable());
+        EnchantmentHelper.setEnchantments(resultEnchantments, result);
         AnvilHelper.setHistoryWeightToResult(leftItemStack, rightItemStack, result, false);
         event.setOutput(result);
         event.setMaterialCost(flintsConsumed);

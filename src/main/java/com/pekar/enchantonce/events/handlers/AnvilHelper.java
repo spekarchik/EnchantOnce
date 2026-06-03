@@ -1,14 +1,11 @@
 package com.pekar.enchantonce.events.handlers;
 
-import com.pekar.enchantonce.Config;
-import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.inventory.AnvilMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
-import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 
@@ -24,61 +21,50 @@ public class AnvilHelper
 
     public static void setHistoryWeightToResult(ItemStack leftItemStack, ItemStack rightItemStack, ItemStack result, boolean increaseWeight)
     {
-        int leftRepair = leftItemStack.getOrDefault(DataComponents.REPAIR_COST, 0);
-        int rightRepair = rightItemStack.getOrDefault(DataComponents.REPAIR_COST, 0);
+        int leftRepair = leftItemStack.getBaseRepairCost();
+        int rightRepair = rightItemStack.getBaseRepairCost();
         int newRepairCost = Math.max(leftRepair, rightRepair);
         if (increaseWeight)
             newRepairCost = AnvilMenu.calculateIncreasedRepairCost(newRepairCost);
 
-        result.set(DataComponents.REPAIR_COST, newRepairCost);
+        result.setRepairCost(newRepairCost);
     }
 
     public static int getXpCost(
             ItemStack left,
             ItemStack right,
             AnvilMergeMode mode,
-            Predicate<Holder<Enchantment>> supportsEnchantment
+            Predicate<Enchantment> supportsEnchantment
     )
     {
         int cost = 0;
         boolean anyApplied = false;
 
-        var leftEnchs = EnchantmentHelper.getEnchantmentsForCrafting(left);
-        var rightEnchs = EnchantmentHelper.getEnchantmentsForCrafting(right);
+        var leftEnchs = EnchantmentHelper.getEnchantments(left);
+        var rightEnchs = EnchantmentHelper.getEnchantments(right);
 
         // 1. prior work cost
-        int priorWork = left.getOrDefault(DataComponents.REPAIR_COST, 0)
-                + right.getOrDefault(DataComponents.REPAIR_COST, 0);
+        int priorWork = left.getBaseRepairCost()
+                + right.getBaseRepairCost();
         cost += priorWork;
 
         for (var entry : rightEnchs.entrySet())
         {
-            var enchHolder = entry.getKey();
-            var ench = enchHolder.value();
+            var rightEnch = entry.getKey();
 
-            if (enchHolder.is(EnchantmentRegistry.LOCK_MARKER)) continue;
+            int leftLevel = leftEnchs.get(rightEnch);
+            int rightLevel = entry.getValue();
 
-            int leftLevel = leftEnchs.getLevel(enchHolder);
-            int rightLevel = entry.getIntValue();
+            int resultLevel = Math.max(leftLevel, rightLevel);
 
-            boolean isNotSealedWindBurst = enchHolder.is(Enchantments.WIND_BURST)
-                    && rightLevel == leftLevel
-                    && rightEnchs.keySet().stream().noneMatch(x -> x.is(EnchantmentRegistry.LOCK_MARKER))
-                    && leftEnchs.keySet().stream().noneMatch(x -> x.is(EnchantmentRegistry.LOCK_MARKER));
-
-            int resultLevel = isNotSealedWindBurst
-                    ? rightLevel + 1
-                    : Math.max(leftLevel, rightLevel);
-
-            resultLevel = Math.min(resultLevel, ench.getMaxLevel());
+            resultLevel = Math.min(resultLevel, rightEnch.getMaxLevel());
 
             boolean compatible = true;
 
             // conflict with existing enchantments
             for (var existing : leftEnchs.keySet())
             {
-                if (!existing.equals(enchHolder)
-                        && !Enchantment.areCompatible(existing, enchHolder))
+                if (!existing.equals(rightEnch) && !existing.isCompatibleWith(rightEnch))
                 {
                     compatible = false;
                     cost += 1; // vanilla penalty
@@ -87,7 +73,7 @@ public class AnvilHelper
 
             // enchantment not supported by item
             if (mode != AnvilMergeMode.BOOK_BOOK
-                    && !supportsEnchantment.test(enchHolder))
+                    && !supportsEnchantment.test(rightEnch))
             {
                 compatible = false;
             }
@@ -96,7 +82,7 @@ public class AnvilHelper
 
             anyApplied = true;
 
-            int perLevelCost = ench.getAnvilCost();
+            int perLevelCost = rightEnch.getAnvilCost();
 
             if (mode == AnvilMergeMode.BOOK_BOOK
                     || mode == AnvilMergeMode.ITEM_BOOK)
@@ -135,17 +121,16 @@ public class AnvilHelper
 
     public static void cleanEnchantmentsExceptCurses(ItemStack item)
     {
-        var enchantments = EnchantmentHelper.getEnchantmentsForCrafting(item);
-        var mutable = new ItemEnchantments.Mutable(enchantments);
+        var enchantments = EnchantmentHelper.getEnchantments(item);
 
         for (var entry : enchantments.entrySet())
         {
             var key = entry.getKey();
-            if (key.is(EnchantmentTags.CURSE)) continue;
+            if (key.isCurse()) continue;
 
-            mutable.set(key, 0);
+            enchantments.put(key, 0);
         }
 
-        EnchantmentHelper.setEnchantments(item, mutable.toImmutable());
+        EnchantmentHelper.setEnchantments(enchantments, item);
     }
 }

@@ -32,8 +32,8 @@ public class CopyEnchantedGearHandler extends AnvilUpdateEventHandler
     private void copyEnchantedGear()
     {
         var result = leftItemStack.copy();
-        var enchantments = EnchantmentHelper.getEnchantmentsForCrafting(leftItemStack);
-        EnchantmentHelper.setEnchantments(result, enchantments);
+        var enchantments = EnchantmentHelper.getEnchantments(leftItemStack);
+        EnchantmentHelper.setEnchantments(enchantments, result);
         setHistoryWeightToResult(leftItemStack, ItemStack.EMPTY, result, false);
         result.setCount(2);
         event.setOutput(result);
