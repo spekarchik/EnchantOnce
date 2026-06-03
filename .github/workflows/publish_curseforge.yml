@@ -60,7 +60,7 @@ jobs:
           echo "BRANCH_PAYLOAD=$BRANCH_PAYLOAD" >> $GITHUB_ENV
 
           # --- определяем TARGET ---
-          if [[ "$BRANCH_PAYLOAD" == 1.21.* ]]; then
+          if [[ "$BRANCH_PAYLOAD" == 1.21* ]]; then
             echo "TARGET=1.21" >> $GITHUB_ENV
 
           elif [[ "$BRANCH_PAYLOAD" == 26.* ]]; then
