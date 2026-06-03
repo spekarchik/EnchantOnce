@@ -40,10 +40,12 @@ If you prefer a smoother, more controlled experience — where your best finds a
 - The "Too Expensive" limitation is removed entirely.
 - **Prior anvil work history is preserved** during repairs (it is not reset or increased).
 
+![Always repair for 2 levels](https://github.com/spekarchik/EnchantOnce/blob/main/docs/images/FlatRepairCost.png?raw=true)
+
 ### 🔄 Repair with Materials
 Repair tools and gear using **base materials**, instead of combining duplicate items.
 
-![Repair rare items like tridents](https://github.com/spekarchik/EnchantOnce/blob/main/docs/images/FlatRepairCost.png?raw=true)
+![Repair rare items like tridents](https://github.com/spekarchik/EnchantOnce/blob/main/docs/images/RepairWithMaterial.png?raw=true)
 
 
 | Item                     | Repair Material        | Amount Repaired         |
