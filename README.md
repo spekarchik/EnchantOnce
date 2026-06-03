@@ -43,6 +43,9 @@ If you prefer a smoother, more controlled experience — where your best finds a
 ### 🔄 Repair with Materials
 Repair tools and gear using **base materials**, instead of combining duplicate items.
 
+![Repair rare items like tridents](https://github.com/spekarchik/EnchantOnce/blob/main/docs/images/FlatRepairCost.png?raw=true)
+
+
 | Item                     | Repair Material        | Amount Repaired         |
 |--------------------------|------------------------|--------------------------|
 | Shield                   | Any Planks             | ½ durability             |
@@ -63,6 +66,8 @@ Repair tools and gear using **base materials**, instead of combining duplicate i
 ### 📖 Duplicate Enchanted Books
 Copy enchanted books using blank books.
 
+![Duplicate Enchanted Books](https://github.com/spekarchik/EnchantOnce/blob/main/docs/images/BookCopying.png?raw=true)
+
 - Place one **enchanted book** in the left slot and up to 4 **normal books** in the right.
 - Output: up to 5 copies of the enchanted book (original + up to 4 more).
 - **XP cost** depends on the enchantments:
@@ -79,6 +84,8 @@ Copy enchanted books using blank books.
 ### 📚 Extract Enchantments
 Move all enchantments from any enchanted item to a single enchanted book.
 
+![Extract Enchantments](https://github.com/spekarchik/EnchantOnce/blob/main/docs/images/EnchExtracting.png?raw=true)
+
 - Place the **item** in the left anvil slot, and a **book** in the right.
 - The item must be **completely intact** (no damage).
 - Output is one enchanted book with all enchantments.
@@ -92,6 +99,8 @@ Move all enchantments from any enchanted item to a single enchanted book.
 ### 🧬 Clone Enchanted Items
 Create a perfect duplicate of any enchanted item.
 
+![Clone Enchanted Items](https://github.com/spekarchik/EnchantOnce/blob/main/docs/images/GearEnchDuplicating.png?raw=true)
+
 - Place the **enchanted item** in the left slot and an **unenchanted item of the same type** in the right.
 - Both items must be **completely intact** (no damage).
 - Output: a copy with the **same enchantments**.
@@ -104,6 +113,8 @@ Create a perfect duplicate of any enchanted item.
 *(Available since 2.0.0 mod version)*
 
 Lower enchantment levels on enchanted books using **Flint**.
+
+![Downgrade Enchanted Books](https://github.com/spekarchik/EnchantOnce/blob/main/docs/images/EnchLevelDown_cr.png?raw=true)
 
 - Place an **enchanted book** in the left anvil slot and **Flint** in the right.
 - All **non-curse** enchantments have their level decreased by **1**.
@@ -152,6 +163,8 @@ Since EnchantOnce disables vanilla enchantment level scaling by default, Wind Bu
 
 EnchantOnce introduces an internal, book-only marker enchantment:  
 **`Wind Burst 🔒`**
+
+![Wind Burst Lock](https://github.com/spekarchik/EnchantOnce/blob/main/docs/images/WindBurstCopying_cr.png?raw=true)
 
 This marker is **not obtainable by players** and exists solely to control Wind Burst scaling behavior.
 
@@ -216,6 +229,8 @@ Items can still be duplicated, repaired, and extracted normally without enabling
 **EnchantOnce** now includes a fully configurable system that allows you to enable, disable, or tweak nearly every feature of the mod.
 
 You can even **disable all mechanics** and effectively restore full vanilla behavior — making the mod completely non-intrusive if desired.
+
+![Configuration Options](https://github.com/spekarchik/EnchantOnce/blob/main/docs/images/Config%202.png?raw=true)
 
 ### 🔧 Available Options
 
@@ -295,7 +310,7 @@ You earned them — keep them. This mod respects your time and your progress.
 - Launch the game and enjoy your adventure!
 
 ## Technical Details
-- **Supported Minecraft versions with NeoForge:** 1.20.5 - 26.1
+- **Supported Minecraft versions with NeoForge:** 1.20.5 - 1.21.11, 26.1 - 26.1.2
 - **Supported Minecraft versions with Forge:** 1.20.1 - 1.21.5 (no plans to support later versions)
 - **Supported Minecraft versions with Fabric:** 1.21.1, 1.21.5 - 1.21.11, 26.1 - 26.1.2
 
