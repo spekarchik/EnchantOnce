@@ -240,7 +240,7 @@ Items can still be duplicated, repaired, and extracted normally without enabling
 
 You can even **disable all mechanics** and effectively restore full vanilla behavior — making the mod completely non-intrusive if desired.
 
-![Configuration Options](https://github.com/spekarchik/EnchantOnce/blob/main/docs/images/Config%202.png?raw=true)
+![Configuration Options](https://github.com/spekarchik/EnchantOnce/blob/main/docs/images/Config2.png?raw=true)
 
 ### 🔧 Available Options
 
