@@ -23,7 +23,7 @@
 		"enchantonce.mixins.json"
 	],
 	"depends": {
-		"fabricloader": ">=${loader_version}",
+		"fabricloader": ">=${min_loader_version}",
 		"minecraft": "~1.21.1",
 		"java": ">=21",
 		"fabric-api": "*"
