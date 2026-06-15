@@ -9,7 +9,7 @@ import org.spongepowered.asm.mixin.injection.ModifyConstant;
 @Mixin(AnvilScreen.class)
 public class AnvilScreenMixin
 {
-    @ModifyConstant(method = "renderLabels", constant = @Constant(intValue = 40))
+    @ModifyConstant(method = "extractLabels", constant = @Constant(intValue = 40))
     private int allowCostLabelAboveVanillaLimit(int value)
     {
         return Config.ALLOW_HIGH_ANVIL_COST.isTrue() ? Integer.MAX_VALUE : value;
