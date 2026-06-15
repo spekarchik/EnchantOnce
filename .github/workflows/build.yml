@@ -27,5 +27,5 @@ jobs:
       - name: Upload JAR artifact
         uses: actions/upload-artifact@v4
         with:
-          name: neoforge-mod
+          name: fabric-mod
           path: build/libs/*[^sources][^javadoc].jar
