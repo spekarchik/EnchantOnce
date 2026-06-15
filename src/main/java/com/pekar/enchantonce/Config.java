@@ -34,6 +34,10 @@ public class Config
             .comment("Allow decreasing enchantment level on books using flint")
             .define("allowDecreaseEnchantmentLevel", true);
 
+    public static final ModConfigSpec.BooleanValue ALLOW_HIGH_ANVIL_COST = BUILDER
+            .comment("Allow anvil operations with XP costs of 40 levels or more instead of blocking them as too expensive")
+            .define("allowHighAnvilCost", true);
+
     public static final ModConfigSpec.IntValue FIXED_REPAIR_COST = BUILDER
             .comment("XP cost (in levels) for repairing items with materials when fixed repair cost is enabled")
             .defineInRange("fixedRepairCost", 2, 1, 100);
