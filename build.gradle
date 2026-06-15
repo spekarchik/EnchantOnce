@@ -25,11 +25,13 @@ dependencies {
 processResources {
 	def replaceProperties = [
 			minecraft_version: minecraft_version,
+			minecraft_version_range: minecraft_version_range,
 			loader_version   : loader_version,
 			min_loader_version: min_loader_version,
 			mod_id           : mod_id,
 			mod_name         : mod_name,
 			mod_license      : mod_license,
+			logo             : logo,
 			mod_version      : mod_version,
 			home_page        : home_page,
 			mod_authors      : mod_authors,
