@@ -6,6 +6,9 @@
 		"AnvilMenuMixin",
 		"ItemCombinerMenuAccessor"
 	],
+	"client": [
+		"AnvilScreenMixin"
+	],
 	"injectors": {
 		"defaultRequire": 1
 	}
