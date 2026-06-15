@@ -14,12 +14,12 @@ public class CopyEnchantedBookHandler extends AnvilUpdateEventHandler
     @Override
     protected boolean handleInternally()
     {
-        if (!Config.ALLOW_BOOK_COPYING.get()) return false;
+        if (Config.ALLOW_BOOK_COPYING.isFalse()) return false;
 
         if (leftItemStack.is(Items.ENCHANTED_BOOK) && rightItemStack.is(Items.BOOK))
         {
             int rightItemStackCount = rightItemStack.getCount();
-            int booksToCopyAmount = Math.min(rightItemStackCount, Config.MAX_BOOK_COPIES.get());
+            int booksToCopyAmount = Math.min(rightItemStackCount, Config.MAX_BOOK_COPIES.getAsInt());
 
             copyEnchantedBook(booksToCopyAmount);
             return true;

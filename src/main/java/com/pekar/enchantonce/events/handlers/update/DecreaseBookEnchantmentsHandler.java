@@ -16,7 +16,7 @@ public class DecreaseBookEnchantmentsHandler extends AnvilUpdateEventHandler
     @Override
     protected boolean handleInternally()
     {
-        if (!Config.ALLOW_DECREASE_ENCHANTMENT_LEVEL.get()) return false;
+        if (Config.ALLOW_DECREASE_ENCHANTMENT_LEVEL.isFalse()) return false;
 
         if (leftItemStack.is(Items.ENCHANTED_BOOK) && rightItemStack.is(Items.FLINT))
         {
@@ -77,6 +77,6 @@ public class DecreaseBookEnchantmentsHandler extends AnvilUpdateEventHandler
         AnvilHelper.setHistoryWeightToResult(leftItemStack, rightItemStack, result, false);
         event.setOutput(result);
         event.setMaterialCost(flintsConsumed);
-        event.setXpCost(flintsConsumed * Config.DECREASE_ENCHANTMENT_LEVEL_COST.get());
+        event.setXpCost(flintsConsumed * Config.DECREASE_ENCHANTMENT_LEVEL_COST.getAsInt());
     }
 }

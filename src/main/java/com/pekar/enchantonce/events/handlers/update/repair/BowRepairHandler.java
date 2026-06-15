@@ -9,7 +9,7 @@ public class BowRepairHandler extends GearRepairEventHandler
     @Override
     protected boolean handleInternally()
     {
-        if (!Config.ALLOW_NONSTANDARD_REPAIRS.get()) return false;
+        if (Config.ALLOW_NONSTANDARD_REPAIRS.isFalse()) return false;
 
         int repairAmount = getRepairAmount(leftItemStack.getMaxDamage(), TOOL_REPAIR_PORTIONS);
 

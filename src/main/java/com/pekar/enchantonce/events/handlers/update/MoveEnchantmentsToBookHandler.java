@@ -11,7 +11,7 @@ public class MoveEnchantmentsToBookHandler extends AnvilUpdateEventHandler
     @Override
     protected boolean handleInternally()
     {
-        if (!Config.ALLOW_MOVE_ENCHANTMENTS_TO_BOOK.get()) return false;
+        if (Config.ALLOW_MOVE_ENCHANTMENTS_TO_BOOK.isFalse()) return false;
 
         if (leftItemStack.isDamageableItem() && rightItemStack.is(Items.BOOK))
         {
@@ -32,7 +32,7 @@ public class MoveEnchantmentsToBookHandler extends AnvilUpdateEventHandler
         EnchantmentHelper.setEnchantments(enchantments, result);
         // not to copy history weight to the book
         event.setOutput(result);
-        event.setXpCost(Config.MOVE_ENCHANTMENTS_TO_BOOK_COST.get());
+        event.setXpCost(Config.MOVE_ENCHANTMENTS_TO_BOOK_COST.getAsInt());
         event.setMaterialCost(1);
     }
 }

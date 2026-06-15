@@ -19,7 +19,7 @@ public class CombineEnchantedItemsHandler extends AnvilUpdateEventHandler
     @Override
     protected boolean handleInternally()
     {
-        if (!Config.PREVENT_INCREASE_ENCHANTMENT_LEVEL.get()) return false;
+        if (Config.PREVENT_INCREASE_ENCHANTMENT_LEVEL.isFalse()) return false;
 
         if (!leftItemStack.is(Items.ENCHANTED_BOOK) && leftItemStack.isEnchanted() && (rightItemStack.isEnchanted() || rightItemStack.is(Items.ENCHANTED_BOOK)))
         {

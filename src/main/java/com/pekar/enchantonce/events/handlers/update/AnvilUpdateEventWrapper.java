@@ -1,8 +1,8 @@
 package com.pekar.enchantonce.events.handlers.update;
 
+import com.pekar.enchantonce.events.AnvilUpdateEvent;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.event.AnvilUpdateEvent;
 
 public class AnvilUpdateEventWrapper
 {
@@ -25,7 +25,7 @@ public class AnvilUpdateEventWrapper
 
     public void setXpCost(int xpCost)
     {
-        event.setCost(xpCost);
+        event.setXpCost(xpCost);
     }
 
     public void setMaterialCost(int materialCost)

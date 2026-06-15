@@ -11,7 +11,7 @@ public class VanillaRepairHandler extends GearRepairEventHandler
     @Override
     protected boolean handleInternally()
     {
-        if (!Config.ALLOW_FIXED_REPAIR_COST.get()) return false;
+        if (Config.ALLOW_FIXED_REPAIR_COST.isFalse()) return false;
 
         return leftItemStack.isDamageableItem() && validateAndRepair();
     }

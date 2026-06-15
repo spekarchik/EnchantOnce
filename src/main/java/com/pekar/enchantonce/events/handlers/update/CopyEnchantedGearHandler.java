@@ -12,7 +12,7 @@ public class CopyEnchantedGearHandler extends AnvilUpdateEventHandler
     @Override
     protected boolean handleInternally()
     {
-        if (!Config.ALLOW_GEAR_COPYING.get()) return false;
+        if (Config.ALLOW_GEAR_COPYING.isFalse()) return false;
 
         if (leftItemStack.isDamageableItem() && leftItemStack.getDamageValue() == 0 && leftItemStack.isEnchanted() &&
                 rightItemStack.isEnchantable() && !rightItemStack.isEnchanted() && rightItemStack.getDamageValue() == 0)
@@ -37,6 +37,6 @@ public class CopyEnchantedGearHandler extends AnvilUpdateEventHandler
         setHistoryWeightToResult(leftItemStack, ItemStack.EMPTY, result, false);
         result.setCount(2);
         event.setOutput(result);
-        event.setXpCost(Config.GEAR_COPYING_COST.get());
+        event.setXpCost(Config.GEAR_COPYING_COST.getAsInt());
     }
 }

@@ -1,43 +1,48 @@
 package com.pekar.enchantonce;
 
-import com.mojang.logging.LogUtils;
-import com.pekar.enchantonce.events.EventRegistry;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.server.ServerStartingEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.config.ModConfig;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import com.pekar.enchantonce.commands.*;
+import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
+import net.fabricmc.loader.api.FabricLoader;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-// The value here should match an entry in the META-INF/mods.toml file
-@Mod(Main.MODID)
-public class Main
+import java.io.IOException;
+
+public class Main implements ModInitializer
 {
-    // Directly reference a log4j logger.
     public static final String MODID = "enchantonce";
-    private static final Logger LOGGER = LogUtils.getLogger();
+    public static final Logger LOGGER = LoggerFactory.getLogger(MODID);
 
-    public Main(FMLJavaModLoadingContext context)
+    @Override
+    public void onInitialize()
     {
-        initializeRegistry();
+        var configPath = FabricLoader.getInstance()
+                .getConfigDir()
+                .resolve("enchantonce-common.toml");
 
-        // Register ourselves for server and other game events we are interested in
-        MinecraftForge.EVENT_BUS.register(this);
-        EventRegistry.registerEvents();
+        try
+        {
+            Config.SPEC.load(configPath);
+        }
+        catch (IOException e)
+        {
+            throw new RuntimeException("Failed to load config", e);
+        }
 
-        context.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
+        CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {
+            DamageMainHandCommand.register(dispatcher);
+            RepairMainHandCommand.register(dispatcher);
+            DamageArmorCommand.register(dispatcher);
+            RepairArmorCommand.register(dispatcher);
+            FoodCommand.register(dispatcher);
+            HpCommand.register(dispatcher);
+            EnchantMaxCommand.register(dispatcher);
+            EnchantArmorMaxCommand.register(dispatcher);
+            Xp500Command.register(dispatcher);
+            DayLockCommand.register(dispatcher);
 
-    }
-
-    private void initializeRegistry()
-    {
-        //EnchantmentRegistry.initStatic();
-    }
-
-    // You can use SubscribeEvent and let the Event Bus discover methods to call
-    //@SubscribeEvent
-    public void onServerStarting(ServerStartingEvent event) {
-        // do something when the server starts
-//        LOGGER.info("HELLO from server starting");
+            LOGGER.info("Registered console commands: damageMainHand, repairMainHand, damageArmor, repairArmor, hp, food, enchantMax, enchantArmorMax...");
+        });
     }
 }

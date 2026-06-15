@@ -11,6 +11,6 @@ public class Resources
 
     public static ResourceLocation createResourceLocation(String namespace, String name)
     {
-        return ResourceLocation.fromNamespaceAndPath(namespace, name); //was: new ResourceLocation(name),
+        return new ResourceLocation(namespace, name);
     }
 }

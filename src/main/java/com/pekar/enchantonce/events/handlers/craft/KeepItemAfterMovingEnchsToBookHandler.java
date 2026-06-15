@@ -10,7 +10,7 @@ public class KeepItemAfterMovingEnchsToBookHandler extends AnvilCraftEventHandle
     @Override
     protected boolean handleInternally()
     {
-        if (!Config.ALLOW_MOVE_ENCHANTMENTS_TO_BOOK.get() || !Config.KEEP_ITEM_WHEN_MOVING_ENCHANTMENTS_TO_BOOK.get()) return false;
+        if (Config.ALLOW_MOVE_ENCHANTMENTS_TO_BOOK.isFalse() || Config.KEEP_ITEM_WHEN_MOVING_ENCHANTMENTS_TO_BOOK.isFalse()) return false;
 
         if (leftItemStack.isDamageableItem() && rightItemStack.is(Items.BOOK))
         {

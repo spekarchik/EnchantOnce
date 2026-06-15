@@ -1,6 +1,6 @@
 package com.pekar.enchantonce.events.handlers.base;
 
-import net.minecraftforge.eventbus.api.Event;
+import com.pekar.enchantonce.events.Event;
 
 public abstract class AnvilEventHandler<T extends Event>
 {

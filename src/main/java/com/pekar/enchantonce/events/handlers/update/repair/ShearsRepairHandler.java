@@ -11,7 +11,7 @@ public class ShearsRepairHandler extends GearRepairEventHandler
     @Override
     protected boolean handleInternally()
     {
-        if (!Config.ALLOW_NONSTANDARD_REPAIRS.get()) return false;
+        if (Config.ALLOW_NONSTANDARD_REPAIRS.isFalse()) return false;
 
         int repairAmount = getRepairAmount(leftItemStack.getMaxDamage(), SHEARS_REPAIR_PORTIONS);
 

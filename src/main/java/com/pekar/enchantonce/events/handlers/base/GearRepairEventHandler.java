@@ -23,7 +23,7 @@ public abstract class GearRepairEventHandler extends AnvilUpdateEventHandler
         var result = leftItemStack.copy();
         repair(result, repairAmountPerRepairItem * materialNumberConsumed);
         event.setOutput(result);
-        event.setXpCost(Config.FIXED_REPAIR_COST.get() * materialNumberConsumed);
+        event.setXpCost(Config.FIXED_REPAIR_COST.getAsInt() * materialNumberConsumed);
         event.setMaterialCost(materialNumberConsumed);
     }
 

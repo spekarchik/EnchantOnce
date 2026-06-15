@@ -5,9 +5,6 @@ import com.pekar.enchantonce.events.handlers.base.AnvilEventHandler;
 import com.pekar.enchantonce.events.handlers.craft.KeepItemAfterMovingEnchsToBookHandler;
 import com.pekar.enchantonce.events.handlers.update.*;
 import com.pekar.enchantonce.events.handlers.update.repair.*;
-import net.minecraftforge.event.AnvilUpdateEvent;
-import net.minecraftforge.event.entity.player.AnvilRepairEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.slf4j.Logger;
 
 public class AnvilEvents implements IEventHandler
@@ -31,13 +28,12 @@ public class AnvilEvents implements IEventHandler
             .attach(new CombineEnchantedItemsHandler())
             .getFirst();
 
-    private static final AnvilEventHandler<AnvilRepairEvent> ANVIL_CRAFT_EVENT_HANDLER_CHAIN =
+    private static final AnvilEventHandler<AnvilCraftPreEvent> ANVIL_CRAFT_EVENT_HANDLER_CHAIN =
             new KeepItemAfterMovingEnchsToBookHandler();
 
     private static final Logger LOGGER = LogUtils.getLogger();
 
-    @SubscribeEvent
-    public void onAnvilUpdateEvent(AnvilUpdateEvent event)
+    public static void onAnvilUpdateEvent(AnvilUpdateEvent event)
     {
         boolean handled = ANVIL_UPDATE_EVENT_HANDLER_CHAIN.tryHandle(event);
 
@@ -48,12 +44,11 @@ public class AnvilEvents implements IEventHandler
         }
     }
 
-    @SubscribeEvent
-    public void onAnvilCraftEvent(AnvilRepairEvent event)
+    public static void onAnvilCraftEvent(AnvilCraftPreEvent event)
     {
         boolean handled = ANVIL_CRAFT_EVENT_HANDLER_CHAIN.tryHandle(event);
 
-        if (!event.getEntity().level().isClientSide())
+        if (!event.getPlayer().level().isClientSide())
         {
             LOGGER.debug("Handled AnvilCraftEvent: {}, left: {}, right: {}, result: {}",
                     handled, event.getLeft(), event.getRight(), event.getOutput());

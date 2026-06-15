@@ -1,19 +1,19 @@
 package com.pekar.enchantonce.events.handlers.craft;
 
+import com.pekar.enchantonce.events.AnvilCraftPreEvent;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.event.entity.player.AnvilRepairEvent;
 
 public class AnvilCraftEventWrapper
 {
-    private final AnvilRepairEvent event;
+    private final AnvilCraftPreEvent event;
 
-    public AnvilCraftEventWrapper(AnvilRepairEvent event)
+    public AnvilCraftEventWrapper(AnvilCraftPreEvent event)
     {
         this.event = event;
     }
 
     public Player getPlayer()
     {
-        return event.getEntity();
+        return event.getPlayer();
     }
 }
