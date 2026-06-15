@@ -1,5 +1,6 @@
 package com.pekar.enchantonce.events.handlers;
 
+import com.pekar.enchantonce.Config;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.inventory.AnvilMenu;
@@ -10,7 +11,6 @@ import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
-import java.util.Map;
 import java.util.function.Predicate;
 
 public class AnvilHelper
@@ -123,8 +123,8 @@ public class AnvilHelper
             cost += 2;
         }
 
-        // clamp like vanilla
-        if (cost > 40) cost = 40;
+        // clamp like vanilla unless high anvil costs are explicitly allowed
+        if (!Config.ALLOW_HIGH_ANVIL_COST.get() && cost > 40) cost = 40;
 
         return cost;
     }

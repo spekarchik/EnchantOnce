@@ -1,0 +1,18 @@
+{
+  "required": true,
+  "minVersion": "0.8.5",
+  "package": "com.pekar.enchantonce.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "AnvilMenuMixin"
+  ],
+  "client": [
+    "AnvilScreenMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "overwrites": {
+    "requireAnnotations": true
+  }
+}
