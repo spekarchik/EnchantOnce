@@ -18,7 +18,7 @@ If you prefer a smoother, more controlled experience — where your best finds a
 
 - [Features](#-features)
     - [Flat Repair Cost](#%EF%B8%8F-flat-repair-cost)
-    - [Remove "Too Expensive"](#-remove--too-expensive)
+    - [Remove "Too Expensive"](#-remove-too-expensive)
     - [Repair with Materials](#-repair-with-materials)
     - [Duplicate Enchanted Books](#-duplicate-enchanted-books)
     - [Extract Enchantments](#-extract-enchantments)
