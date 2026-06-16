@@ -1,5 +1,7 @@
 ## 📦 Version 2.6.0
 
+- Now supports Minecraft 26.2
+
 ### ✨ New
 - The **Too Expensive** anvil limitation is now also removed for enchanting operations (previously, only repairs with materials were affected).
 - Can be changed in config.
