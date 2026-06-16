@@ -18,6 +18,7 @@ If you prefer a smoother, more controlled experience — where your best finds a
 
 - [Features](#-features)
     - [Flat Repair Cost](#%EF%B8%8F-flat-repair-cost)
+    - [Remove "Too Expensive"](#-remove--too-expensive)
     - [Repair with Materials](#-repair-with-materials)
     - [Duplicate Enchanted Books](#-duplicate-enchanted-books)
     - [Extract Enchantments](#-extract-enchantments)
@@ -41,6 +42,23 @@ If you prefer a smoother, more controlled experience — where your best finds a
 - **Prior anvil work history is preserved** during repairs (it is not reset or increased).
 
 ![Always repair for 2 levels](https://github.com/spekarchik/EnchantOnce/blob/main/docs/images/FlatRepairCost.png?raw=true)
+
+### 🚫 Remove "Too Expensive"
+
+*(Available since 2.6.0 mod version)*
+
+Remove the vanilla anvil restriction that blocks operations costing **40 levels or more**.
+
+- Allows all valid anvil operations regardless of XP cost.
+- The displayed XP cost is preserved and must still be paid.
+- Does **not** reduce XP costs.
+- Works independently from other EnchantOnce features.
+
+![Remove Too Expensive](https://github.com/spekarchik/EnchantOnce/blob/main/docs/images/TooExpensive.png?raw=true)
+
+This option is controlled by:
+
+`allowHighAnvilCost = true`
 
 ### 🔄 Repair with Materials
 Repair tools and gear using **base materials**, instead of combining duplicate items.
@@ -251,7 +269,8 @@ You can even **disable all mechanics** and effectively restore full vanilla beha
 - `allowFixedRepairCost` – enable fixed XP cost for repairing items with materials  
 - `fixedRepairCost` – set XP cost (in levels) for material repairs  
 - `preventIncreaseEnchantmentLevel` – prevent enchantment level scaling when combining items  
-- `allowNonstandardRepairs` – allow repairing items like Trident, Shears, etc. with materials  
+- `allowNonstandardRepairs` – allow repairing items like Trident, Shears, etc. with materials
+- `allowHighAnvilCost` - allow anvil operations with XP costs of 40 levels or more, removes "Too Expensive" limitation
 - `moveEnchantmentsToBookCost` – XP cost for moving enchantments to books  
 - `keepItemWhenMovingEnchantmentsToBook` – keep the original gear item instead of consuming it when moving enchantments to books (default: false)
 - `gearCopyingCost` – XP cost for copying enchantments between gear  
@@ -322,7 +341,7 @@ You earned them — keep them. This mod respects your time and your progress.
 ## Technical Details
 - **Supported Minecraft versions with NeoForge:** 1.20.5 - 1.21.11, 26.1 - 26.1.2
 - **Supported Minecraft versions with Forge:** 1.20.1 - 1.21.5 (no plans to support later versions)
-- **Supported Minecraft versions with Fabric:** 1.21.1, 1.21.5 - 1.21.11, 26.1 - 26.1.2
+- **Supported Minecraft versions with Fabric:** 1.20.1, 1.21.1, 1.21.5 - 1.21.11, 26.1 - 26.1.2
 
 ---
 
