@@ -1,3 +1,9 @@
+## 📦 Version 2.6.1
+
+### ✨ New
+- Added an in-game config screen accessible via **Mods → EnchantOnce → Config**.
+
+
 ## 📦 Version 2.6.0
 
 ### ✨ New
