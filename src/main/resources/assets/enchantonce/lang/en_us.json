@@ -1,9 +1,25 @@
-{
+﻿{
   "language": "English",
   "language.region": "United States",
   "language.code": "en_us",
   "author": "Sergey Pekarchik",
 
-  "itemGroup.enchantonce": "Enchant Once Mod"
+  "itemGroup.enchantonce": "EnchantOnce",
 
+  "enchantonce.configuration.title": "%s Configuration",
+  "enchantonce.configuration.section.enchantonce.common.toml": "%s Common",
+  "enchantonce.configuration.allowBookCopying": "Allow Book Copying",
+  "enchantonce.configuration.allowGearCopying": "Allow Gear Copying",
+  "enchantonce.configuration.allowMoveEnchantmentsToBook": "Allow Moving Enchantments to Books",
+  "enchantonce.configuration.allowFixedRepairCost": "Allow Fixed Repair Cost",
+  "enchantonce.configuration.preventIncreaseEnchantmentLevel": "Prevent Enchantment Level Increase",
+  "enchantonce.configuration.allowNonstandardRepairs": "Allow Nonstandard Repairs",
+  "enchantonce.configuration.allowDecreaseEnchantmentLevel": "Allow Decreasing Enchantment Levels",
+  "enchantonce.configuration.allowHighAnvilCost": "Allow High Anvil Cost",
+  "enchantonce.configuration.fixedRepairCost": "Fixed Repair Cost",
+  "enchantonce.configuration.moveEnchantmentsToBookCost": "Move Enchantments to Book Cost",
+  "enchantonce.configuration.keepItemWhenMovingEnchantmentsToBook": "Keep Item When Moving Enchantments to Book",
+  "enchantonce.configuration.decreaseEnchantmentLevelCost": "Decrease Enchantment Level Cost",
+  "enchantonce.configuration.gearCopyingCost": "Gear Copying Cost",
+  "enchantonce.configuration.maxBookCopies": "Maximum Book Copies"
 }
