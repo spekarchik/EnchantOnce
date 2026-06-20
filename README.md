@@ -283,6 +283,12 @@ The configuration file is generated automatically after launching the game and c
 By default, it is located at:
 `config/enchantonce-common.toml`
 
+Since **EnchantOnce 2.6.1 for NeoForge**, configuration options can also be changed through the in-game config screen.
+
+From the main menu, navigate to *Mods → EnchantOnce → Config* to access the configuration options.
+
+![NeoForge Config Screen](https://github.com/spekarchik/EnchantOnce/blob/main/docs/images/ConfigNeoUI.png?raw=true)
+
 ---
 
 ## ✅ Mod Compatibility
