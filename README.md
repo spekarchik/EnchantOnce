@@ -345,9 +345,9 @@ You earned them — keep them. This mod respects your time and your progress.
 - Launch the game and enjoy your adventure!
 
 ## Technical Details
-- **Supported Minecraft versions with NeoForge:** 1.20.5 - 1.21.11, 26.1 - 26.1.2
+- **Supported Minecraft versions with NeoForge:** 1.20.5 - 1.21.11, 26.1-26.2
 - **Supported Minecraft versions with Forge:** 1.20.1 - 1.21.5 (no plans to support later versions)
-- **Supported Minecraft versions with Fabric:** 1.20.1, 1.21.1, 1.21.5 - 1.21.11, 26.1 - 26.1.2
+- **Supported Minecraft versions with Fabric:** 1.20.1, 1.21.1, 1.21.5 - 1.21.11, 26.1-26.2
 
 ---
 
