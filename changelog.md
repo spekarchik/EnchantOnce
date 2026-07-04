@@ -1,3 +1,8 @@
+## 📦 Version 2.6.1
+
+- Promoted to **Release**.
+
+
 ## 📦 Version 2.6.0
 
 ### ✨ New
