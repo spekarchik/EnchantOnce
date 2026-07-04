@@ -1,3 +1,9 @@
+## 📦 Version 2.6.1
+
+- Corrected the Minecraft version range.
+- Promoted to **Release**.
+
+
 ## 📦 Version 2.6.0
 
 ### ✨ New
