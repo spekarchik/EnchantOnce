@@ -1,3 +1,9 @@
+## Minecraft 26.3-pre-1 (Fabric)
+
+- Updated Minecraft to 26.3-pre-1, Fabric API to 0.159.1+26.3, Fabric Loader to 0.19.5, Fabric Loom to 1.17.20, and Gradle to 9.5.0.
+- Updated retained gear returns after enchantment extraction to use the new inventory prediction API.
+
+
 ## 📦 Version 2.6.1
 
 - Corrected the minimum required *Fabric Loader* version.
