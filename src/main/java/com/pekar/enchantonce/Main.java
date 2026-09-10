@@ -25,8 +25,7 @@ public class Main
         MinecraftForge.EVENT_BUS.register(this);
         EventRegistry.registerEvents();
 
-        context.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
-
+        context.registerConfig(ModConfig.Type.SERVER, Config.SPEC);
     }
 
     private void initializeRegistry()

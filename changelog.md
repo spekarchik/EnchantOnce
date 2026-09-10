@@ -1,3 +1,13 @@
+## 📦 Version 2.7.0
+
+### ⚙️ Updated
+- Configuration now uses **server settings**, synchronized to connected clients running the mod.
+- Settings can now be overridden for each world using its `serverconfig` folder.
+- Renamed the config file from `enchantonce-common.toml` to `enchantonce-server.toml`.
+  - To preserve existing settings, copy the old file to the new name in the `config` folder with the game/server stopped.
+  - If the new file already exists, merge your settings into it instead. The old common config is no longer loaded.
+
+
 ## 📦 Version 2.6.0
 
 ### ✨ New
