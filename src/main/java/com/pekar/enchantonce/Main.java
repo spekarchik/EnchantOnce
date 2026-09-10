@@ -42,7 +42,7 @@ public class Main implements ModInitializer
 			throw new RuntimeException("Failed to load config", e);
 		}
 
-		PayloadTypeRegistry.clientboundPlay().register(ConfigSyncPayload.TYPE, ConfigSyncPayload.CODEC);
+		PayloadTypeRegistry.playS2C().register(ConfigSyncPayload.TYPE, ConfigSyncPayload.CODEC);
 		ServerPlayConnectionEvents.JOIN.register((listener, sender, server) -> {
 			if (ServerPlayNetworking.canSend(listener.player, ConfigSyncPayload.TYPE))
 			{

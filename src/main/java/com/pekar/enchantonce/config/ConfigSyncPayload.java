@@ -4,14 +4,14 @@ import com.pekar.enchantonce.Main;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 public record ConfigSyncPayload(Map<String, String> values) implements CustomPacketPayload
 {
-    public static final Type<ConfigSyncPayload> TYPE = new Type<>(Identifier.fromNamespaceAndPath(Main.MODID, "config_sync_v1"));
+    public static final Type<ConfigSyncPayload> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(Main.MODID, "config_sync_v1"));
     public static final StreamCodec<RegistryFriendlyByteBuf, ConfigSyncPayload> CODEC = StreamCodec.of(
             (buffer, payload) -> {
                 buffer.writeVarInt(payload.values.size());
