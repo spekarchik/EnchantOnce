@@ -5,6 +5,9 @@
 - Local settings are restored after disconnecting, without changing the client's config file.
 - The config filename remains `enchantonce-common.toml` — no migration is required.
 
+### 🐞 Fixed
+- Fixed anvil XP costs being capped at 40 levels when combining enchanted items or books with `allowHighAnvilCost` enabled.
+
 
 ## 📦 Version 2.6.1
 
