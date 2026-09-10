@@ -146,8 +146,8 @@ public class AnvilHelper
             cost += 2;
         }
 
-        // clamp like vanilla
-        if (cost > 40) cost = 40;
+        // clamp like vanilla unless high anvil costs are explicitly allowed
+        if (Config.ALLOW_HIGH_ANVIL_COST.isFalse() && cost > 40) cost = 40;
 
         return cost;
     }
