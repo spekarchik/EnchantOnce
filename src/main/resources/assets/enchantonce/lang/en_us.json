@@ -1,4 +1,4 @@
-﻿{
+{
   "language": "English",
   "language.region": "United States",
   "language.code": "en_us",
@@ -7,7 +7,7 @@
   "itemGroup.enchantonce": "EnchantOnce",
 
   "enchantonce.configuration.title": "%s Configuration",
-  "enchantonce.configuration.section.enchantonce.common.toml": "%s Common",
+  "enchantonce.configuration.section.enchantonce.server.toml": "%s Server",
   "enchantonce.configuration.allowBookCopying": "Allow Book Copying",
   "enchantonce.configuration.allowGearCopying": "Allow Gear Copying",
   "enchantonce.configuration.allowMoveEnchantmentsToBook": "Allow Moving Enchantments to Books",
