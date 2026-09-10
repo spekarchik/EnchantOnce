@@ -215,6 +215,10 @@ Items can still be duplicated, repaired, and extracted normally without enabling
 
 **EnchantOnce** now includes a fully configurable system that allows you to enable, disable, or tweak nearly every feature of the mod.
 
+Server settings are synchronized when joining a server running a compatible version of the mod. Received settings are kept in memory; your local config file is preserved and local settings are restored on disconnect. Single-player and LAN hosts use their local settings.
+
+The config file remains `config/enchantonce-common.toml`. Restart the game/server after editing it. Per-world overrides and live config reloading are not supported. Older clients and servers without config synchronization continue using their own settings, which may differ.
+
 You can even **disable all mechanics** and effectively restore full vanilla behavior — making the mod completely non-intrusive if desired.
 
 ### 🔧 Available Options
