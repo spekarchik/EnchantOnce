@@ -6,6 +6,8 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Properties;
 
 public class ModConfigSpec
@@ -20,6 +22,53 @@ public class ModConfigSpec
     public List<Definition<?>> getDefinitions()
     {
         return definitions;
+    }
+
+    public Map<String, String> snapshot()
+    {
+        Map<String, String> values = new LinkedHashMap<>();
+        for (var definition : definitions)
+        {
+            values.put(definition.name, definition.getValue().toString());
+        }
+        return Map.copyOf(values);
+    }
+
+    // Validate the entire snapshot before changing any live settings.
+    public void applySnapshot(Map<String, String> values)
+    {
+        if (values.size() != definitions.size())
+        {
+            throw new IllegalArgumentException("Config option count does not match");
+        }
+        List<Runnable> updates = new ArrayList<>();
+        for (var definition : definitions)
+        {
+            String value = values.get(definition.name);
+            if (value == null)
+            {
+                throw new IllegalArgumentException("Missing config option: " + definition.name);
+            }
+            if (definition instanceof BooleanValue booleanValue)
+            {
+                if (!value.equals("true") && !value.equals("false"))
+                {
+                    throw new IllegalArgumentException("Invalid boolean: " + definition.name);
+                }
+                boolean parsed = Boolean.parseBoolean(value);
+                updates.add(() -> booleanValue.setValue(parsed));
+            }
+            else if (definition instanceof IntValue intValue)
+            {
+                int parsed = Integer.parseInt(value);
+                if (parsed < intValue.min || parsed > intValue.max)
+                {
+                    throw new IllegalArgumentException("Config value out of range: " + definition.name);
+                }
+                updates.add(() -> intValue.setValue(parsed));
+            }
+        }
+        updates.forEach(Runnable::run);
     }
 
     public void load(Path path) throws IOException

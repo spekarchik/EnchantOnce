@@ -1,9 +1,13 @@
 package com.pekar.enchantonce;
 
 import com.pekar.enchantonce.commands.*;
+import com.pekar.enchantonce.config.ConfigSyncPayload;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.loader.api.FabricLoader;
+import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,6 +41,14 @@ public class Main implements ModInitializer
 		{
 			throw new RuntimeException("Failed to load config", e);
 		}
+
+		PayloadTypeRegistry.clientboundPlay().register(ConfigSyncPayload.TYPE, ConfigSyncPayload.CODEC);
+		ServerPlayConnectionEvents.JOIN.register((listener, sender, server) -> {
+			if (ServerPlayNetworking.canSend(listener.player, ConfigSyncPayload.TYPE))
+			{
+				ServerPlayNetworking.send(listener.player, new ConfigSyncPayload(Config.SPEC.snapshot()));
+			}
+		});
 
 		//LOGGER.info("Hello Fabric world!");
 		CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {

@@ -17,6 +17,9 @@
 	"entrypoints": {
 		"main": [
 			"com.pekar.enchantonce.Main"
+		],
+		"client": [
+			"com.pekar.enchantonce.ClientMain"
 		]
 	},
 	"mixins": [

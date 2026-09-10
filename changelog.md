@@ -1,3 +1,11 @@
+## 📦 Version 2.7.0
+
+### ✨ New
+- Server config settings are now synchronized to connected clients running a compatible version of the mod.
+- Local settings are restored after disconnecting, without changing the client's config file.
+- The config filename remains `enchantonce-common.toml` — no migration is required.
+
+
 ## Minecraft 26.3-pre-1 (Fabric)
 
 - Updated Minecraft to 26.3-pre-1, Fabric API to 0.159.1+26.3, Fabric Loader to 0.19.5, Fabric Loom to 1.17.20, and Gradle to 9.5.0.
