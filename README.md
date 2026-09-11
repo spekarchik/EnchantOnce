@@ -252,15 +252,11 @@ Items can still be duplicated, repaired, and extracted normally without enabling
 
 ## ⚙️ Configuration
 
-*(Available since 2.4.0 mod version)*
+*(Available since mod version 2.4.0)*
 
-**EnchantOnce** now includes a fully configurable system that allows you to enable, disable, or tweak nearly every feature of the mod.
+**EnchantOnce** includes a fully configurable system that allows you to enable, disable, or tweak nearly every feature of the mod.
 
-Settings are controlled by the server and synchronized to connected clients running the mod. In single-player, the integrated server uses your local settings.
-
-Edit `config/enchantonce-server.toml` in the server or game directory. To override settings for a particular world, place the file in that world's `serverconfig` folder (`world/serverconfig` on a dedicated server, or `saves/<world_name>/serverconfig` in single-player).
-
-**Upgrading from the common config:** with the server/game stopped, copy your existing `config/enchantonce-common.toml` to `config/enchantonce-server.toml` to preserve your settings. If the server file already exists, merge your settings into it instead. The old common config is no longer loaded.
+Starting with **version 2.7.0**, configuration is controlled by the server and automatically synchronized to connected clients running the mod. In single-player, the integrated server uses your local configuration.
 
 You can even **disable all mechanics** and effectively restore full vanilla behavior — making the mod completely non-intrusive if desired.
 
@@ -276,7 +272,7 @@ You can even **disable all mechanics** and effectively restore full vanilla beha
 - `fixedRepairCost` – set XP cost (in levels) for material repairs  
 - `preventIncreaseEnchantmentLevel` – prevent enchantment level scaling when combining items  
 - `allowNonstandardRepairs` – allow repairing items like Trident, Shears, etc. with materials
-- `allowHighAnvilCost` - allow anvil operations with XP costs of 40 levels or more, removes "Too Expensive" limitation
+- `allowHighAnvilCost` – allow anvil operations with XP costs of 40 levels or more, removing the "Too Expensive" limitation  
 - `moveEnchantmentsToBookCost` – XP cost for moving enchantments to books  
 - `keepItemWhenMovingEnchantmentsToBook` – keep the original gear item instead of consuming it when moving enchantments to books (default: false)
 - `gearCopyingCost` – XP cost for copying enchantments between gear  
@@ -284,14 +280,32 @@ You can even **disable all mechanics** and effectively restore full vanilla beha
 
 ### 📁 Config Location
 
-The configuration file is generated automatically after launching the game and can be found in the standard mod config directory.
+The configuration file is generated automatically after launching the game or server.
 
-By default, it is located at:
+For **EnchantOnce 2.7.0 and newer**, the configuration file is:
+
+`config/enchantonce-server.toml`
+
+For versions **before 2.7.0**, it was:
+
 `config/enchantonce-common.toml`
+
+When upgrading from an older version, no manual migration is required. If you want to keep your existing custom settings, you can rename:
+
+`enchantonce-common.toml` → `enchantonce-server.toml`
+
+before starting the new version.
+
+For a particular world, server configuration can also be stored in that world's `serverconfig` directory:
+
+- Dedicated server: `world/serverconfig/`
+- Single-player: `saves/<world_name>/serverconfig/`
 
 Since **EnchantOnce 2.6.1 for NeoForge**, configuration options can also be changed through the in-game config screen.
 
-From the main menu, navigate to *Mods → EnchantOnce → Config* to access the configuration options.
+From the main menu, navigate to *Mods → EnchantOnce → Config*.
+
+Starting with **2.7.0**, multiplayer gameplay settings are controlled by the server, so connected clients automatically use the server's configuration and do not need to configure these options separately.
 
 ![NeoForge Config Screen](https://github.com/spekarchik/EnchantOnce/blob/main/docs/images/ConfigNeoUI.png?raw=true)
 
