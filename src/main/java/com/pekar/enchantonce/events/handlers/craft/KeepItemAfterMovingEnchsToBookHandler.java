@@ -3,6 +3,7 @@ package com.pekar.enchantonce.events.handlers.craft;
 import com.pekar.enchantonce.Config;
 import com.pekar.enchantonce.events.handlers.AnvilHelper;
 import com.pekar.enchantonce.events.handlers.base.AnvilCraftEventHandler;
+import net.minecraft.util.Prediction;
 import net.minecraft.world.item.Items;
 
 public class KeepItemAfterMovingEnchsToBookHandler extends AnvilCraftEventHandler
@@ -31,6 +32,7 @@ public class KeepItemAfterMovingEnchsToBookHandler extends AnvilCraftEventHandle
 
         var itemStack = leftItemStack.copy();
         AnvilHelper.cleanEnchantmentsExceptCurses(itemStack);
-        player.getInventory().placeItemBackInInventory(itemStack);
+        // AnvilCraftEvent runs on both sides, so the client predicts any overflow drop animation.
+        player.getInventory().placeItemBackInInventory(itemStack, Prediction.PREDICTED);
     }
 }

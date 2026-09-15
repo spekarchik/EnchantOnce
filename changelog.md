@@ -1,5 +1,10 @@
 ## 📦 Version 2.7.0
 
+- Now available for Minecraft 26.3.
+
+
+## 📦 Version 2.7.0
+
 ### ⚙️ Updated
 - Configuration now uses **server settings**, synchronized to connected clients running the mod.
 - Settings can now be overridden for each world using its `serverconfig` folder.
