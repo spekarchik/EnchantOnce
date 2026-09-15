@@ -1,5 +1,10 @@
 ## 📦 Version 2.7.0
 
+- Now available for Minecraft 26.3.
+
+
+## 📦 Version 2.7.0
+
 ### ✨ New
 - Server config settings are now synchronized to connected clients running a compatible version of the mod.
 - Local settings are restored after disconnecting, without changing the client's config file.
