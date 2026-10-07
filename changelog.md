@@ -1,3 +1,10 @@
+## 📦 Version 2.7.1
+
+### ⚙️ Updated
+- Updated config registration for compatibility with **NeoForge 26.3.0.37-beta**.
+- Requires NeoForge **26.3.0.37-beta or newer**.
+
+
 ## 📦 Version 2.7.0
 
 - Now available for Minecraft 26.3.

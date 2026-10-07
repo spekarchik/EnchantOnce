@@ -26,7 +26,7 @@ public class Main
         NeoForge.EVENT_BUS.register(this);
         EventRegistry.registerEvents();
 
-        modContainer.registerConfig(ModConfig.Type.SERVER, Config.SPEC);
+        modContainer.registerConfig(ModConfig.Type.SYNCED, Config.SPEC);
     }
 
     private void initializeRegistry()
